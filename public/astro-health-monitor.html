@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Astro Health Monitor</title>
+<style>
+:root{--bg:#f4f6f9;--fg:#141b26;--card:#fff;--mut:#5b677a;--line:#d9dfe8;--ok:#1c8a4b;--warn:#b7791f;--bad:#c53030;--acc:#2b5fd9;--okb:#e3f4ea;--warnb:#fbf1dc;--badb:#fbe5e5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0c1118;--fg:#e6ebf2;--card:#151c27;--mut:#93a0b4;--line:#263041;--ok:#4cc783;--warn:#e3b04b;--bad:#f06a6a;--acc:#6b9bff;--okb:#12301f;--warnb:#33290f;--badb:#381717}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0c1118;--fg:#e6ebf2;--card:#151c27;--mut:#93a0b4;--line:#263041;--ok:#4cc783;--warn:#e3b04b;--bad:#f06a6a;--acc:#6b9bff;--okb:#12301f;--warnb:#33290f;--badb:#381717}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}h2{font-size:16px;margin:0 0 8px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sub{color:var(--mut);font-size:13px}
+nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+button,select,input{font:inherit;color:var(--fg)}
+button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button.on,button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.bar{border-radius:12px;padding:14px;margin-bottom:12px;font-weight:600}
+.l0{background:var(--okb);color:var(--ok)}.l1{background:var(--warnb);color:var(--warn)}.l2{background:var(--badb);color:var(--bad)}
+.pill{display:inline-block;border-radius:99px;padding:1px 10px;font-size:12px;font-weight:600;float:right}
+ul{margin:6px 0 0;padding-left:18px}li{margin:2px 0}
+.act{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:14px}
+.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+label{display:block;font-size:13px;color:var(--mut)}
+input[type=number],input[type=date],select{width:100%;padding:7px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+input[type=range]{width:100%}
+.chk{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}.chk label{display:flex;gap:6px;align-items:center;color:var(--fg)}
+.scroll{overflow-x:auto}
+svg{width:100%;height:auto;display:block}
+.note{font-size:12px;color:var(--mut);margin-top:14px}
+.hide{display:none}.src{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px}.tag{border-radius:99px;padding:1px 9px;font-weight:600}.dv{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.rg{cursor:pointer;stroke:var(--fg);stroke-width:1;fill-opacity:.6}.rgn{fill:var(--mut)}.rg0{fill:var(--ok)}.rg1{fill:var(--warn)}.rg2{fill:var(--bad)}.sel{stroke-width:3}.rg:focus{outline:2px solid var(--acc)}a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<div class="top">
+ <div><h1>Astro Health Monitor</h1><div class="sub" id="meta"></div></div>
+ <div><button id="demo">Demo data</button> <button id="exp">Export</button> <button id="rst">Reset</button> <select id="prof" aria-label="Mission site" style="width:auto"></select></div>
+</div>
+<div id="toast" class="bar l1" role="status" style="display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;justify-content:space-between;align-items:center"><span id="tt"></span><button id="tx">OK</button></div>
+<nav><button data-t="ov" class="on">Overview</button><button data-t="ci">Check-in</button><button data-t="tr">Trends</button><button data-t="bd">Body</button><button data-t="tk">Tasks</button><button data-t="hz">Hazards</button></nav>
+
+<div id="env" class="card" style="margin-bottom:12px"></div>
+<section id="ov"></section>
+
+<section id="ci" class="hide card">
+ <h2>Devices and import</h2>
+ <div class="dv"><button id="b_hr">Pulse (BLE)</button><button id="b_bp">Blood pressure (BLE)</button><button id="b_ox">SpO₂ (BLE)</button><button id="b_t">Temperature (BLE)</button><button id="b_csv">Import CSV</button><input type="file" id="csv" accept=".csv,.txt" hidden></div>
+ <div class="sub" id="dvs" style="margin-bottom:14px"></div>
+ <h2>Daily check-in</h2>
+ <div class="f" id="nums"></div>
+ <h2 style="margin-top:14px">Subjective scales (1 to 10)</h2>
+ <div class="f" id="sl"></div>
+ <h2 style="margin-top:14px">Symptoms today</h2>
+ <div class="chk" id="ck"></div>
+ <button class="pri" id="save">Save entry</button>
+</section>
+
+<section id="tr" class="hide card">
+ <h2>Trends</h2>
+ <select id="met" style="max-width:300px;margin-bottom:10px"></select>
+ <div class="scroll" id="chart"></div>
+ <div class="sub">Dashed: personal baseline (mean of the first 5 entries).</div>
+</section>
+
+<section id="bd" class="hide card"><h2>Body model</h2><div class="sub" style="margin-bottom:10px">Click a region: function, effect in space, how to measure, escalation and actions. Color shows the current status.</div><div class="grid"><svg id="bsvg" viewBox="0 0 200 400" style="max-width:240px;width:100%;margin:auto" role="group" aria-label="Body model, clickable regions"><ellipse class="rg" data-r="rad" cx="100" cy="200" rx="96" ry="196" style="fill-opacity:.1;stroke-dasharray:5 4"/><g fill="var(--line)" pointer-events="none"><circle cx="100" cy="46" r="27"/><rect x="66" y="78" width="68" height="122" rx="24"/><rect x="36" y="82" width="22" height="112" rx="11"/><rect x="142" y="82" width="22" height="112" rx="11"/><rect x="70" y="196" width="28" height="176" rx="13"/><rect x="102" y="196" width="28" height="176" rx="13"/></g><rect class="rg" data-r="bone" x="94" y="80" width="12" height="122" rx="5"/><rect class="rg" data-r="muscle" x="72" y="214" width="24" height="140" rx="11"/><rect class="rg" data-r="muscle" x="104" y="214" width="24" height="140" rx="11"/><rect class="rg" data-r="immun" x="38" y="86" width="18" height="100" rx="9"/><rect class="rg" data-r="immun" x="144" y="86" width="18" height="100" rx="9"/><ellipse class="rg" data-r="gut" cx="100" cy="160" rx="22" ry="20"/><circle class="rg" data-r="heart" cx="88" cy="108" r="13"/><ellipse class="rg" data-r="brain" cx="100" cy="34" rx="17" ry="12"/><ellipse class="rg" data-r="eye" cx="100" cy="52" rx="18" ry="5"/></svg><div id="bp"></div></div></section>
+<section id="tk" class="hide card"></section><section id="hz" class="hide card"></section>
+<p class="note">Prototype for research and demonstration. Thresholds are simplified assumptions and do not replace medical advice. Data is stored only locally in the browser. For red findings, the ground medical protocol (flight surgeon) applies.<br>Content basis: <a href="https://www.nasa.gov/hrp/hazards/" target="_blank" rel="noopener">NASA HRP, 5 Hazards</a> and <a href="https://www.nasa.gov/hrp/risks/" target="_blank" rel="noopener">NASA HRP, Risks</a>. Thresholds are assumptions of the app and are not derived from these sources. Radiation: <a href="https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp" target="_blank" rel="noopener">CSA, Monitoring Radiation</a>. Profile values (delay, training factor) are approximations and assumptions.</p>
+</main>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const NUM=[['hr','Resting heart rate','bpm',40,140,1,62],['sys','Blood pressure systolic','mmHg',80,200,1,118],['dia','Blood pressure diastolic','mmHg',50,130,1,76],['spo2','SpO₂','%',80,100,1,97],['temp','Body temperature','°C',35,41,0.1,36.6],['sleep','Sleep','h',0,12,0.1,7],['ex','Exercise','min',0,300,5,120],['dose','Radiation dose today','µSv',0,10000,10,500],['co2','Cabin CO₂','ppm',300,10000,50,3000],['gluc','Fasting blood glucose','mg/dL',40,400,1,90]];
+const SL=[['mood','Mood (10 = very good)',7],['stress','Stress',3],['fatigue','Fatigue',3],['isol','Feeling of isolation',2],['back','Back pain',2],['meal','Meals eaten (1 barely, 10 all)',8]];
+const CK=[['vision','Vision change'],['head','Head pressure'],['cough','Cough/airways'],['rash','Skin rash'],['gi','Stomach/bowel'],['eye','Eye irritation'],['dizzy','Dizziness or coordination problems']];
+const NAMES={};[...NUM,...SL].forEach(a=>NAMES[a[0]]=a[1]);
+const LIMIT=600; // mSv Karrieregrenze (Annahme)
+let E=[];try{E=JSON.parse(localStorage.getItem('ahm1')||'[]')}catch(e){}
+const store=()=>{try{localStorage.setItem('ahm1',JSON.stringify(E))}catch(e){}};
+const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const keys=[...NUM.map(a=>a[0]),...SL.map(a=>a[0])];
+const base=()=>E.length>=5?Object.fromEntries(keys.map(k=>[k,mean(E.filter(e=>real(e,k)).slice(0,5).map(e=>e[k]))])):null;
+const lastAvg=(k,n)=>{const v=E.slice(-n).filter(e=>real(e,k)).map(e=>e[k]);return v.length?mean(v):NaN};
+const f1=x=>Math.round(x*10)/10;
+
+const ACT=[
+ {1:['Repeat measurement after 30 min of rest, check fluids and salt','Perform an orthostatic test and log the result'],2:['Contact the flight surgeon','Pause strenuous exercise, record an ECG if available']},
+ {1:['Make up resistance training, follow the protocol as planned','Check protein intake and vitamin D'],2:['Adjust the training plan with ground medical','Document back pain, coordinate pain management']},
+ {1:['Sleep hygiene: fixed times, reduce light and noise','Schedule contact with family or ground psychology','Schedule a crew talk or shared activity'],2:['Confidential talk with behavioral medicine today','Reduce workload with mission control']},
+ {1:['Re-measure temperature after 2 h, increase hygiene and cleaning','Log symptoms daily, watch the trend'],2:['Inform the flight surgeon, consider isolation from the crew','Coordinate medication supply and diagnostics']},
+ {1:['Spend more time in the shielded area during a radiation event','CO₂: check ventilation, scrubber and sensor'],2:['Go to the shelter immediately, inform ground control','Find the CO₂ source, reduce activity, increase ventilation']},
+ {1:['Repeat vision test (Amsler/near vision) and compare with baseline','Mind head position and fluid shift'],2:['Discuss eye findings with ground medical (suspected SANS)','Request ocular imaging or tonometry']},
+ {1:['Eat meals as planned, log calorie and fluid intake','Re-measure fasting blood glucose the next morning'],2:['Contact the flight surgeon, repeat the measurement','If hypoglycemic (below 70 mg/dL), take fast-acting carbohydrates immediately']}
+];
+const DN=['Cardiovascular','Bones and muscles','Mind and sleep','Immune system','Radiation and environment','Vision, head pressure and balance','Nutrition and metabolism'];
+
+function evaluate(){
+ const e0=E[E.length-1];if(!e0)return null;const e=Object.assign({},e0);keys.forEach(k=>{if(!real(e0,k))e[k]=undefined});const b=base();
+ const D=DN.map(n=>({n,l:0,r:[]}));
+ const add=(i,l,t)=>{D[i].l=Math.max(D[i].l,l);D[i].r.push(t)};
+ // Herz
+ if(e.hr>90)add(0,2,'Resting HR '+e.hr+' bpm');else if(e.hr>80)add(0,1,'Resting HR '+e.hr+' bpm elevated');
+ if(b&&b.hr!=null&&e.hr>b.hr*1.15&&e.hr<=90)add(0,1,'Resting HR +'+Math.round((e.hr/b.hr-1)*100)+'% vs. baseline');
+ if(e.sys>140||e.dia>90)add(0,2,'Blood pressure '+e.sys+'/'+e.dia);else if(e.sys>130||e.dia>85)add(0,1,'Blood pressure '+e.sys+'/'+e.dia+' elevated');
+ if(e.spo2<92)add(0,2,'SpO₂ '+e.spo2+'%');else if(e.spo2<95)add(0,1,'SpO₂ '+e.spo2+'%');
+ // Knochen
+ const ex3=lastAvg('ex',3);
+ if(ex3<30*P().ex)add(1,2,'Exercise 3-day avg only '+Math.round(ex3)+' min');else if(ex3<60*P().ex)add(1,1,'Exercise 3-day avg '+Math.round(ex3)+' min (target approx. '+Math.round(120*P().ex)+')');
+ const bk=lastAvg('back',3);
+ if(bk>=7)add(1,2,'Back pain 3-day avg '+f1(bk));else if(bk>=5)add(1,1,'Back pain 3-day avg '+f1(bk));
+ // Psyche
+ if(e.mood<=4)add(2,2,'Mood '+e.mood+'/10');else if(e.mood<=6)add(2,1,'Mood '+e.mood+'/10');
+ if(e.stress>=8)add(2,2,'Stress '+e.stress+'/10');else if(e.stress>=6)add(2,1,'Stress '+e.stress+'/10');
+ if(e.sleep<5.5)add(2,2,'Sleep only '+e.sleep+' h');else if(e.sleep<6.5)add(2,1,'Sleep '+e.sleep+' h');
+ if(e.isol>=8)add(2,2,'Isolation feeling '+e.isol+'/10');else if(e.isol>=6)add(2,1,'Isolation feeling '+e.isol+'/10');
+ if(b){const m3=lastAvg('mood',3);if(b.mood!=null&&m3<=b.mood-2)add(2,1,'Mood 3-day avg '+f1(m3)+' vs. baseline '+f1(b.mood))}
+ // Immun
+ const sym=['cough','rash','gi','eye'].filter(k=>e[k]).length;
+ if(e.temp>=38)add(3,2,'Temperature '+e.temp+' °C');else if(e.temp>=37.5)add(3,1,'Temperature '+e.temp+' °C');
+ if(e.fatigue>=8)add(3,2,'Fatigue '+e.fatigue+'/10');else if(e.fatigue>=6)add(3,1,'Fatigue '+e.fatigue+'/10');
+ if(sym>=2)add(3,2,sym+' symptoms at once');else if(sym===1)add(3,1,'1 symptom reported');
+ // Strahlung/Umwelt
+ const cum=E.reduce((s,x)=>s+(real(x,'dose')?x.dose:0),0)/1000;
+ if(cum>LIMIT*.8)add(4,2,'Cumulative '+f1(cum)+' mSv (>80% of '+LIMIT+')');else if(cum>LIMIT*.5)add(4,1,'Cumulative '+f1(cum)+' mSv (>50% of '+LIMIT+')');
+ if(e.dose>5000)add(4,2,'Daily dose '+e.dose+' µSv');else if(e.dose>1500)add(4,1,'Daily dose '+e.dose+' µSv elevated');
+ if(e.co2>5000)add(4,2,'CO₂ '+e.co2+' ppm');else if(e.co2>3500)add(4,1,'CO₂ '+e.co2+' ppm elevated');
+ addEnv(add);anomalies(add,e0);
+ // Ernährung
+ if(e.gluc<70)add(6,2,'Blutzucker '+e.gluc+' mg/dL (too low)');else if(e.gluc>125)add(6,2,'Fasting glucose '+e.gluc+' mg/dL');else if(e.gluc>=100)add(6,1,'Fasting glucose '+e.gluc+' mg/dL elevated');
+ const ml=lastAvg('meal',3);if(ml<=3)add(6,2,'Food intake 3-day avg '+f1(ml)+'/10');else if(ml<=5)add(6,1,'Food intake 3-day avg '+f1(ml)+'/10');
+ // Sehen
+ if(e.vision&&e.head)add(5,2,'Vision change with head pressure');else if(e.vision)add(5,1,'Vision change reported');else if(e.head)add(5,1,'Head pressure reported');if(e.dizzy)add(5,(e.vision||e.head)?2:1,'Dizziness or coordination problems'+((e.vision||e.head)?' together with a vision or head pressure symptom':''));
+ return{D,cum,e};
+}
+const LBL=['Normal','Watch','Act'];
+function renderOv(){
+ const o=$('#ov'),R=evaluate();
+ if(!R){o.innerHTML='<div class="card">No entries yet. Start with the check-in or load demo data.</div>';$('#meta').textContent='No data';return}
+ const top=Math.max(...R.D.map(d=>d.l));
+ $('#meta').textContent=E.length+' entries, latest: '+R.e.d+(base()?'':' (baseline from 5 entries)');
+ const msg=['All areas within target range.','At least one area deviates. Review actions.','At least one area requires action. Involve ground medical.'][top];
+ let h=profBar()+covBar()+'<div class="bar l'+top+'">Overall status: '+LBL[top]+'. '+msg+'</div><div class="grid">';
+ R.D.forEach((d,i)=>{
+  h+='<div class="card"><h2>'+d.n+'<span class="pill l'+d.l+'">'+LBL[d.l]+'</span></h2>';
+  h+=d.r.length?'<ul>'+d.r.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'<div class="sub">No deviation.</div>';
+  if(d.l>0)h+='<div class="act"><b>Actions</b><ul>'+ACT[i][d.l].map(x=>'<li>'+x+'</li>').join('')+(d.l===2?'<li><b>'+P().cm+'</b></li>':'')+'</ul></div>';
+  h+='</div>';
+ });
+ o.innerHTML=h+'</div>';
+}
+function buildForm(){
+ $('#nums').innerHTML=NUM.map(a=>'<label>'+a[1]+' ('+a[2]+')<input type="number" id="n_'+a[0]+'" min="'+a[3]+'" max="'+a[4]+'" step="'+a[5]+'" value="'+a[6]+'"></label>').join('')+'<label>Date<input type="date" id="n_d"></label>';
+ $('#n_d').value=td();
+ $('#sl').innerHTML=SL.map(a=>'<label>'+a[1]+': <b id="o_'+a[0]+'">'+a[2]+'</b><input type="range" id="s_'+a[0]+'" min="1" max="10" value="'+a[2]+'"></label>').join('');
+ SL.forEach(a=>$('#s_'+a[0]).oninput=ev=>$('#o_'+a[0]).textContent=ev.target.value);
+ $('#ck').innerHTML=CK.map(a=>'<label><input type="checkbox" id="c_'+a[0]+'"> '+a[1]+'</label>').join('');
+}
+$('#save').onclick=()=>{
+ const e={d:$('#n_d').value};if(!e.d)return;
+ e.src=Object.assign({},SRC);e.prof=PID;e.v=2;e.meas=Object.fromEntries([...NUM,...SL].filter(a=>TOUCH[a[0]]||SRC[a[0]]).map(a=>[a[0],1]));markAuto(e.d,e.meas);e.env={temp:ENV.src==='live'?f1(ENV.temp):null,press:ENV.src==='live'?f1(ENV.press):null,pf:ENV.noaa==='live'?f1(ENV.pf):null};
+ Object.keys(TOUCH).forEach(k=>delete TOUCH[k]);Object.keys(SRC).forEach(k=>delete SRC[k]);Object.keys(BUF).forEach(k=>BUF[k]=[]);dvs();
+ NUM.forEach(a=>{const v=parseFloat($('#n_'+a[0]).value);e[a[0]]=isNaN(v)?a[6]:v});
+ SL.forEach(a=>e[a[0]]=+$('#s_'+a[0]).value);
+ CK.forEach(a=>e[a[0]]=$('#c_'+a[0]).checked);
+ E=E.filter(x=>x.d!==e.d);E.push(e);E.sort((a,b)=>a.d<b.d?-1:1);store();renderOv();renderTr();tab('ov');
+};
+function renderTr(){
+ const sel=$('#met');if(!sel.options.length)sel.innerHTML=keys.map(k=>'<option value="'+k+'">'+NAMES[k]+'</option>').join('');
+ sel.onchange=renderTr;const k=sel.value||'hr',c=$('#chart');const E=allE().filter(e=>real(e,k));
+ if(E.length<2){c.innerHTML='<div class="sub">At least 2 entries required.</div>';return}
+ const v=E.map(e=>e[k]),W=640,H=220,p=34;let mn=Math.min(...v),mx=Math.max(...v);if(mn===mx){mn-=1;mx+=1}
+ const pad=(mx-mn)*.1;mn-=pad;mx+=pad;
+ const X=i=>p+i*(W-p-10)/(E.length-1),Y=y=>H-p-(y-mn)/(mx-mn)*(H-p-14);
+ const b=base(),pts=v.map((y,i)=>X(i)+','+Y(y)).join(' ');
+ let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Trend '+NAMES[k]+'"><g stroke="var(--line)"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-10)+'" y2="'+(H-p)+'"/><line x1="'+p+'" y1="14" x2="'+p+'" y2="'+(H-p)+'"/></g>';
+ if(b&&b[k]!=null)s+='<line x1="'+p+'" x2="'+(W-10)+'" y1="'+Y(b[k])+'" y2="'+Y(b[k])+'" stroke="var(--mut)" stroke-dasharray="5 4"/>';
+ s+='<polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="'+pts+'"/>'+v.map((y,i)=>'<circle cx="'+X(i)+'" cy="'+Y(y)+'" r="3.5" fill="var(--acc)"><title>'+E[i].d+': '+y+'</title></circle>').join('');
+ s+='<g fill="var(--mut)" font-size="11"><text x="2" y="'+(Y(mx-pad)+4)+'">'+f1(mx-pad)+'</text><text x="2" y="'+(Y(mn+pad)+4)+'">'+f1(mn+pad)+'</text><text x="'+p+'" y="'+(H-10)+'">'+E[0].d+'</text><text x="'+(W-10)+'" y="'+(H-10)+'" text-anchor="end">'+E[E.length-1].d+'</text></g></svg>';
+ c.innerHTML=s;
+}
+function tab(t){['ov','ci','tr','bd','tk','hz'].forEach(x=>$('#'+x).classList.toggle('hide',x!==t));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));if(t==='tr')renderTr();if(t==='bd')renderBody();if(t==='tk')renderTk();if(t==='hz')renderHz()}
+$$('nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+$('#demo').onclick=()=>{
+ const r=(a)=>(Math.random()-.5)*a,t=new Date();E=[];
+ for(let i=0;i<21;i++){const d=new Date(t);d.setDate(t.getDate()-(20-i));
+  const cl=(x,a,b)=>Math.max(a,Math.min(b,x));
+  E.push({d:ld(d),hr:Math.round(60+i*.7+r(4)),sys:Math.round(116+i*.5+r(6)),dia:Math.round(75+i*.3+r(4)),spo2:Math.round(cl(97+r(2),94,100)),temp:f1(36.6+r(.5)+(i>17?.5:0)),sleep:f1(cl(7.2-i*.1+r(.8),3,10)),ex:Math.round(cl(130-i*4+r(30),0,300)/5)*5,dose:Math.round(450+r(200)),co2:Math.round(2800+i*45+r(300)),mood:Math.round(cl(8-i*.18+r(1.5),1,10)),stress:Math.round(cl(3+i*.2+r(1.5),1,10)),fatigue:Math.round(cl(3+i*.15+r(1.5),1,10)),isol:Math.round(cl(2+i*.25+r(1.5),1,10)),back:Math.round(cl(2+i*.15+r(1.5),1,10)),gluc:Math.round(92+i*.6+r(8)),meal:Math.round(cl(8-i*.1+r(1.5),1,10)),vision:i>16,head:i>18,cough:false,rash:false,gi:i===19,eye:false});}
+ store();renderOv();renderTr();
+};
+$('#exp').onclick=()=>{const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(E,null,1));a.download='health-log.json';a.click()};
+$('#rst').onclick=()=>{if(confirm('Delete all entries?')){E=[];store();renderOv();renderTr()}};
+// ===== Datenquellen-Adapter: ISS Live (Lightstreamer) und NASA DONKI, Fallback Snapshot =====
+// Item-IDs und Bibliotheksversion vor Einsatz gegen die ISS-Mimic-Telemetrieliste prüfen.
+const CFG={ls:'https://push.lightstreamer.com',lib:'https://cdn.jsdelivr.net/npm/lightstreamer-client-web@9.1.1/lightstreamer.min.js',items:{temp:'USLAB000058',press:'USLAB000055'},key:'DEMO_KEY',noaa:'https://services.swpc.noaa.gov/json/goes/primary/integral-protons-1-day.json'};
+const SNAP={temp:22.8,press:101.3};
+let ENV={src:'none',donki:'none',sep:[],xflr:false};
+function addEnv(add){
+ if(ENV.src==='live'&&P().id==='iss'){
+  if(ENV.temp>27||ENV.temp<18)add(4,1,'Cabin temperature '+f1(ENV.temp)+' °C (ISS Live)');
+  if(ENV.press<97||ENV.press>104)add(4,1,'Cabin pressure '+f1(ENV.press)+' kPa (ISS Live)');
+ }
+ if(ENV.noaa==='live'){
+  if(ENV.pf>=100)add(4,2,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S2 or higher, NOAA)');else if(ENV.pf>=10)add(4,1,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S1, NOAA)');
+ }
+ if(ENV.donki==='live'){
+  if(ENV.sep.length)add(4,2,'Particle event (SEP) in the last 3 days per DONKI');
+  if(ENV.xflr)add(4,1,'Class X flare in the last 3 days per DONKI');
+ }
+}
+function renderEnv(){
+ const L=ENV.src==='live',D=ENV.donki==='live';
+ const tg=(ok,t)=>'<span class="tag l'+(ok?0:1)+'">'+t+'</span>';
+ $('#env').innerHTML='<h2>Environment sources</h2><div class="src">'+tg(L,L?'ISS Live':'Snapshot (sample values)')+(ENV.temp!=null?'<span>Cabin '+f1(ENV.temp)+' °C, '+f1(ENV.press)+' kPa</span>':'<span>loading</span>')+tg(D,D?'DONKI live':'DONKI unreachable')+(D?'<span>'+ENV.sep.length+' SEP, X-Flare: '+(ENV.xflr?'yes':'no')+'</span>':'')+tg(ENV.noaa==='live',ENV.noaa==='live'?'NOAA SWPC live':'NOAA unreachable')+(ENV.noaa==='live'?'<span>≥10 MeV max. '+f1(ENV.pf)+' pfu (24 h)</span>':'')+'</div>'+((L&&D)?'':'<div class="sub" style="margin-top:6px">Live fetch not possible, e.g. in a hosted preview without network access. No warnings are derived from sample values. Host the file yourself for live data.</div>')+'<div class="sub" style="margin-top:6px">Not connected: ESA Space Weather (requires account and server-side proxy, a secret does not belong in the browser) and JAXA (no verified public API). OSDR: study search only in the Body tab.</div>';
+}
+function live(){return new Promise((res,rej)=>{
+ const sc=document.createElement('script'),got={};sc.src=CFG.lib;sc.onerror=()=>rej();
+ sc.onload=()=>{try{
+  const L=window.Lightstreamer||window,c=new L.LightstreamerClient(CFG.ls,'ISSLIVE'),ids=Object.values(CFG.items),s=new L.Subscription('MERGE',ids,['Value']);
+  s.addListener({onItemUpdate:u=>{const v=parseFloat(u.getValue('Value'));if(isNaN(v))return;const it=u.getItemName();
+   if(it===CFG.items.temp){ENV.temp=v;got.t=1}
+   if(it===CFG.items.press){ENV.press=v<30?v*6.895:v;got.p=1}
+   if(got.t&&got.p){ENV.src='live';renderEnv();renderOv();res()}}});
+  c.subscribe(s);c.connect();}catch(e){rej()}};
+ document.head.appendChild(sc);setTimeout(rej,8000)})}
+async function loadEnv(){
+ renderEnv();
+ try{
+  const t=new Date(),s=new Date(t-3*864e5),d=x=>x.toISOString().slice(0,10);
+  const u=k=>'https://api.nasa.gov/DONKI/'+k+'?startDate='+d(s)+'&endDate='+d(t)+'&api_key='+CFG.key;
+  const [a,b]=await Promise.all([fetch(u('SEP')),fetch(u('FLR'))]);
+  if(!a.ok||!b.ok)throw 0;
+  const ta=await a.text(),tb=await b.text(),sep=ta?JSON.parse(ta):[],flr=tb?JSON.parse(tb):[];
+  ENV.sep=sep;ENV.xflr=flr.some(x=>/^X/.test(x.classType||''));ENV.donki='live';
+ }catch(e){ENV.donki='snap';ENV.sep=[];ENV.xflr=false}
+ renderEnv();
+ try{const r=await fetch(CFG.noaa);if(!r.ok)throw 0;const j=await r.json(),f=j.filter(x=>/10 MeV/.test(x.energy||'')).map(x=>+x.flux);if(!f.length)throw 0;ENV.pf=Math.max(...f);ENV.noaa='live'}catch(e){ENV.noaa='snap'}
+ try{await live();ENV.src='live'}catch(e){if(ENV.src!=='live'){ENV.temp=SNAP.temp;ENV.press=SNAP.press;ENV.src='snap'}}
+ renderEnv();renderOv();
+}
+// ===== Geräte-Adapter: Web Bluetooth (Standardprofile) und CSV-Import =====
+// Profil-IDs vor Einsatz gegen die Bluetooth-SIG-Liste prüfen. Proprietäre Geräte werden nicht unterstützt.
+const SRC={},BUF={hr:[],sys:[],dia:[],spo2:[],temp:[]};
+const RNG={hr:[30,220],sys:[60,260],dia:[30,160],spo2:[50,100],temp:[30,43],gluc:[30,600]};
+const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
+function dvs(msg){const t=Object.keys(SRC).map(k=>NAMES[k]+': '+SRC[k]+' (n='+BUF[k].length+')').join(', ');$('#dvs').textContent=msg||(t?'Sources: '+t:'No device data. Measure resting HR at rest: median of at least 5 samples.')}
+function onSample(k,v,src){
+ if(!(v>=RNG[k][0]&&v<=RNG[k][1])){dvs('Discarded: '+NAMES[k]+' '+f1(v)+' outside plausible limits');return}
+ BUF[k].push(v);if(BUF[k].length>60)BUF[k].shift();SRC[k]=src;
+ if(BUF[k].length>=(k==='hr'?5:1)){const m=med(BUF[k]);$('#n_'+k).value=k==='temp'?Math.round(m*10)/10:Math.round(m)}
+ dvs();
+}
+const sf=(v,o)=>{const r=v.getUint16(o,true);let m=r&0xfff,e=r>>12;if(m>=0x800)m-=0x1000;if(e>=8)e-=16;return m*Math.pow(10,e)};
+const fl=(v,o)=>{const r=v.getUint32(o,true);let m=r&0xffffff,e=r>>24;if(m>=0x800000)m-=0x1000000;if(e>=128)e-=256;return m*Math.pow(10,e)};
+async function ble(svc,chr,parse){
+ if(!navigator.bluetooth){dvs('Web Bluetooth not available (Chrome or Edge, HTTPS or localhost required, not in an embedded frame)');return}
+ let tries=0;
+ const go=async dev=>{try{const s=await dev.gatt.connect(),sv=await s.getPrimaryService(svc),c=await sv.getCharacteristic(chr);await c.startNotifications();tries=0;c.addEventListener('characteristicvaluechanged',e=>parse(e.target.value,'Device '+(dev.name||'BLE')));dvs('Connected: '+(dev.name||'BLE'))}catch(err){retry(dev)}};
+ const retry=dev=>{if(tries>=5){dvs('Connection lost: '+(dev.name||'BLE'));return}const w=Math.min(30000,1000*2**tries++);dvs('Reconnecting in '+w/1000+' s');setTimeout(()=>go(dev),w)};
+ try{const dev=await navigator.bluetooth.requestDevice({filters:[{services:[svc]}]});dev.addEventListener('gattserverdisconnected',()=>retry(dev));await go(dev)}catch(err){dvs('Cancelled: '+(err.message||err))}
+}
+$('#b_hr').onclick=()=>ble(0x180D,0x2A37,(v,n)=>{const f=v.getUint8(0);onSample('hr',(f&1)?v.getUint16(1,true):v.getUint8(1),n)});
+$('#b_bp').onclick=()=>ble(0x1810,0x2A35,(v,n)=>{const k=v.getUint8(0)&1?7.50062:1;onSample('sys',sf(v,1)*k,n);onSample('dia',sf(v,3)*k,n)});
+$('#b_ox').onclick=()=>ble(0x1822,0x2A5F,(v,n)=>onSample('spo2',sf(v,1),n));
+$('#b_t').onclick=()=>ble(0x1809,0x2A1C,(v,n)=>{let t=fl(v,1);if(v.getUint8(0)&1)t=(t-32)/1.8;onSample('temp',t,n)});
+$('#b_csv').onclick=()=>$('#csv').click();
+$('#csv').onchange=async ev=>{
+ const f=ev.target.files[0];if(!f)return;
+ const L=(await f.text()).trim().split(/\r?\n/),H=L.shift().split(/[;,]/).map(s=>s.trim().toLowerCase()),G={};
+ L.forEach(r=>{const c=r.split(/[;,]/),o={};H.forEach((h,i)=>o[h]=c[i]);const d=(o.date||o.datum||'').slice(0,10);if(d)(G[d]=G[d]||[]).push(o)});
+ let n=0;
+ Object.entries(G).forEach(([d,rows])=>{
+  const e={d,src:{},env:null};
+  [...NUM,...SL].forEach(a=>{const k=a[0],df=a[a.length-1];
+   const vs=rows.map(o=>parseFloat(o[k])).filter(x=>!isNaN(x)&&(!RNG[k]||(x>=RNG[k][0]&&x<=RNG[k][1])));
+   if(vs.length){e[k]=Math.round(mean(vs)*10)/10;e.src[k]='Import'}else{e[k]=df;e.src[k]='Default'}});
+  CK.forEach(a=>e[a[0]]=rows.some(o=>/^(1|true|ja)$/i.test(o[a[0]]||'')));
+  E=E.filter(x=>x.d!==d);E.push(e);n++});
+ E.sort((a,b)=>a.d<b.d?-1:1);store();renderOv();renderTr();
+ dvs(n+' days imported. Missing fields get default values and are marked as such in the entry.');ev.target.value='';
+};
+dvs();
+// ===== Körpermodell, Inhalte nach NASA HRP (Risks und Hazards). Schwellen entsprechen den App-Regeln. =====
+const HR='https://www.nasa.gov/reference/';
+const REG={
+ brain:{n:'Brain: mind and sleep',d:2,h:'Isolation and confinement, distance from Earth',f:'Mood, cognition, sleep-wake rhythm.',e:'Isolation, radiation, distance and chronic sleep deprivation strain mental health and teamwork.',m:'Daily scales for mood, stress and isolation, sleep duration from a tracker or self-report.',t:'Mood 4 or below, stress or isolation 8 or above, sleep under 5.5 h: confidential talk with behavioral medicine.',k:'Risk of Behavioral Conditions and Psychiatric Disorders',u:HR+'risk-of-behavioral-conditions-and-psychiatric-disorders/'},
+ eye:{n:'Eyes: vision and head pressure',d:5,h:'Gravity fields',f:'Vision, balance. Structure of the eye and optic nerve. Dizziness and coordination problems (HRP: Altered Sensorimotor and Vestibular Function) are also tracked here.',e:'The structure of the eye and brain can change in space (SANS). According to NASA HRP, SANS is currently the top spaceflight health risk and occurs more often in men (formerly called VIIP).',m:'Daily near-vision test at a fixed distance, log vision change and head pressure as symptoms.',t:'Vision change together with head pressure: ground medical the same day, request imaging.',k:'Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS)',u:HR+'risk-of-spaceflight-associated-neuro-ocular-syndrome-sans/'},
+ heart:{n:'Heart and circulation',d:0,h:'Gravity fields',f:'Pumps blood, maintains blood pressure and oxygen supply.',e:'Weightlessness alters circulation and cardiovascular function and can increase the risk of cardiovascular events.',m:'Resting HR and blood pressure after 5 minutes of rest, SpO₂ with a finger clip. Always at the same time of day.',t:'Pulse over 90, blood pressure over 140/90 or SpO₂ under 92%: contact the flight surgeon, pause exertion.',k:'Risk of Cardiovascular Adaptations',u:HR+'risk-of-cardiovascular-adaptations/'},
+ immun:{n:'Immune system and skin',d:3,h:'Hostile and closed environment',f:'Defense against pathogens, skin as a barrier.',e:'In-flight stress can reactivate dormant viruses and lead to rashes and other symptoms.',m:'Body temperature, skin inspection, symptoms (cough, rash, stomach/bowel, eye irritation), fatigue.',t:'Temperature 38 °C or above, fatigue 8 or above or two symptoms at once: inform the flight surgeon.',k:'Risk of Altered Immune System Responses',u:HR+'risk-of-altered-immune-system-responses/'},
+ gut:{n:'Nutrition and metabolism',d:6,h:'Closed environment, distance from Earth',f:'Digestion and energy balance.',e:'A balanced diet is crucial for health and performance. Supply and variety are limited on long missions. CSA points to ISS studies related to type 2 diabetes.',m:'Fasting blood glucose with a glucometer (mg/dL), share of meals eaten.',t:'Fasting glucose below 70 or above 125 mg/dL or food intake 3 of 10 or less: contact the flight surgeon.',k:'Risk of Inadequate Food and Nutrition',u:HR+'risk-of-inadequate-food-and-nutrition/'},
+ bone:{n:'Bones and back',d:1,h:'Gravity fields',f:'Support the body, store minerals.',e:'Without gravity, bones lose mass and become more brittle; fractures become more likely.',m:'Back pain daily, training minutes. Bone density can only be checked by ground medical via imaging.',t:'Back pain 3-day avg 7 or above: coordinate training plan and pain management with ground medical.',k:'Risk of Spaceflight-Induced Bone Changes',u:HR+'risk-of-spaceflight-induced-bone-changes/'},
+ muscle:{n:'Muscles and fitness',d:1,h:'Gravity fields',f:'Movement, posture, endurance.',e:'Exercise is meant to offset losses in bone density, muscle strength and cardiovascular performance.',m:'Log training minutes per day, strength and endurance sessions as planned.',t:'Exercise 3-day avg under 30 min per day: adjust the training plan with ground medical.',k:'Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness',u:HR+'risk-of-reduced-cardiorespiratory-and-musculoskeletal-fitness/'},
+ rad:{n:'Whole body: radiation and environment',d:4,h:'Radiation, closed environment',f:'Protection through shielding and location. Cabin air and temperature.',e:'Space radiation is invisible and considered one of the most dangerous hazards. Crews have a higher cancer risk. According to CSA, neutrons make up about 30% of the radiation on the ISS and are especially harmful biologically.',m:'Personal dose (µSv) with a wearable dosimeter, cabin values, space weather (DONKI, NOAA SWPC), CO₂. Neutrons need special detectors (CSA is developing the continuously measuring CANS; earlier method: bubble detectors).',t:'Particle event or proton flux of 100 pfu or more: go to the shelter, inform ground control.',k:'Risk of Radiation-Induced Cancers',u:HR+'risk-of-radiation-induced-cancers/'}
+};
+let SEL='heart';
+const row=(a,b)=>'<p><b>'+a+':</b> '+b+'</p>';
+function renderBody(){
+ const R=evaluate(),D=R?R.D:null;
+ $$('#bsvg .rg').forEach(el=>el.setAttribute('class','rg rg'+(D?D[REG[el.dataset.r].d].l:'n')+(el.dataset.r===SEL?' sel':'')));
+ const r=REG[SEL],d=D?D[r.d]:null;
+ $('#bp').innerHTML='<h2>'+r.n+(d?'<span class="pill l'+d.l+'">'+LBL[d.l]+'</span>':'')+'</h2><div class="sub">Hazard (NASA HRP): '+r.h+'</div>'+row('Function',r.f)+row('Effect in space',r.e)+row('Measure',r.m)+row('When to get help',r.t)+'<p><b>NASA HRP:</b> <a href="'+r.u+'" target="_blank" rel="noopener">'+r.k+'</a></p>'+(d&&d.r.length?'<b>Current</b><ul>'+d.r.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'<div class="sub">'+(d?'No deviation.':'No data yet.')+'</div>')+(d&&d.l>0?'<div class="act"><b>Actions</b><ul>'+ACT[r.d][d.l].map(x=>'<li>'+x+'</li>').join('')+(d.l===2?'<li><b>'+P().cm+'</b></li>':'')+'</ul></div>':'');
+}
+$$('#bsvg .rg').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',REG[el.dataset.r].n);el.onclick=()=>{SEL=el.dataset.r;renderBody()};el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();el.onclick()}}});
+// ===== Einsatzprofile, Aufgaben, Gamification, 5 Gefahren =====
+const PROF=[
+ {id:'iss',n:'Space station (LEO)',g:'approx. 0 g',ex:1,cm:'Communication: ground medical reachable in near real time.',nt:'The Earth magnetic field provides partial protection. ISS live environment data is usable.'},
+ {id:'mtr',n:'Mars transit',g:'approx. 0 g',ex:1,cm:'Communication: one-way delay roughly 4 to 24 min. Start immediate actions yourself, send reports asynchronously.',nt:'No protection from the Earth magnetic field, high autonomy needed. ISS live data does not apply here.'},
+ {id:'moon',n:'Moon base',g:'approx. 1/6 g',ex:.7,cm:'Communication: one-way delay approx. 1.3 s. Ground medical by voice, return to Earth takes days.',nt:'Partial gravity. Mind dust and surface radiation. Training target reduced (assumption).'},
+ {id:'mars',n:'Mars base',g:'approx. 3/8 g',ex:.5,cm:'Communication: one-way delay roughly 4 to 24 min. Self-sufficiency takes priority.',nt:'Partial gravity for up to two years (NASA HRP). Training target reduced (assumption).'},
+ {id:'rov',n:'Pressurized rover',g:'same as site',ex:.4,cm:'Communication: same as at the site, return to base can take hours.',nt:'Little space, limited training (assumption). Closely monitor cabin air and temperature.'}];
+let PID='iss';try{PID=localStorage.getItem('ahp1')||'iss'}catch(e){}
+const P=()=>PROF.find(p=>p.id===PID)||PROF[0];
+let TL={};try{TL=JSON.parse(localStorage.getItem('aht1')||'{}')}catch(e){}
+const saveTL=()=>{try{localStorage.setItem('aht1',JSON.stringify(TL))}catch(e){}};
+const ld=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const td=()=>ld(new Date());
+const TASKS=[
+ {id:'chk',n:'Save the daily check-in',w:0,a:1},{id:'vit',n:'Measure pulse and blood pressure after 5 min of rest',w:0,a:1},{id:'glu',n:'Measure fasting blood glucose',w:0,a:1},{id:'trn',n:'Complete training as planned',w:0,a:1},
+ {id:'vis',n:'Near-vision test: read text at a fixed distance',w:7,a:0},{id:'skn',n:'Inspect skin and mucous membranes',w:7,a:0},{id:'crw',n:'Talk with crew or ground psychology',w:7,a:0}];
+const REM={'07:30':['glu'],'08:00':['vit'],'18:00':['trn'],'21:00':['chk']};
+const lastDone=(id,w)=>{for(let i=0;i<Math.max(w,1);i++){const dd=new Date();dd.setDate(dd.getDate()-i);const d=ld(dd);if(TL[d]&&TL[d][id])return i}return -1};
+function markAuto(d,m){TL[d]=TL[d]||{};m=m||{};const ok={chk:1,vit:m.hr&&m.sys&&m.dia,glu:m.gluc,trn:m.ex};TASKS.filter(t=>t.a&&ok[t.id]).forEach(t=>TL[d][t.id]=1);saveTL()}
+function stats(){
+ const set=new Set(E.map(e=>e.d));let n=0;const d=new Date();if(!set.has(td()))d.setDate(d.getDate()-1);
+ while(set.has(ld(d))){n++;d.setDate(d.getDate()-1)}
+ const man=Object.values(TL).reduce((s,o)=>s+Object.keys(o).filter(k=>{const t=TASKS.find(x=>x.id===k);return t&&t.id!=='chk'}).length,0);
+ let pts=E.length*10+man*5+Math.min(n,14)*2;Object.values(TL).forEach(o=>{if(TASKS.filter(t=>!t.w).every(t=>o[t.id]))pts+=10});return{streak:n,pts,lvl:Math.floor(Math.sqrt(pts/25))+1};
+}
+function profBar(){const p=P(),o=TASKS.filter(t=>lastDone(t.id,t.w)<0).length;return `<div class="card" style="margin-bottom:12px"><b>${p.n}</b>, gravity ${p.g}. ${p.nt}<br><span class="sub">${p.cm} Open tasks: ${o}.</span></div>`}
+let NOTI=false,REMON=false,LF='';
+function renderTk(){
+ const s=stats(),dn=TASKS.filter(t=>!t.w).every(t=>lastDone(t.id,t.w)>=0),wk=TASKS.filter(t=>t.w).every(t=>lastDone(t.id,t.w)>=0);
+ const B=[['3-day streak',s.streak>=3],['7-day streak',s.streak>=7],['All daily tasks',dn],['All weekly tasks',wk],['Level 3',s.lvl>=3]];
+ $('#tk').innerHTML=`<h2>Tasks and progress</h2><div class="src" style="margin-bottom:10px"><span class="tag l0">Streak ${s.streak} days</span><span class="tag l0">${s.pts} points</span><span class="tag l0">Level ${s.lvl}</span></div><div class="src" style="margin-bottom:12px">${B.map(b=>`<span class="tag ${b[1]?'l0':'l1'}">${b[0]}${b[1]?'':' (open)'}</span>`).join('')}</div>`+
+ TASKS.map(t=>`<label style="display:flex;gap:8px;align-items:center;color:var(--fg);margin:6px 0"><input type="checkbox" data-k="${t.id}" ${lastDone(t.id,t.w)>=0?'checked':''} ${t.a?'disabled':''}> ${t.n} <span class="sub">(${t.w?'weekly':'daily'}${t.a?', automatic from the saved check-in, only if the value was entered or measured':''})</span></label>`).join('')+
+ `<div style="margin-top:12px"><button id="ntf">${REMON?(NOTI?'Reminders active (system and app)':'Reminders active (in-app only)'):'Enable reminders'}</button> <button id="ics">Calendar (.ics)</button> <span class="sub">Reminders at 07:30, 08:00, 18:00 and 21:00 while the app is open. Without system permission the app shows a banner. For reminders while the app is closed, download the calendar file.</span></div><p class="sub">Points: 10 per check-in, 5 per completed task, 10 bonus when all daily tasks of a day are done, 2 per streak day (max 14). The level grows with the square root of the points. Days count in local time.</p>`;
+ $$('#tk input[data-k]').forEach(c=>c.onchange=()=>{TL[td()]=TL[td()]||{};if(c.checked)TL[td()][c.dataset.k]=1;else delete TL[td()][c.dataset.k];saveTL();renderTk()});
+ $('#ics').onclick=ics;$('#ntf').onclick=()=>{REMON=true;try{Notification.requestPermission().then(p=>{NOTI=p==='granted';renderTk()})}catch(e){renderTk()}};
+}
+setInterval(()=>{if(!REMON)return;const t=new Date().toTimeString().slice(0,5);if(t===LF)return;LF=t;(REM[t]||[]).forEach(id=>{const k=TASKS.find(x=>x.id===id);if(lastDone(id,k.w)<0){showToast('Due: '+k.n);document.title='(!) Astro Health Monitor';if(NOTI)try{new Notification('Astro Health Monitor',{body:'Due: '+k.n})}catch(e){}}})},20000);
+const HZ=[
+ {n:'Space radiation',d:[4],u:'hazard-space-radiation',t:'Invisible and one of the most dangerous hazards. According to CSA, neutrons make up about 30% of the radiation on the ISS.'},
+ {n:'Isolation and confinement',d:[2],u:'hazard-isolation-and-confinement',t:'Behavioral responses of groups living isolated in confined spaces for long periods.'},
+ {n:'Distance from Earth',d:[],u:'hazard-distance-from-earth',t:'Instructions, supplies and medical help are harder to get. The level follows from profile and overall status (app assumption).'},
+ {n:'Gravity fields',d:[0,1,5],u:'hazard-gravity-fields',t:'Muscles, bones, inner ear and organs adapt to new gravity.'},
+ {n:'Hostile and closed environment',d:[3,6],u:'hazard-hostile-closed-environments',t:'Temperature, pressure, light, noise, microbes and immune responses in the spacecraft.'}];
+function renderHz(){
+ const R=evaluate(),el=$('#hz');
+ if(!R){el.innerHTML='<h2>The 5 hazards</h2><div class="sub">Noch keine Daten.</div>';return}
+ const top=Math.max(...R.D.map(d=>d.l)),long=PID==='mtr'||PID==='mars';
+ el.innerHTML='<h2>The 5 hazards of spaceflight (NASA HRP)</h2><div class="sub" style="margin-bottom:10px">View by hazard instead of organ system. Profile: '+P().n+'</div><div class="grid">'+HZ.map(h=>{
+  const ds=h.d.map(x=>R.D[x]),l=ds.length?Math.max(...ds.map(d=>d.l)):(long?(top===2?2:1):(top===2?1:0)),rs=ds.flatMap(d=>d.r);
+  return `<div class="card"><h2>${h.n}<span class="pill l${l}">${LBL[l]}</span></h2><div class="sub">${h.t}</div>`+(ds.length?(rs.length?'<ul>'+rs.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'<div class="sub">No deviation.</div>'):'<p>'+P().cm+'</p>')+`<p><a href="https://www.nasa.gov/hrp/${h.u}/" target="_blank" rel="noopener">NASA HRP</a></p></div>`}).join('')+'</div>';
+}
+$('#prof').innerHTML=PROF.map(p=>`<option value="${p.id}">${p.n}</option>`).join('');$('#prof').value=PID;
+$('#prof').onchange=e=>{PID=e.target.value;try{localStorage.setItem('ahp1',PID)}catch(x){}renderOv();renderBody();renderTk();renderHz()};
+// ===== Nachbesserungen: Banner, Kalender, OSDR-Suche =====
+const TOUCH={};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function showToast(m){$('#tt').textContent=m;$('#toast').style.display='flex'}
+$('#tx').onclick=()=>{$('#toast').style.display='none';document.title='Astro Health Monitor'};
+function ics(){
+ const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//AstroHealth//EN'],Z=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z',d=td().replace(/-/g,'');
+ Object.entries(REM).forEach(([t,ids])=>{const k=TASKS.find(x=>x.id===ids[0]);L.push('BEGIN:VEVENT','UID:ah-'+t.replace(':','')+'@astro-health','DTSTAMP:'+Z,'DTSTART:'+d+'T'+t.replace(':','')+'00','RRULE:FREQ=DAILY','SUMMARY:'+k.n,'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:'+k.n,'END:VALARM','END:VEVENT')});
+ L.push('END:VCALENDAR');
+ const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(L.join('\r\n'));a.download='astro-health-reminders.ics';a.click();
+}
+const QRY={brain:'sleep deprivation isolation',eye:'retina optic nerve spaceflight',heart:'cardiovascular spaceflight',immun:'immune spaceflight',gut:'nutrition metabolism spaceflight',bone:'bone loss microgravity',muscle:'muscle atrophy microgravity',rad:'space radiation'};
+const RES={
+ brain:[['ARCHeR: well-being, activity and sleep on Artemis II',HR+'archer/'],['Space gardening against isolation','https://www.nasa.gov/humans-in-space/can-space-gardening-help-astronauts-cope-with-isolation/']],
+ eye:[['B-Complex: B vitamins against eye and brain changes',HR+'b-complex/'],['Brain Fluid Pressure',HR+'brain-fluid-pressure/'],['Thigh Cuff: thigh cuffs',HR+'thigh-cuff/'],['Spinal Fluid Biomarkers',HR+'spinal-fluid-biomarkers/']],
+ heart:[['Venous Haemostasis: blood flow and clotting',HR+'venous-haemostasis/'],['Thigh Cuff: keeping fluid in the legs',HR+'thigh-cuff/']],
+ immun:[['Immune Biomarkers (Artemis II)',HR+'immune-biomarkers/'],['Altered Immunity','https://www.nasa.gov/missions/station/scientists-probe-how-long-term-spaceflight-alters-immunity/']],
+ gut:[['Food Physiology: enhanced diet','https://www.nasa.gov/missions/station/enhanced-diet-may-help-astronauts-adapt-to-spaceflight/'],['Food Acceptability','https://www.nasa.gov/humans-in-space/how-does-spaceflight-change-food-appeal/']],
+ bone:[['Spinal Health: the spine under scrutiny','https://www.nasa.gov/missions/station/astronauts-spines-under-scrutiny/']],
+ muscle:[['Zero T2: training without a treadmill',HR+'zero-t2/']],
+ rad:[['CSA: monitoring radiation (CANS, neutron measurement)','https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp'],['CSA: MOSFET-Dosimeter','https://www.asc-csa.gc.ca/eng/astronauts/space-medicine/mosfet.asp'],['CSA: EVARM','https://www.asc-csa.gc.ca/eng/iss/evarm.asp'],['CSA: Radi-N2','https://www.asc-csa.gc.ca/eng/sciences/radi-n2.asp']]};
+const COV=()=>`<div class="card" style="margin-top:12px"><h2>Coverage of the 17 HRP risks</h2><div class="sub">Based on NASA HRP Risks. Uncovered risks need other measurements or context, such as spacewalks.</div><p><b>Covered (9):</b> immune system, cardiovascular, fitness, SANS, bone, behavior and mental health, sleep, nutrition, radiation.</p><p><b>Partial (2):</b> sensorimotor and balance (dizziness symptom only), hypoxia (SpO₂ and CO₂, not related to spacewalks).</p><p><b>Not covered (6):</b> decompression sickness, skin and gut microbiome, spacewalk injuries, injuries from dynamic loads, teamwork, human-system integration.</p></div>`;
+const _rh=renderHz;renderHz=function(){_rh();const el=$('#hz'),n=el.querySelectorAll('.card .pill.l1,.card .pill.l2').length;if(n>=2){const s=el.querySelector('.sub');if(s)s.insertAdjacentHTML('afterend',`<div class="bar l1" style="font-weight:400;margin:10px 0">${n} hazards are flagged at the same time. According to NASA HRP, the hazards do not stand alone; they can amplify each other. Observations and actions should therefore be assessed together.</div>`)}el.insertAdjacentHTML('beforeend',COV())};
+const _rb=renderBody;
+renderBody=function(){_rb();const q=QRY[SEL],rs=(RES[SEL]||[]).concat([['Standard Measures: standardized crew measurements',HR+'standard-measures/'],['CIPHER: study series on multiple body systems',HR+'cipher/'],['Tempus Pro: telemedicine device with integrated health data',HR+'tempus-pro/'],['CSA: Why do we conduct science in space?','https://www.asc-csa.gc.ca/eng/iss/science/why-do-we-conduct-science-experiments-in-space.asp']]);$('#bp').insertAdjacentHTML('beforeend',`<div style="margin-top:10px"><b>Ongoing HRP research</b><ul>${rs.map(x=>'<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+x[0]+'</a></li>').join('')}</ul><button id="osb">NASA OSDR: studies on ${q}</button><div id="osr" class="sub" style="margin-top:6px"></div></div>`);$('#osb').onclick=()=>osdr(q)};
+async function osdr(q){
+ const o=$('#osr');o.textContent='Loading';
+ try{
+  const r=await fetch('https://osdr.nasa.gov/osdr/data/search?term='+encodeURIComponent(q)+'&from=0&size=5&type=cgene');if(!r.ok)throw 0;
+  const j=await r.json(),h=(j.hits&&j.hits.hits)||[];if(!h.length)throw 0;
+  o.innerHTML='<ul>'+h.map(x=>{const s=x._source||x.source||{},a=s['Accession']||s.accession||'';return '<li>'+(a?'<a href="https://osdr.nasa.gov/bio/repo/data/studies/'+encodeURIComponent(a)+'" target="_blank" rel="noopener">'+esc(a)+'</a> ':'')+esc(s['Study Title']||s.study_title||'')+'</li>'}).join('')+'</ul>';
+ }catch(e){o.innerHTML='Fetch not possible (endpoint unverified or hosted preview without network access). <a href="https://osdr.nasa.gov/bio/repo/search?data_source=cgene,alsda,esa,nih_geo_gse,ebi_pride,mg_rast&q='+encodeURIComponent(q)+'" target="_blank" rel="noopener">Open search in OSDR</a>'}
+}
+// ===== Datenqualität und Anomalieerkennung =====
+const real=(e,k)=>{if(e.src&&e.src[k]==='Default')return false;if(e.meas&&(e.v===2||NUM.some(a=>a[0]===k)))return !!e.meas[k];return true};
+const allE=()=>E;
+function covBar(){const e=E[E.length-1],n=keys.filter(k=>real(e,k)).length;return n<keys.length?`<div class="bar l${n<keys.length/2?1:0}" style="font-weight:400">Data coverage in latest entry: ${n} of ${keys.length} values measured or entered. Missing values are excluded from rules and baseline. The cumulative dose counts only entered values.</div>`:''}
+const ADV={hr:1,sys:1,dia:1,spo2:-1,sleep:-1,mood:-1,stress:1,isol:1,temp:1,fatigue:1,gluc:1,meal:-1,back:1,ex:-1},DOM={hr:0,sys:0,dia:0,spo2:0,sleep:2,mood:2,stress:2,isol:2,temp:3,fatigue:3,gluc:6,meal:6,back:1,ex:1};
+function anomalies(add,e0){
+ Object.keys(ADV).forEach(k=>{
+  if(!real(e0,k))return;
+  const v=E.filter(x=>x!==e0&&real(x,k)).map(x=>x[k]);if(v.length<7)return;
+  const m=mean(v),sd=Math.max(Math.sqrt(mean(v.map(x=>(x-m)**2))),Math.abs(m)*.02,.01);
+  const z=(e0[k]-m)/sd*ADV[k],rc=v.slice(-6);let w=rc[0];rc.concat([e0[k]]).forEach(x=>w=.3*x+.7*w);
+  const dr=(w-m)/sd*ADV[k];
+  if(z>=2.5)add(DOM[k],1,NAMES[k]+' deviates strongly from your own trend (z='+f1(z)+')');
+  else if(dr>=1.5)add(DOM[k],1,NAMES[k]+': sustained shift (EWMA, '+f1(dr)+' SD)');
+ });
+}
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+buildForm();$$('#nums input,#sl input').forEach(i=>i.addEventListener('input',()=>{TOUCH[i.id.slice(2)]=1}));renderOv();loadEnv();
+</script>
+</body>
+</html>
