@@ -6,6 +6,7 @@ import { inspect, prepare, reset, outliers } from '@/lib/research/preparation';
 import { describe, pearson, spearman, compareGroups, correlation, temporal, holm } from '@/lib/research/statistics';
 import { histogram, points, heatmap } from '@/lib/research/visualization';
 import { findings } from '@/lib/research/interpretation';
+import { screenPatterns } from '@/lib/research/pattern-screening';
 suite('Scientific data import and integrity', () => {
   it('parses quoted CSV and preserves missing values', () => { const d = parseText('group,value,note\nA,1,"one, two"\nB,NA,test', 'study.csv'); expect(requiredValue(d.rows[0])).toEqual({ group: 'A', value: '1', note: 'one, two' }); expect(requiredValue(d.rows[1])['value']).toBe(null); expect(d.types['value']).toBe('numerical'); expect(requiredValue(inspect(d)[1]).percent).toBe(50); });
   it('parses Excel worksheet contents', () => { const book = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(book, XLSX.utils.aoa_to_sheet([['group', 'value'], ['A', 4], ['B', 6]]), 'Measurements'); const bytes = XLSX.write(book, { type: 'array', bookType: 'xlsx' }); expect(requiredValue(parseWorkbook(bytes, 'study.xlsx').rows[1])['value']).toBe(6); });
@@ -28,4 +29,33 @@ suite('Known reproducible statistics', () => {
   it('guards unsupported design and insufficient samples', () => { expect(() => compareGroups(d, 'y', 'g', 'welch', false, true)).toThrow(); expect(() => compareGroups(d, 'y', 'g', 'welch', true, false)).toThrow(); const small = fromRows([{ y: 1, g: 'A' }, { y: 2, g: 'B' }], 'small'); expect(() => compareGroups(small, 'y', 'g', 'mann', true, false)).toThrow(); });
   it('uses complete pairs and applies Holm correction', () => { const data = fromRows([{ x: 1, y: 2 }, { x: 2, y: 4 }, { x: 3, y: 6 }, { x: null, y: 1 }], 'pairs'); expect(correlation(data, 'x', 'y').n).toBe(3); expect(correlation(data, 'x', 'y').excluded).toBe(1); expect(holm([.01, .04, .03])).toEqual([.03, .06, .06]); expect(heatmap(data, ['x', 'y']).length).toBe(4); });
   it('calculates temporal slope and links plot totals to data', () => { const data = fromRows([0, 1, 2, 3].map(x => ({ x, y: 2 * x + 1 })), 'trend'); expect(requiredValue(temporal(data, 'x', 'y').details['All observations slope per time unit'])).toBe(2); expect(histogram(data, 'y').reduce((s, b) => s + b.count, 0)).toBe(4); expect(points(data, 'x', 'y', '').length).toBe(4); expect(findings(data, temporal(data, 'x', 'y')).join('\n')).toContain('slope per time unit: 2'); });
+  it('screens exploratory patterns by group and averages duplicate time points without changing source rows', () => {
+    const data = fromRows([
+      ...[1, 2, 3, 4, 5, 6, 7].map((y, x) => ({ day: x, y, crew: 'A' })),
+      { day: 6, y: 8, crew: 'A' },
+      ...[10, 11, 12, 13, 14, 15, 16].map((y, x) => ({ day: x, y, crew: 'B' })),
+    ], 'synthetic pattern demo');
+    const result = screenPatterns(data, 'day', 'y', 'crew');
+    expect(result.method).toBe('Exploratory pattern screening');
+    expect(result.n).toBe(15);
+    expect(result.details['A distinct time points']).toBe(7);
+    expect(result.details['A rows averaged across time points']).toBe(1);
+    expect(result.details['A slope per time unit']).toBeCloseTo(1.0535714);
+    expect(result.details['A projection after 3 typical intervals']).toBeCloseTo(10.392857);
+    expect(result.limitations.join(' ')).toContain('not a validated forecast');
+    expect(data.rows).toHaveLength(15);
+  });
+  it('requires seven distinct time points in every selected group and explains ungrouped pooling', () => {
+    const short = fromRows([0, 1, 2, 3, 4, 5].map(x => ({ day: x, y: x })), 'short series');
+    expect(() => screenPatterns(short, 'day', 'y')).toThrow('at least 7 are required');
+    const sufficient = fromRows([0, 1, 2, 3, 4, 5, 6].map(x => ({ day: x, y: x })), 'series');
+    expect(screenPatterns(sufficient, 'day', 'y').limitations.join(' ')).toContain('select a grouping variable');
+  });
+  it('flags only sufficiently large robust residual candidates and gives date-time projection targets', () => {
+    const anomaly = fromRows([1, 2, 3, 4, 5, 6, 7, 8, 9, 100].map((y, day) => ({ day, y })), 'synthetic anomaly');
+    const anomalyResult = screenPatterns(anomaly, 'day', 'y');
+    expect(anomalyResult.details['All observations residual candidates (> 3 × scaled MAD)']).toContain('9: 100');
+    const dates = fromRows([1, 2, 3, 4, 5, 6, 7].map((y, day) => ({ date: `2026-01-${String(day + 1).padStart(2, '0')}`, y })), 'date series');
+    expect(screenPatterns(dates, 'date', 'y').details['All observations projection target']).toBe('2026-01-10');
+  });
 });

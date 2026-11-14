@@ -13,7 +13,7 @@ const visibleTask = new Function(taskSource + '; return taskVisible;')();
 const risksEvalSource = source.slice(source.indexOf('const SPACE_RISKS_11 ='), source.indexOf('let riskFilter ='));
 const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11, BODY_REGION_TO_RISKS };')((x: number) => Math.round(x * 10) / 10);
 const trendSource = source.slice(source.indexOf('const domainTrendKeys ='), source.indexOf('const trendDialog ='));
-const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', 'CK', trendSource + '; return { trendTicks, buildTrendChart };')(
+const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', 'CK', trendSource + '; return { trendTicks, trendBaseline, trendExplanation, buildTrendChart };')(
   [['hr', 'Resting heart rate', 'bpm', 40, 140, 1, 62]],
   { hr: 'Resting heart rate', mood: 'Mood (10 = very good)' },
   () => ({ hr: 60 }),
@@ -111,7 +111,7 @@ describe('Overview trend charts', () => {
     expect(svg).toContain('2026-11-01');
     expect(svg).toContain('2026-11-03');
     expect(svg).toContain('role="img"');
-    expect(svg).toContain('stroke-dasharray="5 4"');
+    expect(svg).not.toContain('stroke-dasharray="5 4"');
   });
 
   it('labels subjective scales with the 1–10 scale and keeps sparklines decorative without axis text', () => {
@@ -119,6 +119,25 @@ describe('Overview trend charts', () => {
     const sparkline = chartTools.buildTrendChart('hr', entries, false);
     expect(sparkline).toContain('aria-hidden="true"');
     expect(sparkline).not.toContain('Date of check-in');
+  });
+
+  it('only shows a personal baseline when five measurements of that value are available', () => {
+    const fourEntries = entries.concat({ d: '2026-11-04', hr: 68, mood: 7 });
+    const fiveEntries = fourEntries.concat({ d: '2026-11-05', hr: 70, mood: 6 });
+    expect(chartTools.trendBaseline('hr', fourEntries)).toBeNull();
+    expect(chartTools.buildTrendChart('hr', fourEntries, true)).not.toContain('stroke-dasharray="5 4"');
+    expect(chartTools.trendBaseline('hr', fiveEntries)).toBe(60);
+    expect(chartTools.buildTrendChart('hr', fiveEntries, true)).toContain('stroke-dasharray="5 4"');
+    expect(chartTools.trendBaseline('vision', fiveEntries)).toBeNull();
+  });
+
+  it('explains the numerical comparison and distinguishes it from a medical assessment', () => {
+    expect(chartTools.trendExplanation('hr', entries)).toContain('Change from the previous recorded measurement (2026-11-02): +8 bpm');
+    expect(chartTools.trendExplanation('hr', entries)).toContain('not a medical assessment');
+    expect(chartTools.trendExplanation('vision', [
+      { d: '2026-11-01', vision: false },
+      { d: '2026-11-02', vision: true },
+    ])).toContain('not a diagnosis');
   });
 });
 

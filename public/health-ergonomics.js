@@ -113,6 +113,19 @@ function trendEntries(key) {
     ? typeof entry[key] === 'boolean'
     : real(entry, key) && typeof entry[key] === 'number');
 }
+function trendBaseline(key, entries) {
+  if (symptomTrendNames[key] || entries.length < 5) return null;
+  const value = base()?.[key];
+  return Number.isFinite(value) ? value : null;
+}
+function trendExplanation(key, entries) {
+  if (symptomTrendNames[key]) return 'Symptom reports are shown as logged (not reported / reported). This is not a diagnosis.';
+  if (entries.length < 2) return 'At least two recorded measurements are needed to compare values.';
+  const previous = entries[entries.length - 2], latest = entries[entries.length - 1];
+  const change = f1(latest[key] - previous[key]);
+  const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
+  return 'Change from the previous recorded measurement (' + previous.d + '): ' + (change > 0 ? '+' : '') + change + ' ' + unit + '. This is a descriptive comparison, not a medical assessment.';
+}
 function trendTicks(min, max, count) {
   const span = (max - min) || 1;
   const power = Math.pow(10, Math.floor(Math.log10(span / count)));
@@ -127,7 +140,7 @@ function buildTrendChart(key, entries, detailed) {
   const numeric = NUM.find(item => item[0] === key);
   const unit = numeric ? numeric[2] : (symptom ? '' : '/10');
   const axisUnit = numeric ? numeric[2] : (symptom ? '0 = not reported, 1 = reported' : 'scale 1–10');
-  const baseline = symptom ? null : base()?.[key];
+  const baseline = trendBaseline(key, entries);
   let mn = Math.min(...values, ...(baseline == null ? [] : [baseline]));
   let mx = Math.max(...values, ...(baseline == null ? [] : [baseline]));
   if (symptom) { mn = 0; mx = 1; }
@@ -164,7 +177,8 @@ function buildTrendChart(key, entries, detailed) {
 const trendDialog = document.createElement('dialog');
 trendDialog.className = 'trend-dialog';
 trendDialog.setAttribute('aria-labelledby', 'trend-dialog-title');
-trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><div id="trend-dialog-chart"></div><p class="sub">Dashed: personal baseline (mean of the first 5 entries).</p><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
+trendDialog.setAttribute('aria-describedby', 'trend-dialog-meta trend-dialog-baseline trend-dialog-note');
+trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><div id="trend-dialog-chart"></div><p class="sub" id="trend-dialog-baseline"></p><p class="sub" id="trend-dialog-note"></p><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
 document.body.append(trendDialog);
 function openTrendDialog(key) {
   const entries = trendEntries(key);
@@ -174,6 +188,13 @@ function openTrendDialog(key) {
   const symptom = !!symptomTrendNames[key];
   $('#trend-dialog-title').textContent = trendName(key);
   $('#trend-dialog-meta').textContent = entries.length + (symptom ? ' reported entries' : ' measured entries') + ' · ' + entries[0].d + ' to ' + latest.d + ' · Latest: ' + (symptom ? (latest[key] ? 'Reported' : 'Not reported') : latest[key] + ' ' + unit);
+  const baseline = trendBaseline(key, entries);
+  $('#trend-dialog-baseline').textContent = symptom
+    ? 'No personal baseline is calculated for symptom reports.'
+    : baseline == null
+      ? 'Personal baseline not shown: ' + entries.length + ' of 5 required measurements for this value.'
+      : 'Dashed line: personal baseline, the mean of the first 5 measured entries for this value.';
+  $('#trend-dialog-note').textContent = trendExplanation(key, entries);
   $('#trend-dialog-chart').innerHTML = buildTrendChart(key, entries, true);
   const previous = document.activeElement;
   const finish = () => { trendDialog.close(); previous?.focus(); };
@@ -202,7 +223,7 @@ function renderTrendTiles() {
     const value = symptom ? (latest[key] ? 'Reported' : 'Not reported') : esc(latest[key]) + ' ' + esc(unit);
     return '<button type="button" class="trend-tile" data-trend="' + key + '" aria-haspopup="dialog" aria-label="' + esc(trendName(key)) + ': latest ' + value + ' on ' + esc(latest.d) + '. Enlarge the trend chart.">'
       + '<span class="trend-tile-name">' + esc(trendName(key)) + '</span>'
-      + '<span class="trend-tile-value">' + value + (symptom ? '' : '<small>' + (change > 0 ? '+' : '') + change + ' vs. previous</small>') + '</span>'
+      + '<span class="trend-tile-value">' + value + (symptom ? '' : '<small>' + (change > 0 ? '+' : '') + change + ' ' + esc(unit) + ' vs. previous measurement</small>') + '</span>'
       + buildTrendChart(key, entries, false)
       + '<span class="trend-tile-range">' + esc(entries[0].d) + ' to ' + esc(latest.d) + ' · ' + entries.length + ' entries</span>'
       + '</button>';
