@@ -51,4 +51,4 @@
 
 # Overview trends
 
-- [ ] Integrate relevant history charts into each health-area tile and verify enlargement and mobile layout.
+- [x] Integrate relevant history charts into each health-area tile and verify enlargement and mobile layout.
