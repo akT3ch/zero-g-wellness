@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep the imported health monitor in its existing standalone document, with usability enhancements in a separate stylesheet and script, so its medical rules and source adapters remain unchanged.
