@@ -51,3 +51,18 @@ export function missionAssessment(day: number) {
     return [{ ...metric, value, baseline, percent, trend, flagged }];
   });
 }
+
+/** Demo-only links between the synthetic mission signals and the 11 spaceflight risks. */
+export const missionRiskSignals: Record<string, string[]> = {
+  cardiovascular: ["Resting heart rate"],
+};
+
+export function missionRiskStatus(day: number, riskKey: string) {
+  const labels = missionRiskSignals[riskKey] ?? [];
+  const flagged = missionAssessment(day).filter((m) => m.flagged && labels.includes(m.label));
+  const event = riskKey === "immune_response" && day === 21;
+  if (flagged.length) return { level: "watch" as const, reason: flagged.map((m) => `${m.label} above demo threshold`).join(", ") };
+  if (event) return { level: "watch" as const, reason: "Simulated solar particle event (context only, no dose estimate)" };
+  if (!labels.length && riskKey !== "immune_response") return { level: "none" as const, reason: "No synthetic signal in this demo" };
+  return { level: "nominal" as const, reason: day <= 5 ? "Baseline being established" : "Within demo thresholds" };
+}
