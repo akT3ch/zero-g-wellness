@@ -30,3 +30,14 @@ describe("synthetic Mars transit", () => {
     );
   });
 });
+
+import { missionRiskStatus } from "@/lib/mission-demo";
+describe("mission risk links", () => {
+  it("flags cardiovascular only once heart rate exceeds its threshold", () => {
+    expect(missionRiskStatus(3, "cardiovascular").level).toBe("nominal");
+    expect(missionRiskStatus(15, "cardiovascular").level).toBe("watch");
+  });
+  it("marks risks without demo signals as none", () => {
+    expect(missionRiskStatus(15, "bone_changes").level).toBe("none");
+  });
+});
