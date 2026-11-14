@@ -35,3 +35,10 @@
 - [x] Add tested statistical calculations, linked visualizations and traceable findings.
 - [x] Verify NASA endpoints and integrate real study metadata and compatible file imports.
 - [x] Verify full workflow and existing functionality; document completed work and limitations.
+
+# NASA integration stabilization
+
+- [ ] Stabilize cached, independent DONKI/NOAA requests and secure monitor search bridge.
+- [ ] Support versioned OSDR metadata, study hits and verified download paths.
+- [ ] Preserve partial live telemetry and distinguish fallback/stale values.
+- [ ] Run regression tests, verify real NASA flows, and document limitations.
