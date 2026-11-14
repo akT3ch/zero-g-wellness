@@ -1,10 +1,38 @@
 export const object = (v: unknown): Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v) ? v as Record<string, unknown> : {};
 export const list = (v: unknown): unknown[] => Array.isArray(v) ? v : [];
+export function normalizeBiologicalDatasets(payload: unknown) {
+  const seen = new Set<string>();
+  return list(payload).flatMap((value) => {
+    const row = object(value), rawAccession = row['id.accession'];
+    if (typeof rawAccession !== 'string') return [];
+    const match = /^(?:OSD-|GLDS-)?(\d{1,6})(?:\.\d+)?$/i.exec(rawAccession.trim());
+    if (!match) return [];
+    const field = (name: string) => {
+      const value = row[name];
+      return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+    };
+    const dataset = {
+      accession: `OSD-${match[1]}`,
+      spaceflight: field('study.factor value.spaceflight'),
+      organism: field('study.characteristics.organism'),
+      tissue: field('study.factor value.tissue'),
+    };
+    const key = [dataset.accession, dataset.spaceflight, dataset.organism, dataset.tissue].join('\0');
+    if (seen.has(key)) return [];
+    seen.add(key);
+    return [dataset];
+  });
+}
 export function studyRecord(payload: unknown, id: string) {
-  const records = object(payload), exact = records[`OSD-${id}`];
-  if (exact != null) return object(exact);
-  const versions = Object.keys(records).filter(k => new RegExp(`^OSD-${id}\\.\\d+$`, 'i').test(k));
-  versions.sort((a, b) => Number(b.split('.').at(-1)) - Number(a.split('.').at(-1)));
+  const records = object(payload), prefix = `OSD-${id}`, exact = Object.keys(records).find(key => key.toUpperCase() === prefix);
+  if (exact) return object(records[exact]);
+  const versions = Object.keys(records).filter(key => key.toUpperCase().startsWith(`${prefix}.`));
+  versions.sort((a, b) => {
+    const aVersion = Number(a.slice(prefix.length + 1)), bVersion = Number(b.slice(prefix.length + 1));
+    return Number.isFinite(aVersion) && Number.isFinite(bVersion)
+      ? bVersion - aVersion
+      : b.localeCompare(a, undefined, { numeric: true });
+  });
   return object(versions[0] ? records[versions[0]] : undefined);
 }
 export function downloadUrl(value: unknown, id: string): string {

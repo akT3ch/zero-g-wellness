@@ -229,7 +229,6 @@ async function loadEnv(){if(environmentTask)return environmentTask;
  }));
  })();try{await environmentTask}finally{environmentTask=null}
 }
-setInterval(()=>{syncStation()},15000);
 // ===== Geräte-Adapter: Web Bluetooth (Standardprofile) und CSV-Import =====
 // Profil-IDs vor Einsatz gegen die Bluetooth-SIG-Liste prüfen. Proprietäre Geräte werden nicht unterstützt.
 const SRC={},BUF={hr:[],sys:[],dia:[],spo2:[],temp:[]};

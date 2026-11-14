@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { normalizeFiles, normalizeStudies, studyRecord, downloadUrl } from '@/lib/research/osdr-normalization';
-import { nasaJson } from '@/lib/nasa-fetch.server';
+import { normalizeFiles, normalizeStudies, studyRecord, downloadUrl, normalizeBiologicalDatasets } from '@/lib/research/osdr-normalization';
+import { nasaJson, nasaJsonPayload } from '@/lib/nasa-fetch.server';
+import { donkiEndpoints, normalizeSpaceWeather } from '@/lib/nasa-normalization';
+import { weatherRequest } from '@/lib/nasa.functions';
 
 function helpers() {
   const root = { localStorage: window.localStorage, location: window.location, parent: {}, addEventListener: vi.fn(), crypto: globalThis.crypto };
@@ -21,11 +23,36 @@ function transport() {
 }
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); localStorage.clear(); });
 describe('OSDR normalization', () => {
+  it('normalizes biological dataset rows and ignores malformed accessions', () => {
+    expect(normalizeBiologicalDatasets([
+      { 'id.accession': 'OSD-48.1', 'study.factor value.spaceflight': 'in-flight', 'study.characteristics.organism': 'Homo sapiens', 'study.factor value.tissue': 'blood' },
+      { 'id.accession': 'OSD-48', 'study.factor value.spaceflight': 'in-flight', 'study.characteristics.organism': 'Homo sapiens', 'study.factor value.tissue': 'blood' },
+      { 'id.accession': 'not-an-accession' },
+    ])).toEqual([{ accession: 'OSD-48', spaceflight: 'in-flight', organism: 'Homo sapiens', tissue: 'blood' }]);
+  });
   it('prefers exact keys and chooses the newest boundary-matched version', () => {
     expect(studyRecord({ 'OSD-569': { n: 0 }, 'OSD-569.2': { n: 2 } }, '569')).toEqual({ n: 0 });
     expect(studyRecord({ 'OSD-569.1': { n: 1 }, 'OSD-569.2': { n: 2 }, 'OSD-5690': { n: 9 } }, '569')).toEqual({ n: 2 });
+    expect(studyRecord({ 'OSD-569.latest': { n: 3 } }, '569')).toEqual({ n: 3 });
+    expect(studyRecord({ 'osd-569.1': { n: 1 } }, '569')).toEqual({ n: 1 });
     expect(studyRecord({ 'OSD-5690': {} }, '569')).toEqual({});
     expect(studyRecord(null, '569')).toEqual({});
+  });
+  describe('DONKI event support', () => {
+    it('accepts all documented event types through the validated weather request', () => {
+      const today = new Date().toISOString().slice(0, 10);
+      for (const endpoint of donkiEndpoints) {
+        expect(weatherRequest.safeParse({ endpoint, start: today, end: today }).success).toBe(true);
+      }
+    });
+    it('keeps event summaries and identifiers while preserving SEP/FLR fields used by existing rules', () => {
+      expect(normalizeSpaceWeather('FLR', [{ beginTime: '2026-11-14T01:00Z', classType: 'X1.2', flrID: 'id' }])).toEqual([{
+        eventTime: '2026-11-14T01:00Z', beginTime: '2026-11-14T01:00Z', classType: 'X1.2', eventType: 'FLR', identifier: '', summary: 'X1.2',
+      }]);
+      expect(normalizeSpaceWeather('SEP', [{ eventTime: '2026-11-14T01:00Z', activityID: 'sep-1', note: 'Event details' }])[0]).toMatchObject({
+        eventTime: '2026-11-14T01:00Z', identifier: 'sep-1', summary: 'Event details',
+      });
+    });
   });
   it.each([[false, true, true], [false, undefined, true], [undefined, true, true], [undefined, undefined, true], [true, true, false], [false, false, false], [true, false, false]])('availability restricted=%s visible=%s', (restricted, visible, available) => {
     expect(normalizeFiles({ studies: { 'OSD-48.1': { study_files: [{ file_name: 'x.csv', remote_url: '/geode-py/ws/studies/OSD-48/download', restricted, visible }] } } }, '48')[0]?.available).toBe(available);
@@ -73,6 +100,14 @@ describe('Cache, keys, UTC and telemetry', () => {
   it('rejects forged bridge replies', () => { const h = helpers(); expect(h.validReply({ origin: 'https://evil.test', source: window, data: { type: 'astro:nasa-result', id: 'x', records: [], error: null } })).toBe(false); });
 });
 describe('Bounded upstream errors', () => {
+  it('retries transient errors for OSDR metadata objects', async () => {
+    const fetcher = vi.fn()
+      .mockResolvedValueOnce(new Response('', { status: 503 }))
+      .mockResolvedValueOnce(Response.json({ study: { title: 'OSD test' } }));
+    vi.stubGlobal('fetch', fetcher);
+    await expect(nasaJsonPayload('https://osdr.nasa.gov/metadata')).resolves.toEqual({ study: { title: 'OSD test' } });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
   it('respects long Retry-After without retrying or exposing request keys', async () => {
     const fetcher = vi.fn().mockResolvedValue(new Response('', { status: 429, headers: { 'Retry-After': '60' } })); vi.stubGlobal('fetch', fetcher);
     await expect(nasaJson('https://api.nasa.gov/?api_key=private')).rejects.toThrow('rate limit'); expect(fetcher).toHaveBeenCalledTimes(1);

@@ -355,3 +355,144 @@ nasaKeyInput.onchange = () => {
   nasaKeyInput.setCustomValidity(''); setPreference('nasa-key', nasaKeyInput.value); void loadEnv();
 };
 nasaKeyLabel.append(nasaKeyInput); $('.tool-menu').append(nasaKeyLabel);
+
+const telemetryPanel = document.createElement('section');
+telemetryPanel.className = 'card';
+telemetryPanel.setAttribute('aria-labelledby', 'iss-telemetry-title');
+telemetryPanel.innerHTML = '<h2 id="iss-telemetry-title">ISS live environmental telemetry</h2><p class="sub">Raw station environment channels from the ISS Mimic Lightstreamer stream. These are contextual values only and do not enter medical assessments or health records.</p><p id="iss-telemetry-status" role="status">Connecting to the public ISS stream…</p><dl id="iss-telemetry-values"></dl><p class="sub">Channel names and units: <a href="https://iss-mimic.github.io/Mimic/" target="_blank" rel="noopener noreferrer">ISS Mimic telemetry catalog</a>. Values are not validated for clinical use.</p>';
+$('#env').after(telemetryPanel);
+const telemetryStatus = $('#iss-telemetry-status');
+const telemetryValues = $('#iss-telemetry-values');
+const liveChannels = new Map();
+let telemetryTimedOut = false;
+let telemetrySubscriptionFailed = false;
+const issItems = {
+  ETHOSUSLAB000059: { label: 'US Lab cabin temperature', unit: '°C' },
+  ETHOSUSLAB000058: { label: 'US Lab cabin pressure', unit: 'torr' },
+};
+function renderTelemetry() {
+  telemetryValues.replaceChildren();
+  for (const [id, channel] of Object.entries(issItems)) {
+    const reading = liveChannels.get(id);
+    const term = document.createElement('dt');
+    const value = document.createElement('dd');
+    term.textContent = channel.label;
+    value.textContent = reading
+      ? `${reading.value} ${channel.unit} · received ${new Date(reading.at).toISOString()}`
+      : 'No live value received';
+    telemetryValues.append(term, value);
+  }
+  const age = Math.max(...[...liveChannels.values()].map(reading => Date.now() - reading.at), 0);
+  telemetryStatus.textContent = liveChannels.size === 2
+    ? `Live · both channels received${age > 60000 ? ' · values are over 60 seconds old' : ''}`
+    : liveChannels.size === 1
+      ? `Partial stream · ${liveChannels.size} of 2 channels received${age > 60000 ? ' · value is over 60 seconds old' : ''}`
+      : telemetryStatus.dataset.connected === 'true'
+        && !telemetryTimedOut
+        && !telemetrySubscriptionFailed
+        ? 'Connected · waiting for the first channel values'
+        : telemetryStatus.textContent;
+}
+async function connectIssTelemetry() {
+  const timeout = setTimeout(() => {
+    if (!liveChannels.size && !telemetrySubscriptionFailed) {
+      telemetryTimedOut = true;
+      telemetryStatus.textContent = 'No telemetry received within 15 seconds. The stream may be unavailable.';
+    }
+  }, 15000);
+  try {
+    if (!window.Lightstreamer) {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/lightstreamer-client-web@9.1.1/lightstreamer.min.js';
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('Lightstreamer client could not be loaded.'));
+        document.head.append(script);
+      });
+    }
+    const Lightstreamer = window.Lightstreamer || window;
+    const client = new Lightstreamer.LightstreamerClient('https://push.lightstreamer.com', 'ISSLIVE');
+    const subscription = new Lightstreamer.Subscription('MERGE', Object.keys(issItems), ['Value']);
+    client.addListener({
+      onStatusChange(status) {
+        telemetryStatus.dataset.connected = String(status.startsWith('CONNECTED'));
+        if (status.startsWith('DISCONNECTED')) telemetryStatus.textContent = 'Disconnected from the public ISS stream; latest received values are retained.';
+        else renderTelemetry();
+      },
+    });
+    subscription.addListener({
+      onSubscription() {
+        telemetryStatus.textContent = 'Subscribed to the ISS environment channels; waiting for updates.';
+      },
+      onSubscriptionError(code, message) {
+        telemetrySubscriptionFailed = true;
+        console.error('ISS telemetry channel subscription failed', { code, message });
+        telemetryStatus.textContent = 'The public ISS stream rejected the environment channel subscription.';
+      },
+      onItemUpdate(update) {
+        const id = update.getItemName(), raw = update.getValue('Value'), value = Number(raw);
+        if (!Object.hasOwn(issItems, id) || raw == null || String(raw).trim() === '' || !Number.isFinite(value)) return;
+        liveChannels.set(id, { value, at: Date.now() });
+        renderTelemetry();
+      },
+    });
+    client.subscribe(subscription);
+    client.connect();
+    setInterval(renderTelemetry, 15000);
+  } catch (error) {
+    clearTimeout(timeout);
+    console.error('ISS live telemetry connection failed', error);
+    telemetryStatus.textContent = 'ISS live telemetry is unavailable. Health records and medical assessments are unchanged.';
+  }
+}
+void connectIssTelemetry();
+
+const donkiEndpoints = [
+  ['CME', 'Coronal mass ejections'],
+  ['CMEAnalysis', 'CME analysis'],
+  ['FLR', 'Solar flares'],
+  ['SEP', 'Solar energetic particles'],
+  ['GST', 'Geomagnetic storms'],
+  ['IPS', 'Interplanetary shocks'],
+  ['MPC', 'Magnetopause crossings'],
+  ['RBE', 'Radiation belt enhancements'],
+  ['HSS', 'High-speed streams'],
+  ['notifications', 'Space-weather notifications'],
+];
+const donkiPanel = document.createElement('section');
+donkiPanel.className = 'card';
+donkiPanel.setAttribute('aria-labelledby', 'donki-explorer-title');
+donkiPanel.innerHTML = '<h2 id="donki-explorer-title">NASA DONKI event explorer</h2><p class="sub">On-demand event data for the last three UTC days. Context only; events do not change medical assessments or health records.</p><div class="donki-controls"><label>Event type<select id="donki-type" aria-label="DONKI event type"></select></label><button id="donki-load" type="button">Load event data</button></div><p id="donki-status" role="status"></p><ol id="donki-results"></ol>';
+telemetryPanel.after(donkiPanel);
+const donkiSelect = $('#donki-type');
+for (const [value, label] of donkiEndpoints) {
+  const option = document.createElement('option');
+  option.value = value;
+  option.textContent = label;
+  donkiSelect.append(option);
+}
+$('#donki-load').onclick = async () => {
+  const button = $('#donki-load'), status = $('#donki-status'), results = $('#donki-results');
+  button.disabled = true;
+  status.textContent = 'Loading NASA DONKI event data…';
+  results.replaceChildren();
+  try {
+    const response = await NasaIntegrations.weather(donkiSelect.value);
+    status.textContent = response.error
+      ? `Showing cached data after source error: ${response.error}`
+      : `${response.records.length} event records${response.cached ? ' · cached' : ' · refreshed'}${response.stale ? ' · stale' : ''}`;
+    for (const event of response.records.slice(0, 20)) {
+      const item = document.createElement('li'), heading = document.createElement('strong'), detail = document.createElement('span');
+      heading.textContent = [event.eventTime || event.beginTime, event.eventType, event.identifier].filter(Boolean).join(' · ');
+      detail.textContent = event.summary || 'No summary supplied.';
+      item.append(heading, document.createTextNode(' '), detail);
+      results.append(item);
+    }
+    if (!response.records.length) results.textContent = 'No events returned for this date range.';
+    if (response.records.length > 20) status.textContent += ' · Showing first 20 records.';
+  } catch (error) {
+    status.textContent = error instanceof Error ? error.message : 'NASA DONKI request failed.';
+  } finally {
+    button.disabled = false;
+  }
+};

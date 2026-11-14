@@ -1,13 +1,12 @@
 // Bounded retries; never include request URLs or credentials in errors.
-export async function nasaJson(url: string): Promise<unknown[]> {
+async function fetchNasaJson(url: string, timeout: number): Promise<unknown> {
   for (let attempt = 0; attempt < 3; attempt++) {
     let response: Response;
-    try { response = await fetch(url, { signal: AbortSignal.timeout(12000), headers: { Accept: 'application/json' }, redirect: 'error' }); }
+    try { response = await fetch(url, { signal: AbortSignal.timeout(timeout), headers: { Accept: 'application/json' }, redirect: 'error' }); }
     catch { if (attempt === 2) throw new Error('Source connection timed out.'); await new Promise(r => setTimeout(r, 500 * 2 ** attempt)); continue; }
     if (response.ok) {
       let data: unknown;
       try { data = await response.json(); } catch { throw new Error('Source returned invalid JSON.'); }
-      if (!Array.isArray(data)) throw new Error('Source returned an invalid response.');
       return data;
     }
     const retry = response.headers.get('Retry-After');
@@ -17,4 +16,14 @@ export async function nasaJson(url: string): Promise<unknown[]> {
     await new Promise(r => setTimeout(r, Math.max(500, wait || 500)));
   }
   throw new Error('Source unavailable.');
+}
+
+export async function nasaJsonPayload(url: string): Promise<unknown> {
+  return fetchNasaJson(url, 30000);
+}
+
+export async function nasaJson(url: string): Promise<unknown[]> {
+  const data = await fetchNasaJson(url, 12000);
+  if (!Array.isArray(data)) throw new Error('Source returned an invalid response.');
+  return data;
 }

@@ -2,10 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { nasaJson } from "./nasa-fetch.server";
 import { setResponseHeader } from "@tanstack/react-start/server";
+import { donkiEndpoints, normalizeSpaceWeather } from "./nasa-normalization";
 
 export const weatherRequest = z
   .object({
-    endpoint: z.enum(["SEP", "FLR", "NOAA"]),
+    endpoint: z.enum([...donkiEndpoints, "NOAA"]),
     start: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     end: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     key: z
@@ -38,31 +39,14 @@ export const getSpaceWeather = createServerFn({ method: "POST" })
           : new URL(
               key
                 ? `https://api.nasa.gov/DONKI/${data.endpoint}`
-                : `https://ccmc.gsfc.nasa.gov/DONKI-API/get/${data.endpoint}`,
+                : `https://ccmc.gsfc.nasa.gov/DONKI/WS/get/${data.endpoint}`,
             );
       if (data.endpoint !== "NOAA") {
         url.searchParams.set("startDate", data.start);
         url.searchParams.set("endDate", data.end);
         if (key) url.searchParams.set("api_key", key);
       }
-      const raw = await nasaJson(url.href);
-      const records = raw
-        .filter((v) => typeof v === "object" && v !== null)
-        .map((v) => {
-          const row = v as Record<string, unknown>;
-          return data.endpoint === "NOAA"
-            ? {
-                energy: String(row["energy"] ?? ""),
-                flux: Number(row["flux"]),
-                time_tag: String(row["time_tag"] ?? ""),
-              }
-            : data.endpoint === "FLR"
-              ? {
-                  classType: String(row["classType"] ?? ""),
-                  beginTime: String(row["beginTime"] ?? ""),
-                }
-              : { eventTime: String(row["eventTime"] ?? "") };
-        });
+      const records = normalizeSpaceWeather(data.endpoint, await nasaJson(url.href));
       if (data.endpoint === "NOAA" && !records.some((r) => "flux" in r && Number.isFinite(r.flux)))
         throw new Error("Source returned no valid flux values.");
       return { records, error: null };

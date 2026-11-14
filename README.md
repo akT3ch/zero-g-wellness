@@ -33,7 +33,7 @@ The [Lovable project](https://lovable.dev/projects/13e2473e-b004-416d-ad2c-47d5f
 
 The mission simulator compares each reading against the mean of its first five synthetic days. The dashboard explains directional thresholds, percentage changes and concurrent deviations. The thresholds are illustrative. The simulator keeps its data in memory and does not access operational records or the AI gateway.
 
-ISS cabin channels are withheld pending source and unit verification. DONKI events and NOAA proton flux are contextual information and cannot establish personal dose. Health records in browser storage are accessible to users of that browser profile. Bluetooth hardware, offline reloads, and flight use require separate validation.
+ISS Mimic cabin temperature and pressure channels are shown as raw contextual stream values using the published channel catalog; they do not enter medical assessments or health records. DONKI events and NOAA proton flux are contextual information and cannot establish personal dose. NASA OSDR biological metadata is explored separately from health records; research measurements are imported only by user action. Health records in browser storage are accessible to users of that browser profile. Bluetooth hardware, offline reloads, and flight use require separate validation.
 
 See [data provenance](docs/DATA_SOURCES.md), [submission materials](submission/), and [AI disclosure](submission/AI_DISCLOSURE.md). Future work includes validated onboard sensors, controlled usability studies and offline deployments.
 
