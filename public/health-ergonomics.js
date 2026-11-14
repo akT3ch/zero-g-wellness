@@ -307,12 +307,17 @@ const trendPreference = getPreference('trend', 'hr');
 originalTrends();
 if ([...$('#met').options].some(option => option.value === trendPreference)) $('#met').value = trendPreference;
 $('#met').addEventListener('change', () => setPreference('trend', $('#met').value));
+// SVG callouts share the existing anatomy controls; they add no duplicate tab stops.
+$$('#bsvg .anatomy-landmark').forEach(marker => {
+  const region = $('#bsvg .rg[data-r="' + marker.dataset.landmark + '"]');
+  marker.onclick = () => { region.onclick(); region.focus({ preventScroll: true }); };
+});
 // Give small body regions equivalent full-size keyboard and touch controls.
 const bodyControls = document.createElement('div');
 bodyControls.className = 'body-controls'; bodyControls.setAttribute('role', 'group'); bodyControls.setAttribute('aria-label', 'Body regions');
 for (const [key, region] of Object.entries(REG)) {
   const button = document.createElement('button'); button.textContent = region.n;
-  button.dataset.region = key; button.setAttribute('aria-pressed', String(key === SEL));
+  button.dataset.region = key; button.setAttribute('aria-controls', 'bp'); button.setAttribute('aria-pressed', String(key === SEL));
   button.onclick = () => { $('#bsvg .rg[data-r="' + key + '"]').onclick(); };
   bodyControls.append(button);
 }
@@ -339,9 +344,15 @@ renderBody = function() {
     region.setAttribute('aria-pressed', String(key === SEL));
     region.setAttribute('aria-label', REG[key].n + ' Â· ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
   });
+  $$('#bsvg .anatomy-landmark').forEach(marker => {
+    marker.dataset.state = states[marker.dataset.landmark];
+    marker.classList.toggle('sel', marker.dataset.landmark === SEL);
+  });
   $$('.body-controls button').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.region === SEL));
-    button.dataset.state = states[button.dataset.region];
+    const state = states[button.dataset.region];
+    button.dataset.state = state;
+    button.setAttribute('aria-label', REG[button.dataset.region].n + ' · ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
   });
   const heading = $('#bp h2');
   if (states[SEL] === 'n') {

@@ -203,3 +203,33 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
 }
 @media (max-width: 380px) { .f { grid-template-columns: minmax(0,1fr); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+/* Anatomical landmarks stay readable against both theme surfaces. */
+#bsvg {
+  display: block;
+  width: min(100%, 390px);
+  margin: 0 auto;
+  background: radial-gradient(ellipse at 50% 39%, color-mix(in srgb, var(--anatomy-shell) 23%, transparent), transparent 70%);
+}
+#bsvg .anatomy-face, #bsvg .anatomy-lobe {
+  fill: none;
+  stroke: var(--anatomy-outline);
+  stroke-width: 1.15;
+  opacity: .75;
+  pointer-events: none;
+}
+#bsvg .anatomy-lobe { stroke: var(--anatomy-organ-light); stroke-width: 1.35; }
+#bsvg .anatomy-silhouette { fill-opacity: .7; }
+#bsvg .anatomy-landmark { --landmark-status: var(--mut); cursor: pointer; }
+#bsvg .anatomy-landmark[data-state="0"] { --landmark-status: var(--ok); }
+#bsvg .anatomy-landmark[data-state="1"] { --landmark-status: var(--warn); }
+#bsvg .anatomy-landmark[data-state="2"] { --landmark-status: var(--bad); }
+#bsvg .anatomy-landmark path { fill: none; stroke: var(--landmark-status); opacity: .7; pointer-events: none; }
+#bsvg .anatomy-landmark circle { fill: var(--landmark-status); stroke: var(--card); stroke-width: 1.3; pointer-events: none; }
+#bsvg .anatomy-landmark rect { fill: var(--card); stroke: var(--landmark-status); stroke-width: 1; transition: fill .18s, stroke-width .18s; }
+#bsvg .anatomy-landmark text { fill: var(--fg); text-anchor: middle; font-size: 10px; font-weight: 650; pointer-events: none; }
+#bsvg .anatomy-landmark:hover rect, #bsvg .anatomy-landmark.sel rect { stroke-width: 2; fill: var(--bg); }
+#bsvg .rg.sel { filter: drop-shadow(0 0 4px var(--acc)); }
+.body-controls button { min-height: 44px; }
+@media (prefers-reduced-motion: reduce) {
+  #bsvg .rg > *, #bsvg .anatomy-landmark rect { transition: none; }
+}
