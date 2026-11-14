@@ -1094,37 +1094,6 @@ function getSimCurrentRow() {
   return rows.find(r => r.mission_day === simMissionDay) || rows[Math.min(rows.length - 1, Math.max(0, simMissionDay + 14))] || rows[0];
 }
 
-function renderXpScore(value) {
-  const score = Number.isFinite(Number(value)) ? Number(value) : 0;
-  return `<span class="sim-xp" role="img" aria-label="Experience points ${score}"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6,21.5q-1.45,0-2.47-1.02T2.5,18t1.03-2.47T6,14.5t2.47,1.03T9.5,18q0,0.55-0.16,1.06T8.85,20.02V19.35q0.75 0.32 1.55 0.49T12 20q3.35 0 5.68-2.32T20 12h2q0 2.07-0.79 3.9t-2.14 3.17q-1.35 1.35-3.17 2.14T12 22q-1.13 0-2.2-0.24T7.73 21.05q-0.4 0.22-0.84 0.34T6 21.5Zm1.06-2.44Q7.5 18.63 7.5 18T7.06 16.94T6 16.5T4.94 16.94T4.5 18t0.44 1.06T6 19.5t1.06-0.44ZM12 15.5q-1.45 0-2.47-1.03T8.5 12T9.53 9.52T12 8.5t2.48 1.02T15.5 12t-1.02 2.47T12 15.5ZM2 12Q2 9.92 2.79 8.1Q3.58 6.27 4.93 4.93Q6.28 3.57 8.1 2.79Q9.93 2 12 2q1.13 0 2.2 0.24t2.08 0.71q0.4-0.23 0.84-0.34T18 2.5q1.45 0 2.48 1.02T21.5 6T20.48 8.48T18 9.5T15.53 8.48T14.5 6q0-0.55 0.16-1.06q0.16-0.51 0.49-0.96V4.65Q14.4 4.32 13.6 4.16T12 4Q8.65 4 6.33 6.32T4 12H2ZM18 7.5q0.63 0 1.06-0.44T19.5 6T19.06 4.94T18 4.5T16.94 4.94T16.5 6t0.44 1.06T18 7.5ZM6 18ZM18 6Z"/></svg><b>${score.toLocaleString()}</b></span>`;
-}
-
-function getSimXpLeaderboard(day = simMissionDay) {
-  if (!Array.isArray(SIM_BUNDLE?.astronauts) || !Array.isArray(SIM_BUNDLE?.daily_timeseries)) return [];
-  const ranking = SIM_BUNDLE.astronauts
-    .map(astronaut => {
-      const record = SIM_BUNDLE.daily_timeseries.find(row => row.astronaut_id === astronaut.astronaut_id && row.mission_day === day);
-      const totalXp = Number(record?.gamification?.total_xp);
-      if (!record || !Number.isFinite(totalXp)) return null;
-      return {
-        astronautId: astronaut.astronaut_id,
-        name: astronaut.name,
-        role: astronaut.role,
-        totalXp,
-        badge: record.gamification.badge_level || 'Crew member'
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.totalXp - a.totalXp || a.astronautId.localeCompare(b.astronautId));
-  let rank = 0;
-  let previousXp;
-  return ranking.map((astronaut, index) => {
-    if (index === 0 || astronaut.totalXp !== previousXp) rank = index + 1;
-    previousXp = astronaut.totalXp;
-    return { ...astronaut, rank };
-  });
-}
-
 function getActiveRiskMetrics(scenarioKey) {
   if (scenarioKey === 'sim') {
     const simRow = getSimCurrentRow();
@@ -1495,10 +1464,10 @@ function openMeasurementWizard(riskKey) {
       </div>
     </div>
     <div class="dialog-actions" style="justify-content:space-between;flex-wrap:wrap">
-      <span class="sub">Saving applies measurements to Live Monitor & logs +25 XP routine verification.</span>
+      <span class="sub">Measurements will be saved to your health monitoring records.</span>
       <div style="display:flex;gap:10px">
         <button type="button" id="wiz-cancel-btn">Cancel</button>
-        <button type="button" class="pri" id="wiz-save-btn">Save Measurements & Verify (+25 XP)</button>
+        <button type="button" class="pri" id="wiz-save-btn">Save Measurements</button>
       </div>
     </div>
   `;
@@ -1640,7 +1609,7 @@ function openMeasurementWizard(riskKey) {
     renderRisks();
     if (!$('#bd')?.classList.contains('hide')) renderBody();
     renderOv();
-    showToast(`Saved ${risk.nameEn} measurements & verified daily protocol (+25 XP).`);
+    showToast(`Saved ${risk.nameEn} measurements & verified daily protocol.`);
   };
 
   if (!wizardDialog.open) wizardDialog.showModal();
@@ -1658,7 +1627,6 @@ function renderRisks() {
   };
   const promptLog = readPromptLog();
   const completedPrompts = SPACE_RISKS_11.filter(r => promptLog[r.key]).length;
-  const promptXp = completedPrompts * 25;
 
   const ordered = priorityOrder(results.map(r => r.l)).map(i => results[i]);
   const visible = ordered.filter(r => {
@@ -1674,13 +1642,12 @@ function renderRisks() {
   const simRows = getSimDailyRows(simAstronautId);
   const simRow = getSimCurrentRow();
   const simAstro = SIM_BUNDLE?.astronauts?.find(a => a.astronaut_id === simAstronautId);
-  const simXpLeaderboard = getSimXpLeaderboard();
 
   el.innerHTML = `
     <h2>11 NASA Spaceflight Health Risks · Mission Overview</h2>
     <p class="sub">Complete risk monitoring for all 11 spaceflight risks defined in the NASA Space Challenge, with color-coded thresholds, guided astronaut measurement prompts, longitudinal simulation time-series (<code>simulate_health_data.py</code>), mission-site context (${esc(P().n)}, ${esc(P().g)}), and curated NASA OSDR studies.</p>
     <div class="bar l${topLevel}" style="margin-top:12px">
-      11-Risk Mission Readiness: ${readiness}/100 (${LBL[topLevel]}) · ${counts[2]} Act (Red), ${counts[1]} Watch (Yellow), ${counts[0]} Normal (Green) · Routine Prompts Verified: ${completedPrompts}/11 (+${promptXp} XP)
+      11-Risk Mission Readiness: ${readiness}/100 (${LBL[topLevel]}) · ${counts[2]} Act (Red), ${counts[1]} Watch (Yellow), ${counts[0]} Normal (Green) · Routine Prompts Verified: ${completedPrompts}/11
     </div>
     <div class="risk-toolbar">
       <label class="mission-label" style="flex:1;min-width:240px">
@@ -1721,7 +1688,7 @@ function renderRisks() {
             <h3 style="margin:0;font-size:16px">Longitudinal Mission Simulator (<code>simulate_health_data.py</code> · ${simRows.length} Days)</h3>
             <p class="sub" style="margin:4px 0 0">
               ${simAstro ? `<b>${esc(simAstro.name)}</b> (${esc(simAstro.role)})` : esc(simAstronautId)}
-              ${simRow ? ` · <b>Day ${simRow.mission_day}</b> (${esc(simRow.date)}) · Environment: <b>${esc(simRow.environment)}</b> (${simRow.gravity_g}g, ${esc(simRow.mission_phase)}) · <span class="sim-xp" role="img" aria-label="Experience points ${esc(simRow.gamification?.total_xp || 0)}"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6,21.5q-1.45,0-2.47-1.02T2.5,18t1.03-2.47T6,14.5t2.47,1.03T9.5,18q0,0.55-0.16,1.06T8.85,20.02V19.35q0.75,0.32 1.55,0.49T12,20q3.35,0 5.68-2.32T20,12h2q0,2.07-0.79,3.9t-2.14,3.17q-1.35,1.35-3.17,2.14T12,22q-1.13,0-2.2-0.24T7.73,21.05q-0.4,0.22-0.84,0.34T6,21.5Zm1.06-2.44Q7.5,18.63 7.5,18T7.06,16.94T6,16.5T4.94,16.94T4.5,18t0.44,1.06T6,19.5t1.06-0.44ZM12,15.5q-1.45,0-2.47-1.03T8.5,12T9.53,9.52T12,8.5t2.48,1.02T15.5,12t-1.02,2.47T12,15.5ZM2,12Q2,9.92 2.79,8.1Q3.58,6.27 4.93,4.93Q6.28,3.57 8.1,2.79Q9.93,2 12,2q1.13,0 2.2,0.24t2.08,0.71q0.4-0.23 0.84-0.34T18,2.5q1.45,0 2.48,1.02T21.5,6T20.48,8.48T18,9.5T15.53,8.48T14.5,6q0-0.55 0.16-1.06q0.16-0.51 0.49-0.96V4.65Q14.4,4.32 13.6,4.16T12,4Q8.65,4 6.33,6.32T4,12H2ZM18,7.5q0.63,0 1.06-0.44T19.5,6T19.06,4.94T18,4.5T16.94,4.94T16.5,6t0.44 1.06T18,7.5ZM6,18ZM18,6Z"/></svg><b>${esc(simRow.gamification?.total_xp || 0)}</b></span> (${esc(simRow.gamification?.badge_level || '')})` : ''}
+              ${simRow ? ` · <b>Day ${simRow.mission_day}</b> (${esc(simRow.date)}) · Environment: <b>${esc(simRow.environment)}</b> (${simRow.gravity_g}g, ${esc(simRow.mission_phase)})` : ''}
             </p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1757,27 +1724,6 @@ function renderRisks() {
         <div style="margin-top:12px" class="scroll">
           ${buildSimLongitudinalSvg(simRows, simChartMetric, simMissionDay)}
         </div>
-        <section class="sim-leaderboard" aria-labelledby="sim-leaderboard-title">
-          <div class="sim-leaderboard-heading">
-            <div>
-              <h4 id="sim-leaderboard-title">Mission Crew Scoreboard</h4>
-              <p class="sub">Total simulated XP through mission day ${simMissionDay}</p>
-            </div>
-            <span class="sim-leaderboard-tag">SIMULATION</span>
-          </div>
-          ${simXpLeaderboard.length ? `
-            <ol class="sim-leaderboard-list" aria-label="Crew ranked by simulated experience points">
-              ${simXpLeaderboard.map(astronaut => `
-                <li class="sim-leaderboard-row ${astronaut.astronautId === simAstronautId ? 'is-selected' : ''}" ${astronaut.astronautId === simAstronautId ? 'aria-current="true"' : ''}>
-                  <span class="sim-leaderboard-rank">${astronaut.rank}</span>
-                  <span class="sim-leaderboard-crew"><b>${esc(astronaut.name)}</b><small>${esc(astronaut.role)} · ${esc(astronaut.badge)}</small></span>
-                  ${renderXpScore(astronaut.totalXp)}
-                </li>
-              `).join('')}
-            </ol>
-          ` : '<p class="sub">No XP records available for this mission day.</p>'}
-          <p class="sim-leaderboard-note">XP reward routine participation and continuity only. They are game points, not health, medical, or crew-performance scores. Synthetic crew data only; nothing is shared or saved here.</p>
-        </section>
       </div>
     ` : ''}
 
@@ -1835,7 +1781,7 @@ function renderRisks() {
             <label style="display:flex;gap:8px;align-items:start;cursor:pointer">
               <input type="checkbox" data-rprompt="${r.key}" ${promptLog[r.key] ? 'checked' : ''}>
               <span>
-                <strong>Guided Measurement Prompt (+25 XP):</strong> ${esc(r.prompt)}
+                <strong>Guided Measurement Prompt:</strong> ${esc(r.prompt)}
                 <span class="sub" style="display:block;margin-top:4px"><b>How to assess:</b> ${esc(r.measure)}</span>
               </span>
             </label>
@@ -1949,7 +1895,7 @@ function renderRisks() {
       else delete next[chk.dataset.rprompt];
       writePromptLog(next);
       const riskObj = SPACE_RISKS_11.find(item => item.key === chk.dataset.rprompt);
-      showToast((chk.checked ? 'Verified protocol (+25 XP): ' : 'Reopened protocol: ') + (riskObj ? riskObj.nameEn : chk.dataset.rprompt));
+      showToast((chk.checked ? 'Verified protocol: ' : 'Reopened protocol: ') + (riskObj ? riskObj.nameEn : chk.dataset.rprompt));
       renderRisks();
     };
   });
@@ -2073,7 +2019,7 @@ renderBody = function() {
           `).join('')}
         </div>
         ${r.reasons.length ? `<div class="sub" style="color:var(--warn)"><b>Alert:</b> ${esc(r.reasons[0])}</div>` : `<div class="sub">All region biomarkers within nominal target range.</div>`}
-        <div class="sub"><b>Guided Protocol (${promptLog[r.key] ? 'Verified +25 XP' : 'Pending'}):</b> ${esc(r.prompt)}</div>
+        <div class="sub"><b>Guided Protocol (${promptLog[r.key] ? 'Verified' : 'Pending'}):</b> ${esc(r.prompt)}</div>
         <div class="anatomy-risk-actions">
           <button type="button" class="pri" data-body-wizard="${r.key}">Guided Measurement Wizard</button>
           <button type="button" data-body-jump="${r.key}">Inspect Risk #${r.num} in 11 Risks</button>

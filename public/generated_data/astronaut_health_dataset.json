@@ -340,13 +340,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1250,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-19",
@@ -439,13 +433,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1300,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-20",
@@ -538,13 +526,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1350,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-21",
@@ -637,13 +619,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1400,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-22",
@@ -736,13 +712,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1410,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-23",
@@ -835,13 +805,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1460,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-24",
@@ -934,13 +898,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1470,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-25",
@@ -1033,13 +991,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1520,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-26",
@@ -1132,13 +1084,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1570,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-27",
@@ -1231,13 +1177,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1620,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-28",
@@ -1330,13 +1270,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1670,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-29",
@@ -1429,13 +1363,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 1720,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-30",
@@ -1528,13 +1456,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1730,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-31",
@@ -1627,13 +1549,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1780,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-01",
@@ -1735,13 +1651,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 1845,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-02",
@@ -1843,13 +1753,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1895,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-03",
@@ -1951,13 +1855,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1945,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-04",
@@ -2067,13 +1965,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 2010,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-05",
@@ -2183,13 +2075,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 2060,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-06",
@@ -2282,13 +2168,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 2110,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-07",
@@ -2381,13 +2261,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 65,
-        "total_xp": 2175,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-08",
@@ -2489,13 +2363,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 2225,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-09",
@@ -2588,13 +2456,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 2275,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-10",
@@ -2696,13 +2558,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 2285,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-11",
@@ -2795,13 +2651,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 2335,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-12",
@@ -2894,13 +2744,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 2385,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-13",
@@ -2993,13 +2837,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 2450,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-14",
@@ -3101,13 +2939,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 2500,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-15",
@@ -3200,13 +3032,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 2550,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-16",
@@ -3299,13 +3125,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 2615,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-17",
@@ -3398,13 +3218,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 2665,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-18",
@@ -3497,13 +3311,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 2715,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-19",
@@ -3605,13 +3413,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 65,
-        "total_xp": 2780,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-20",
@@ -3713,13 +3515,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 2830,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-21",
@@ -3812,13 +3608,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 2880,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-22",
@@ -3911,13 +3701,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 65,
-        "total_xp": 2945,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-23",
@@ -4010,13 +3794,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 2995,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-24",
@@ -4109,13 +3887,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3005,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-25",
@@ -4208,13 +3980,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3070,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-26",
@@ -4307,13 +4073,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3120,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-27",
@@ -4406,13 +4166,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3130,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-28",
@@ -4505,13 +4259,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3195,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-29",
@@ -4613,13 +4361,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3245,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-30",
@@ -4721,13 +4463,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 3295,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-01",
@@ -4820,13 +4556,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3305,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-02",
@@ -4919,13 +4649,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 3355,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-03",
@@ -5018,13 +4742,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3405,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-04",
@@ -5117,13 +4835,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 3470,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-05",
@@ -5216,13 +4928,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 3520,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-06",
@@ -5315,13 +5021,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 3570,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-07",
@@ -5414,13 +5114,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 3635,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-08",
@@ -5513,13 +5207,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 3685,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-09",
@@ -5612,13 +5300,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 3735,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-10",
@@ -5711,13 +5393,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 65,
-        "total_xp": 3800,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-11",
@@ -5810,13 +5486,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 3850,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-12",
@@ -5909,13 +5579,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 3900,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-13",
@@ -6008,13 +5672,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 65,
-        "total_xp": 3965,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-14",
@@ -6107,13 +5765,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 4015,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-15",
@@ -6206,13 +5858,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 50,
-        "total_xp": 4065,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-16",
@@ -6305,13 +5951,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 65,
-        "total_xp": 4130,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-17",
@@ -6404,13 +6044,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 16,
-        "xp_earned_today": 50,
-        "total_xp": 4180,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-18",
@@ -6503,13 +6137,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 17,
-        "xp_earned_today": 50,
-        "total_xp": 4230,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-19",
@@ -6602,13 +6230,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4240,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-20",
@@ -6701,13 +6323,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4290,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-21",
@@ -6800,13 +6416,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 4340,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-22",
@@ -6908,13 +6518,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 4405,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-23",
@@ -7024,13 +6628,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 4455,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-24",
@@ -7140,13 +6738,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 4505,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-25",
@@ -7256,13 +6848,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 4570,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-26",
@@ -7380,13 +6966,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4580,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-27",
@@ -7512,13 +7092,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4630,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-28",
@@ -7636,13 +7210,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 4695,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-29",
@@ -7760,13 +7328,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 4745,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-30",
@@ -7892,13 +7454,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 4795,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-31",
@@ -8016,13 +7572,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 4860,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-01",
@@ -8132,13 +7682,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 4910,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-02",
@@ -8231,13 +7775,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 4960,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-03",
@@ -8330,13 +7868,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 65,
-        "total_xp": 5025,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-04",
@@ -8438,13 +7970,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 5075,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-05",
@@ -8537,13 +8063,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 5125,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-06",
@@ -8661,13 +8181,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 65,
-        "total_xp": 5190,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-07",
@@ -8760,13 +8274,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 5240,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-08",
@@ -8859,13 +8367,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 5290,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-09",
@@ -8958,13 +8460,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 65,
-        "total_xp": 5355,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-10",
@@ -9074,13 +8570,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5365,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-11",
@@ -9190,13 +8680,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5415,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-12",
@@ -9314,13 +8798,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 5480,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-13",
@@ -9422,13 +8900,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 5530,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-14",
@@ -9530,13 +9002,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 5580,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-15",
@@ -9646,13 +9112,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 5645,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-16",
@@ -9754,13 +9214,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 5695,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-17",
@@ -9870,13 +9324,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 5745,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-18",
@@ -9986,13 +9434,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5755,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-19",
@@ -10094,13 +9536,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5805,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-20",
@@ -10202,13 +9638,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 5870,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-21",
@@ -10310,13 +9740,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 5935,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-22",
@@ -10418,13 +9842,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 6000,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-23",
@@ -10534,13 +9952,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 6065,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-24",
@@ -10650,13 +10062,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 6130,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-25",
@@ -10758,13 +10164,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6140,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-26",
@@ -10890,13 +10290,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 75,
-        "total_xp": 6215,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-27",
@@ -11006,13 +10400,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 6280,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-28",
@@ -11122,13 +10510,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 6345,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-29",
@@ -11230,13 +10612,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 6410,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-30",
@@ -11338,13 +10714,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 6475,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-31",
@@ -11446,13 +10816,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 6540,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-01",
@@ -11562,13 +10926,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 6605,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-02",
@@ -11694,13 +11052,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 75,
-        "total_xp": 6680,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-03",
@@ -11802,13 +11154,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 6730,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-04",
@@ -11901,13 +11247,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 6780,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-05",
@@ -12000,13 +11340,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 65,
-        "total_xp": 6845,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-06",
@@ -12108,13 +11442,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 6895,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-07",
@@ -12216,13 +11544,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 6945,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-08",
@@ -12315,13 +11637,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 65,
-        "total_xp": 7010,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-09",
@@ -12431,13 +11747,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 50,
-        "total_xp": 7060,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-10",
@@ -12547,13 +11857,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 16,
-        "xp_earned_today": 50,
-        "total_xp": 7110,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-11",
@@ -12679,13 +11983,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 17,
-        "xp_earned_today": 75,
-        "total_xp": 7185,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-12",
@@ -12795,13 +12093,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 18,
-        "xp_earned_today": 50,
-        "total_xp": 7235,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-13",
@@ -12894,13 +12186,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 19,
-        "xp_earned_today": 50,
-        "total_xp": 7285,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-14",
@@ -12993,13 +12279,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 20,
-        "xp_earned_today": 65,
-        "total_xp": 7350,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-15",
@@ -13101,13 +12381,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 21,
-        "xp_earned_today": 50,
-        "total_xp": 7400,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-16",
@@ -13209,13 +12483,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 22,
-        "xp_earned_today": 50,
-        "total_xp": 7450,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-17",
@@ -13325,13 +12593,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 23,
-        "xp_earned_today": 75,
-        "total_xp": 7525,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-18",
@@ -13433,13 +12695,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 24,
-        "xp_earned_today": 50,
-        "total_xp": 7575,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-19",
@@ -13549,13 +12805,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 25,
-        "xp_earned_today": 50,
-        "total_xp": 7625,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-20",
@@ -13657,13 +12907,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 26,
-        "xp_earned_today": 65,
-        "total_xp": 7690,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-21",
@@ -13756,13 +13000,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 27,
-        "xp_earned_today": 50,
-        "total_xp": 7740,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-22",
@@ -13855,13 +13093,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 28,
-        "xp_earned_today": 50,
-        "total_xp": 7790,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-23",
@@ -13954,13 +13186,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 29,
-        "xp_earned_today": 65,
-        "total_xp": 7855,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-24",
@@ -14062,13 +13288,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 30,
-        "xp_earned_today": 50,
-        "total_xp": 7905,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-25",
@@ -14170,13 +13390,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 31,
-        "xp_earned_today": 50,
-        "total_xp": 7955,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-26",
@@ -14269,13 +13483,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 32,
-        "xp_earned_today": 65,
-        "total_xp": 8020,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-27",
@@ -14377,13 +13585,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 33,
-        "xp_earned_today": 50,
-        "total_xp": 8070,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-28",
@@ -14493,13 +13695,7 @@
           "action_de": "Lower Body Negative Pressure (LBNP) anwenden, B-Vitamin-Status prüfen und Sehveränderungen melden."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 34,
-        "xp_earned_today": 50,
-        "total_xp": 8120,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-01",
@@ -14609,13 +13805,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 35,
-        "xp_earned_today": 50,
-        "total_xp": 8170,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-02",
@@ -14733,13 +13923,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 36,
-        "xp_earned_today": 50,
-        "total_xp": 8220,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-03",
@@ -14849,13 +14033,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 37,
-        "xp_earned_today": 50,
-        "total_xp": 8270,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-04",
@@ -14957,13 +14135,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 38,
-        "xp_earned_today": 50,
-        "total_xp": 8320,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-05",
@@ -15065,13 +14237,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 39,
-        "xp_earned_today": 50,
-        "total_xp": 8370,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-06",
@@ -15164,13 +14330,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 40,
-        "xp_earned_today": 50,
-        "total_xp": 8420,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-07",
@@ -15263,13 +14423,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 41,
-        "xp_earned_today": 50,
-        "total_xp": 8470,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-08",
@@ -15362,13 +14516,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 42,
-        "xp_earned_today": 50,
-        "total_xp": 8520,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-09",
@@ -15461,13 +14609,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 43,
-        "xp_earned_today": 50,
-        "total_xp": 8570,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-10",
@@ -15560,13 +14702,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 44,
-        "xp_earned_today": 50,
-        "total_xp": 8620,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-11",
@@ -15659,13 +14795,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 45,
-        "xp_earned_today": 50,
-        "total_xp": 8670,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-12",
@@ -15758,13 +14888,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 46,
-        "xp_earned_today": 50,
-        "total_xp": 8720,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-13",
@@ -15857,13 +14981,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 47,
-        "xp_earned_today": 50,
-        "total_xp": 8770,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-14",
@@ -15956,13 +15074,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 48,
-        "xp_earned_today": 50,
-        "total_xp": 8820,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-18",
@@ -16055,13 +15167,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1250,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-19",
@@ -16154,13 +15260,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1300,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-20",
@@ -16253,13 +15353,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1350,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-21",
@@ -16352,13 +15446,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1400,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-22",
@@ -16451,13 +15539,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 1450,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-23",
@@ -16550,13 +15632,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 1500,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-24",
@@ -16649,13 +15725,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 1550,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-25",
@@ -16748,13 +15818,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1560,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-26",
@@ -16847,13 +15911,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1610,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-27",
@@ -16946,13 +16004,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1660,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-28",
@@ -17045,13 +16097,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1710,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-29",
@@ -17144,13 +16190,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1760,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-30",
@@ -17243,13 +16283,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 1810,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-31",
@@ -17342,13 +16376,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 1860,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-01",
@@ -17466,13 +16494,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 1925,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-02",
@@ -17582,13 +16604,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 1975,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-03",
@@ -17706,13 +16722,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 2025,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-04",
@@ -17822,13 +16832,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 65,
-        "total_xp": 2090,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-05",
@@ -17930,13 +16934,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 2140,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-06",
@@ -18038,13 +17036,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 2190,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-07",
@@ -18146,13 +17138,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 65,
-        "total_xp": 2255,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-08",
@@ -18254,13 +17240,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 50,
-        "total_xp": 2305,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-09",
@@ -18370,13 +17350,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 50,
-        "total_xp": 2355,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-10",
@@ -18494,13 +17468,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 16,
-        "xp_earned_today": 65,
-        "total_xp": 2420,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-11",
@@ -18602,13 +17570,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 17,
-        "xp_earned_today": 50,
-        "total_xp": 2470,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-12",
@@ -18710,13 +17672,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 18,
-        "xp_earned_today": 50,
-        "total_xp": 2520,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-13",
@@ -18818,13 +17774,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 19,
-        "xp_earned_today": 65,
-        "total_xp": 2585,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-14",
@@ -18926,13 +17876,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 20,
-        "xp_earned_today": 50,
-        "total_xp": 2635,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-15",
@@ -19050,13 +17994,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 21,
-        "xp_earned_today": 50,
-        "total_xp": 2685,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-16",
@@ -19166,13 +18104,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 22,
-        "xp_earned_today": 65,
-        "total_xp": 2750,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-17",
@@ -19282,13 +18214,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 23,
-        "xp_earned_today": 50,
-        "total_xp": 2800,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-18",
@@ -19398,13 +18324,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 2810,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-19",
@@ -19506,13 +18426,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 2875,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-20",
@@ -19614,13 +18528,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 2925,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-21",
@@ -19722,13 +18630,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 2935,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-22",
@@ -19838,13 +18740,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3000,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-23",
@@ -19946,13 +18842,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3050,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-24",
@@ -20054,13 +18944,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 3100,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-25",
@@ -20170,13 +19054,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3110,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-26",
@@ -20278,13 +19156,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 3160,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-27",
@@ -20386,13 +19258,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3210,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-28",
@@ -20494,13 +19360,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 3275,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-29",
@@ -20602,13 +19462,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 3325,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-30",
@@ -20710,13 +19564,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3335,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-01",
@@ -20818,13 +19666,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3400,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-02",
@@ -20926,13 +19768,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3410,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-03",
@@ -21050,13 +19886,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 3460,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-04",
@@ -21166,13 +19996,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 3525,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-05",
@@ -21290,13 +20114,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 3575,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-06",
@@ -21406,13 +20224,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 3625,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-07",
@@ -21522,13 +20334,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 3690,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-08",
@@ -21638,13 +20444,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 3740,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-09",
@@ -21754,13 +20554,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 3790,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-10",
@@ -21870,13 +20664,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 65,
-        "total_xp": 3855,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-11",
@@ -21986,13 +20774,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 3905,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-12",
@@ -22102,13 +20884,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 3955,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-13",
@@ -22218,13 +20994,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 65,
-        "total_xp": 4020,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-14",
@@ -22326,13 +21096,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 4070,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-15",
@@ -22434,13 +21198,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 4120,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-16",
@@ -22542,13 +21300,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 65,
-        "total_xp": 4185,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-17",
@@ -22666,13 +21418,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4195,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-18",
@@ -22774,13 +21520,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4245,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-19",
@@ -22882,13 +21622,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4255,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-20",
@@ -22998,13 +21732,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4305,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-21",
@@ -23106,13 +21834,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 4355,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-22",
@@ -23214,13 +21936,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 4420,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-23",
@@ -23346,13 +22062,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 4470,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-24",
@@ -23470,13 +22180,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 4520,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-25",
@@ -23602,13 +22306,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4530,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-26",
@@ -23742,13 +22440,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4580,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-27",
@@ -23882,13 +22574,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 4630,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-28",
@@ -24014,13 +22700,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 4695,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-29",
@@ -24154,13 +22834,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 4745,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-30",
@@ -24294,13 +22968,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 4795,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-31",
@@ -24426,13 +23094,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 4860,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-01",
@@ -24558,13 +23220,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4870,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-02",
@@ -24674,13 +23330,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 4920,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-03",
@@ -24790,13 +23440,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 4985,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-04",
@@ -24906,13 +23550,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 5035,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-05",
@@ -25022,13 +23660,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 5085,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-06",
@@ -25138,13 +23770,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 5150,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-07",
@@ -25254,13 +23880,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5160,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-08",
@@ -25370,13 +23990,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5210,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-09",
@@ -25486,13 +24100,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 5275,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-10",
@@ -25610,13 +24218,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 5325,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-11",
@@ -25726,13 +24328,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 5375,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-12",
@@ -25842,13 +24438,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 5440,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-13",
@@ -25950,13 +24540,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5450,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-14",
@@ -26066,13 +24650,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5500,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-15",
@@ -26182,13 +24760,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5510,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-16",
@@ -26298,13 +24870,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5560,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-17",
@@ -26406,13 +24972,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 5610,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-18",
@@ -26530,13 +25090,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 5675,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-19",
@@ -26646,13 +25200,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 5725,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-20",
@@ -26754,13 +25302,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 5775,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-21",
@@ -26870,13 +25412,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 5840,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-22",
@@ -26978,13 +25514,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 5890,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-23",
@@ -27086,13 +25616,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 5940,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-24",
@@ -27202,13 +25726,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 65,
-        "total_xp": 6005,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-25",
@@ -27310,13 +25828,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 6055,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-26",
@@ -27442,13 +25954,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 60,
-        "total_xp": 6115,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-27",
@@ -27550,13 +26056,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 65,
-        "total_xp": 6180,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-28",
@@ -27658,13 +26158,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 6230,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-29",
@@ -27774,13 +26268,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6240,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-30",
@@ -27890,13 +26378,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 6305,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-31",
@@ -28006,13 +26488,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 6355,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-01",
@@ -28114,13 +26590,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6365,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-02",
@@ -28254,13 +26724,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 75,
-        "total_xp": 6440,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-03",
@@ -28370,13 +26834,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 6490,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-04",
@@ -28478,13 +26936,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 6540,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-05",
@@ -28594,13 +27046,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 6605,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-06",
@@ -28702,13 +27148,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 6655,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-07",
@@ -28810,13 +27250,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 6705,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-08",
@@ -28926,13 +27360,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 6770,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-09",
@@ -29042,13 +27470,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 6820,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-10",
@@ -29158,13 +27580,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 6870,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-11",
@@ -29290,13 +27706,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 75,
-        "total_xp": 6945,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-12",
@@ -29406,13 +27816,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6955,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-13",
@@ -29514,13 +27918,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7005,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-14",
@@ -29622,13 +28020,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7015,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-15",
@@ -29730,13 +28122,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7065,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-16",
@@ -29846,13 +28232,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 7115,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-17",
@@ -29994,13 +28374,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 75,
-        "total_xp": 7190,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-18",
@@ -30110,13 +28484,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 7240,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-19",
@@ -30226,13 +28594,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 7290,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-20",
@@ -30334,13 +28696,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 65,
-        "total_xp": 7355,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-21",
@@ -30442,13 +28798,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 7405,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-22",
@@ -30550,13 +28900,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 7455,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-23",
@@ -30666,13 +29010,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 65,
-        "total_xp": 7520,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-24",
@@ -30774,13 +29112,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 7570,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-25",
@@ -30882,13 +29214,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 7620,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-26",
@@ -30990,13 +29316,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 65,
-        "total_xp": 7685,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-27",
@@ -31098,13 +29418,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 7735,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-28",
@@ -31206,13 +29520,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 50,
-        "total_xp": 7785,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-01",
@@ -31322,13 +29630,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 50,
-        "total_xp": 7835,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-02",
@@ -31446,13 +29748,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7845,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-03-03",
@@ -31562,13 +29858,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7895,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-04",
@@ -31678,13 +29968,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 7945,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-05",
@@ -31786,13 +30070,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 7995,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-06",
@@ -31894,13 +30172,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 8045,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-07",
@@ -31993,13 +30265,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 8095,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-08",
@@ -32092,13 +30358,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 8145,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-09",
@@ -32191,13 +30451,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 8195,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-10",
@@ -32290,13 +30544,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 8245,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-11",
@@ -32389,13 +30637,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 8295,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-12",
@@ -32488,13 +30730,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 8345,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-13",
@@ -32587,13 +30823,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 8395,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-14",
@@ -32686,13 +30916,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 8445,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-18",
@@ -32785,13 +31009,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1250,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-19",
@@ -32884,13 +31102,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1300,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-20",
@@ -32983,13 +31195,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1310,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-21",
@@ -33091,13 +31297,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1360,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-22",
@@ -33190,13 +31390,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1410,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-23",
@@ -33289,13 +31483,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1460,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-24",
@@ -33388,13 +31576,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1510,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-25",
@@ -33487,13 +31669,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 1520,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-10-26",
@@ -33586,13 +31762,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 1570,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-27",
@@ -33685,13 +31855,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 1620,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-28",
@@ -33784,13 +31948,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 1670,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-29",
@@ -33883,13 +32041,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 1720,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-30",
@@ -33982,13 +32134,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 1770,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-10-31",
@@ -34081,13 +32227,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 1820,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-01",
@@ -34197,13 +32337,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 1885,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-02",
@@ -34321,13 +32455,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 1935,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-03",
@@ -34437,13 +32565,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 1985,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-04",
@@ -34536,13 +32658,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 65,
-        "total_xp": 2050,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-05",
@@ -34635,13 +32751,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 2100,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-06",
@@ -34751,13 +32861,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 2150,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-07",
@@ -34850,13 +32954,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 65,
-        "total_xp": 2215,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-08",
@@ -34949,13 +33047,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 2225,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-09",
@@ -35048,13 +33140,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 2275,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-10",
@@ -35147,13 +33233,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 2340,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-11",
@@ -35246,13 +33326,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 2390,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-12",
@@ -35354,13 +33428,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 2440,
-        "badge_level": "Cadet Bronze"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-13",
@@ -35453,13 +33521,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 2505,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-14",
@@ -35561,13 +33623,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 2555,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-15",
@@ -35660,13 +33716,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 2605,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-16",
@@ -35759,13 +33809,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 65,
-        "total_xp": 2670,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-17",
@@ -35858,13 +33902,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 2720,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-18",
@@ -35966,13 +34004,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 2770,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-19",
@@ -36065,13 +34097,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 65,
-        "total_xp": 2835,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-20",
@@ -36164,13 +34190,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 2885,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-21",
@@ -36263,13 +34283,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 50,
-        "total_xp": 2935,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-22",
@@ -36362,13 +34376,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 65,
-        "total_xp": 3000,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-23",
@@ -36470,13 +34478,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 50,
-        "total_xp": 3050,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-24",
@@ -36578,13 +34580,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3060,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-11-25",
@@ -36694,13 +34690,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3125,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-26",
@@ -36810,13 +34800,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3175,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-27",
@@ -36918,13 +34902,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 3225,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-28",
@@ -37026,13 +35004,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 3290,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-29",
@@ -37125,13 +35097,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 3340,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-11-30",
@@ -37233,13 +35199,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 3350,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-01",
@@ -37332,13 +35292,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 3415,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-02",
@@ -37431,13 +35385,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 3465,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-03",
@@ -37530,13 +35478,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 3515,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-04",
@@ -37629,13 +35571,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 3580,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-05",
@@ -37737,13 +35673,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 3630,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-06",
@@ -37836,13 +35766,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 3680,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-07",
@@ -37935,13 +35859,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 3745,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-08",
@@ -38034,13 +35952,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 3795,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-09",
@@ -38133,13 +36045,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 3845,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-10",
@@ -38232,13 +36138,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 65,
-        "total_xp": 3910,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-11",
@@ -38331,13 +36231,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 3960,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-12",
@@ -38430,13 +36324,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 4010,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-13",
@@ -38529,13 +36417,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 65,
-        "total_xp": 4075,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-14",
@@ -38628,13 +36510,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 14,
-        "xp_earned_today": 50,
-        "total_xp": 4125,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-15",
@@ -38736,13 +36612,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 15,
-        "xp_earned_today": 50,
-        "total_xp": 4175,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-16",
@@ -38835,13 +36705,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 16,
-        "xp_earned_today": 65,
-        "total_xp": 4240,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-17",
@@ -38943,13 +36807,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 17,
-        "xp_earned_today": 50,
-        "total_xp": 4290,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-18",
@@ -39042,13 +36900,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 18,
-        "xp_earned_today": 50,
-        "total_xp": 4340,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-19",
@@ -39141,13 +36993,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 19,
-        "xp_earned_today": 65,
-        "total_xp": 4405,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-20",
@@ -39240,13 +37086,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 20,
-        "xp_earned_today": 50,
-        "total_xp": 4455,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-21",
@@ -39348,13 +37188,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 21,
-        "xp_earned_today": 50,
-        "total_xp": 4505,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-22",
@@ -39447,13 +37281,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 22,
-        "xp_earned_today": 65,
-        "total_xp": 4570,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-23",
@@ -39563,13 +37391,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 23,
-        "xp_earned_today": 50,
-        "total_xp": 4620,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-24",
@@ -39679,13 +37501,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 4630,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2026-12-25",
@@ -39803,13 +37619,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 4695,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-26",
@@ -39927,13 +37737,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 4745,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-27",
@@ -40059,13 +37863,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 4795,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-28",
@@ -40191,13 +37989,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 4860,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-29",
@@ -40315,13 +38107,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 4910,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-30",
@@ -40439,13 +38225,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 4960,
-        "badge_level": "Orbital Silver"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2026-12-31",
@@ -40563,13 +38343,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 5025,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-01",
@@ -40687,13 +38461,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5035,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-02",
@@ -40795,13 +38563,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5085,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-03",
@@ -40903,13 +38665,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 5150,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-04",
@@ -41019,13 +38775,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 5200,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-05",
@@ -41118,13 +38868,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5210,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-06",
@@ -41234,13 +38978,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 5275,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-07",
@@ -41333,13 +39071,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 5325,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-08",
@@ -41441,13 +39173,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 5375,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-09",
@@ -41549,13 +39275,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 65,
-        "total_xp": 5440,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-10",
@@ -41657,13 +39377,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 5490,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-11",
@@ -41765,13 +39479,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 5540,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-12",
@@ -41873,13 +39581,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 65,
-        "total_xp": 5605,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-13",
@@ -41981,13 +39683,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 5655,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-14",
@@ -42089,13 +39785,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 5705,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-15",
@@ -42188,13 +39878,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 65,
-        "total_xp": 5770,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-16",
@@ -42287,13 +39971,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 5820,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-17",
@@ -42386,13 +40064,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 12,
-        "xp_earned_today": 50,
-        "total_xp": 5870,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-18",
@@ -42502,13 +40174,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 13,
-        "xp_earned_today": 65,
-        "total_xp": 5935,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-19",
@@ -42601,13 +40267,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 5945,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-20",
@@ -42709,13 +40369,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 5995,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-21",
@@ -42817,13 +40471,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 6060,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-22",
@@ -42916,13 +40564,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 6110,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-23",
@@ -43015,13 +40657,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 6160,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-24",
@@ -43123,13 +40759,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 6225,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-25",
@@ -43222,13 +40852,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 6275,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-26",
@@ -43354,13 +40978,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 60,
-        "total_xp": 6335,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-27",
@@ -43462,13 +41080,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6345,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-01-28",
@@ -43570,13 +41182,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 6395,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-29",
@@ -43669,13 +41275,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 6445,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-30",
@@ -43768,13 +41368,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 6510,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-01-31",
@@ -43867,13 +41461,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 6560,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-01",
@@ -43983,13 +41571,7 @@
           "action_de": "Mahlzeiten konsequent erfassen, mindestens 2.2 L Flüssigkeit zuführen und Vitamin-D3-Supplementierung einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 6610,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-02",
@@ -44115,13 +41697,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 75,
-        "total_xp": 6685,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-03",
@@ -44214,13 +41790,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 6735,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-04",
@@ -44313,13 +41883,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 6785,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-05",
@@ -44421,13 +41985,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 6795,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-06",
@@ -44520,13 +42078,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 6845,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-07",
@@ -44628,13 +42180,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 6895,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-08",
@@ -44727,13 +42273,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 65,
-        "total_xp": 6960,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-09",
@@ -44826,13 +42366,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 7010,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-10",
@@ -44925,13 +42459,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 7060,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-11",
@@ -45049,13 +42577,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 75,
-        "total_xp": 7135,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-12",
@@ -45157,13 +42679,7 @@
           "action_de": "Mindestens 7 Stunden Schlaf priorisieren, Stressbelastung reduzieren und Hautausschläge oder Allergien frühzeitig loggen."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7145,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-13",
@@ -45256,13 +42772,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7195,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-14",
@@ -45355,13 +42865,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 65,
-        "total_xp": 7260,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-15",
@@ -45463,13 +42967,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7270,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-16",
@@ -45571,13 +43069,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7320,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-17",
@@ -45695,13 +43187,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 75,
-        "total_xp": 7395,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-18",
@@ -45803,13 +43289,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 7445,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-19",
@@ -45927,13 +43407,7 @@
           "action_de": "Zirkadianes Lichtprotokoll nutzen, wöchentlichen Cognition-Test machen und Ruhezeiten einhalten."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 7495,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-20",
@@ -46035,13 +43509,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 65,
-        "total_xp": 7560,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-21",
@@ -46143,13 +43611,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 7610,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-22",
@@ -46251,13 +43713,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 7660,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-23",
@@ -46359,13 +43815,7 @@
           "action_de": "Ballaststoff- und probiotikareiche Ernährung einhalten, Hygiene-Swabs durchführen und Oberflächen desinfizieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 65,
-        "total_xp": 7725,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-24",
@@ -46475,13 +43925,7 @@
           "action_de": "Tägliches 90–120-minütiges Kraft- (ARED) und Ausdauertraining (Ergometer/Laufband) absolvieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 7775,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-25",
@@ -46599,13 +44043,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7785,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-26",
@@ -46715,13 +44153,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 65,
-        "total_xp": 7850,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-02-27",
@@ -46823,13 +44255,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 7860,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-02-28",
@@ -46939,13 +44365,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 7910,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-01",
@@ -47071,13 +44491,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 7960,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-02",
@@ -47203,13 +44617,7 @@
           "action_de": "Hohe mechanische Lasten beim ARED-Training sicherstellen und Kalzium-/Vitamin-D-Zufuhr optimieren."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 8010,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-03",
@@ -47319,13 +44727,7 @@
           "action_de": "Kompressionskleidung bei Übergängen tragen, gezielte Flüssigkeits-/Elektrolytaufnahme und regelmäßiges Ausdauertraining."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 4,
-        "xp_earned_today": 50,
-        "total_xp": 8060,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-04",
@@ -47427,13 +44829,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 5,
-        "xp_earned_today": 50,
-        "total_xp": 8110,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-05",
@@ -47535,13 +44931,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 6,
-        "xp_earned_today": 50,
-        "total_xp": 8160,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-06",
@@ -47643,13 +45033,7 @@
           "action_de": "Langsame Kopfbewegungen bei Gravitationswechseln, Gleichgewichtsübungen durchführen und kritische EVAs ggf. verzögern."
         }
       ],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 7,
-        "xp_earned_today": 50,
-        "total_xp": 8210,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-07",
@@ -47742,13 +45126,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 8,
-        "xp_earned_today": 50,
-        "total_xp": 8260,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-08",
@@ -47841,13 +45219,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 9,
-        "xp_earned_today": 50,
-        "total_xp": 8310,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-09",
@@ -47940,13 +45312,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 10,
-        "xp_earned_today": 50,
-        "total_xp": 8360,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-10",
@@ -48039,13 +45405,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 11,
-        "xp_earned_today": 50,
-        "total_xp": 8410,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-11",
@@ -48138,13 +45498,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": false,
-        "streak_days": 0,
-        "xp_earned_today": 10,
-        "total_xp": 8420,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": false
     },
     {
       "date": "2027-03-12",
@@ -48237,13 +45591,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 1,
-        "xp_earned_today": 50,
-        "total_xp": 8470,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-13",
@@ -48336,13 +45684,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 2,
-        "xp_earned_today": 50,
-        "total_xp": 8520,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     },
     {
       "date": "2027-03-14",
@@ -48435,13 +45777,7 @@
       },
       "overall_readiness_score": 100,
       "active_alerts": [],
-      "gamification": {
-        "daily_routine_completed": true,
-        "streak_days": 3,
-        "xp_earned_today": 50,
-        "total_xp": 8570,
-        "badge_level": "Commander Gold"
-      }
+      "daily_routine_completed": true
     }
   ],
   "measurement_prompts": [

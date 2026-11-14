@@ -10,7 +10,6 @@ import {
   missionMetrics,
   missionRiskStatus,
 } from "@/lib/mission-demo";
-import { getMissionStoryChapter, missionStory } from "@/lib/mission-story";
 
 export const Route = createFileRoute("/mission-demo")({
   head: () => ({
@@ -38,7 +37,6 @@ function MissionControl() {
   const [day, setDay] = useState(1);
   const [playing, setPlaying] = useState(false);
   const [metricIndex, setMetricIndex] = useState(0);
-  const [storyChoices, setStoryChoices] = useState<Record<number, number>>({});
   useEffect(() => {
     if (!playing || day === 30) return;
     const timer = window.setInterval(() => setDay((current) => Math.min(current + 1, 30)), 1000);
@@ -52,8 +50,6 @@ function MissionControl() {
   });
   const riskStates = SPACE_CHALLENGE_RISKS.map((risk) => ({ ...risk, status: missionRiskStatus(day, risk.key) }));
   const selected = missionMetrics[metricIndex] ?? missionMetrics[0]!;
-  const storyChapter = getMissionStoryChapter(day);
-  const selectedStoryChoice = storyChoices[storyChapter.day];
   const chart = missionDays.slice(0, day).map((record) => ({
     day: record.day,
     measured: record.values[metricIndex],
@@ -109,54 +105,7 @@ function MissionControl() {
           }}
         />
       </section>
-      <section
-        className="grid gap-4 rounded-xl border bg-card p-5"
-        aria-labelledby="mission-story-title"
-      >
-        <header>
-          <p className="text-sm font-semibold tracking-widest text-primary">
-            MISSION FICTION · CHAPTER {missionStory.indexOf(storyChapter) + 1} OF{" "}
-            {missionStory.length}
-          </p>
-          <h2 id="mission-story-title" className="mt-2 text-2xl font-semibold">
-            {storyChapter.title}
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Day {storyChapter.day} · {storyChapter.location}
-          </p>
-        </header>
-        <p>{storyChapter.entry}</p>
-        <p className="text-sm text-muted-foreground">— {storyChapter.speaker}</p>
-        <div
-          role="group"
-          aria-label="Choose a fictional story response"
-          className="grid gap-2 sm:grid-cols-2"
-        >
-          {storyChapter.choices.map((choice, index) => (
-            <button
-              key={choice.label}
-              type="button"
-              aria-pressed={selectedStoryChoice === index}
-              className="rounded-md border px-3 py-2 text-left aria-pressed:border-primary aria-pressed:bg-muted"
-              onClick={() =>
-                setStoryChoices((current) => ({ ...current, [storyChapter.day]: index }))
-              }
-            >
-              {choice.label}
-            </button>
-          ))}
-        </div>
-        {selectedStoryChoice !== undefined && (
-          <p role="status" className="rounded-md bg-muted p-3 text-sm">
-            {storyChapter.choices[selectedStoryChoice]?.response}
-          </p>
-        )}
-        <p className="border-t pt-3 text-xs text-muted-foreground">
-          Fictional story choices only change this scene’s dialogue. They do not change mission
-          readings, alerts, or health records, and are not saved.
-        </p>
-      </section>
-      <section className="grid gap-4" aria-label="11 spaceflight risks">
+     <section className="grid gap-4" aria-label="11 spaceflight risks">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="text-xl font-semibold">11 spaceflight risks · day {day}</h2>
           <p className="text-sm text-muted-foreground">{riskStates.filter((r) => r.status.level === "watch").length} Watch · {riskStates.filter((r) => r.status.level === "nominal").length} Nominal · {riskStates.filter((r) => r.status.level === "none").length} without demo signal</p>
