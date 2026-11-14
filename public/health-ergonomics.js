@@ -335,5 +335,5 @@ $('.header-tools').append(wellnessButton);
 const evaluationLink = document.createElement('a');
 evaluationLink.href = '/evaluation'; evaluationLink.target = '_blank'; evaluationLink.rel = 'noopener';
 evaluationLink.textContent = 'Task evaluation';
-evaluationLink.style.display = 'block';
+evaluationLink.className = 'evaluation-link';
 $('.tool-menu').append(evaluationLink);
