@@ -37,6 +37,72 @@
 button[aria-pressed="true"] { background: var(--selected); color: var(--acc); border-color: var(--acc); }
 .body-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; grid-column: 1 / -1; }
 .body-controls button { text-align: left; }
+.anatomy-layout { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: start; gap: 36px; }
+.anatomy-column { min-width: 0; }
+.anatomy-caption { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.anatomy-caption span { color: var(--mut); }
+#bsvg { width: 100%; max-width: 420px; height: auto; margin: 12px auto; overflow: visible; }
+:root {
+  --anatomy-shell: oklch(0.8 0.07 205);
+  --anatomy-outline: oklch(0.6 0.09 205);
+  --anatomy-organ: oklch(0.5 0.1 15);
+  --anatomy-organ-light: oklch(0.8 0.09 25);
+  --anatomy-muscle: oklch(0.53 0.065 350);
+  --anatomy-muscle-light: oklch(0.8 0.055 350);
+  --anatomy-bone: oklch(0.9 0.02 220);
+  --anatomy-bone-outline: oklch(0.54 0.035 220);
+  --anatomy-nerve: oklch(0.68 0.095 85);
+  --anatomy-vessel: oklch(0.56 0.13 25);
+  --anatomy-lung: oklch(0.76 0.055 320);
+}
+#bsvg .rg { fill-opacity: 1; stroke: none; fill: none; outline: none; --region-status: var(--mut); }
+#bsvg .rg0 { --region-status: var(--ok); }
+#bsvg .rg1 { --region-status: var(--warn); }
+#bsvg .rg2 { --region-status: var(--bad); }
+#bsvg .rg > path, #bsvg .rg > g { transition: filter .2s, opacity .2s; }
+#bsvg .rg:hover, #bsvg .rg:focus-visible, #bsvg .sel { filter: drop-shadow(0 0 3px var(--region-status)); }
+#bsvg .rg:hover > path, #bsvg .rg:focus-visible > path, #bsvg .sel > path { stroke: var(--region-status); stroke-width: 1.8; }
+#bsvg .rg:focus-visible { outline: 2px solid var(--acc); outline-offset: 4px; }
+#bsvg .anatomy-silhouette { fill: url(#anatomy-skin); stroke: var(--anatomy-outline); stroke-width: 1.6; }
+#bsvg .anatomy-muscle { fill: url(#anatomy-muscle); stroke: var(--anatomy-muscle); stroke-width: .8; }
+#bsvg .anatomy-fiber { fill: none; stroke: var(--anatomy-muscle-light); stroke-width: 1; opacity: .7; }
+#bsvg .anatomy-rib { fill: none; stroke: var(--anatomy-bone-outline); stroke-width: 3; opacity: .55; }
+#bsvg .anatomy-vertebra, #bsvg .anatomy-pelvis, #bsvg .anatomy-joint { fill: var(--anatomy-bone); stroke: var(--anatomy-bone-outline); stroke-width: 1; }
+#bsvg .anatomy-long-bone { fill: none; stroke: var(--anatomy-bone); stroke-width: 9; stroke-linecap: round; }
+#bsvg .anatomy-fine-bone { fill: none; stroke: var(--anatomy-bone-outline); stroke-width: 2; }
+#bsvg .anatomy-lung { fill: var(--anatomy-lung); fill-opacity: .75; stroke: var(--anatomy-organ); stroke-width: 1; }
+#bsvg .anatomy-heart, #bsvg .anatomy-brain, #bsvg .anatomy-liver, #bsvg .anatomy-stomach, #bsvg .anatomy-colon { fill: url(#anatomy-organ); stroke: var(--anatomy-organ); stroke-width: 1.5; }
+#bsvg .anatomy-detail { fill: none; stroke: var(--anatomy-organ); stroke-width: 1.8; }
+#bsvg .anatomy-bronchi { fill: none; stroke: var(--anatomy-bone); stroke-width: 2; }
+#bsvg .anatomy-vessel, #bsvg .anatomy-artery { fill: none; stroke: var(--anatomy-vessel); stroke-width: 2.5; }
+#bsvg .anatomy-artery { stroke-width: 5; }
+#bsvg .anatomy-intestine { fill: none; stroke: var(--anatomy-organ-light); stroke-width: 6; stroke-linecap: round; }
+#bsvg .anatomy-nerve { fill: none; stroke: var(--anatomy-nerve); stroke-width: 1.5; }
+#bsvg .anatomy-eye { fill: var(--card); stroke: var(--anatomy-outline); stroke-width: 1.5; }
+#bsvg .anatomy-iris { fill: var(--acc); }
+#bsvg .anatomy-skin-region { fill: var(--anatomy-shell); fill-opacity: .3; stroke: var(--anatomy-outline); stroke-width: 1; }
+#bsvg .anatomy-lymph { fill: var(--anatomy-outline); }
+#bsvg .anatomy-lymph-line { fill: none; stroke: var(--anatomy-outline); stroke-width: 1.4; stroke-dasharray: 3 3; }
+.anatomy-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 10px; padding: 12px 0; border-top: 1px solid var(--line); }
+.anatomy-legend span::before, .body-controls button::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; background: var(--mut); }
+[data-state="0"]::before { background: var(--ok) !important; }
+[data-state="1"]::before { background: var(--warn) !important; }
+[data-state="2"]::before { background: var(--bad) !important; }
+.body-controls { gap: 6px; }
+.body-controls button { font-size: 12px; padding: 8px; }
+.anatomy-unavailable { background: var(--bg); color: var(--mut); border: 1px solid var(--line); }
+.anatomy-readings { padding: 16px 0; margin: 16px 0; border-block: 1px solid var(--line); }
+.anatomy-readings h3 { font-size: 13px; margin: 0 0 8px; }
+.anatomy-readings dl { margin: 8px 0 0; }
+.anatomy-readings dl div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 13px; }
+.anatomy-readings dd { font-weight: 600; margin: 0; white-space: nowrap; }
+#bp { min-width: 0; }
+#bp > p { font-size: 14px; line-height: 1.65; }
+#bp h2 { flex-wrap: wrap; }
+@media (max-width: 680px) {
+  .anatomy-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  #bsvg { max-width: 310px; }
+}
 #form-error { scroll-margin-bottom: 120px; }
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 body { font-size: 15px; letter-spacing: 0; }

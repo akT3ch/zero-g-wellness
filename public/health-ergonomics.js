@@ -285,9 +285,14 @@ renderEnv = function() {
 };
 const enhancedTab = tab;
 tab = function(id, moveFocus = true) { enhancedTab(id, moveFocus); $('#env').classList.toggle('hide', id !== 'ov' && id !== 'hz'); };
+BodyAnatomy.mount($('#bsvg'));
 $$('#bsvg .rg').forEach(region => {
-  const original = region.onclick;
-  region.onclick = () => { original(); $$('#bsvg .rg').forEach(item => item.setAttribute('aria-pressed',String(item.dataset.r === SEL))); };
+  region.tabIndex = 0;
+  region.setAttribute('role', 'button');
+  region.setAttribute('aria-label', REG[region.dataset.r].n);
+  region.setAttribute('aria-controls', 'bp');
+  region.onclick = () => { SEL = region.dataset.r; renderBody(); };
+  region.onkeydown = event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); region.onclick(); } };
   region.setAttribute('aria-pressed',String(region.dataset.r === SEL));
 });
 $('#dvs').setAttribute('role','status');
@@ -311,10 +316,53 @@ for (const [key, region] of Object.entries(REG)) {
   button.onclick = () => { $('#bsvg .rg[data-r="' + key + '"]').onclick(); };
   bodyControls.append(button);
 }
-$('#bsvg').before(bodyControls);
+const anatomyColumn = document.createElement('div');
+anatomyColumn.className = 'anatomy-column';
+$('#bsvg').before(anatomyColumn);
+const anatomyCaption = document.createElement('div');
+anatomyCaption.className = 'anatomy-caption';
+anatomyCaption.innerHTML = '<strong>Human anatomy</strong><span>Anterior view · Eight monitored regions</span>';
+const anatomyLegend = document.createElement('div');
+anatomyLegend.className = 'anatomy-legend';
+anatomyLegend.innerHTML = '<span data-state="0">NORMAL</span><span data-state="1">WATCH</span><span data-state="2">ACT</span><span data-state="n">UNAVAILABLE</span>';
+anatomyColumn.append(anatomyCaption, $('#bsvg'), anatomyLegend, bodyControls);
+$('#bd > .sub').hidden = true;
 const originalBody = renderBody;
-renderBody = function() { originalBody(); $$('.body-controls button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.region === SEL))); };
+renderBody = function() {
+  originalBody();
+  const result = evaluate(), latest = E[E.length - 1];
+  const states = {};
+  Object.keys(REG).forEach(key => { states[key] = BodyAnatomy.status(key, result?.D[REG[key].d], latest, real); });
+  $$('#bsvg .rg').forEach(region => {
+    const key = region.dataset.r, state = states[key];
+    region.setAttribute('class', 'rg rg' + state + (key === SEL ? ' sel' : ''));
+    region.setAttribute('aria-pressed', String(key === SEL));
+    region.setAttribute('aria-label', REG[key].n + ' · ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
+  });
+  $$('.body-controls button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.region === SEL));
+    button.dataset.state = states[button.dataset.region];
+  });
+  const heading = $('#bp h2');
+  if (states[SEL] === 'n') {
+    heading.querySelector('.pill')?.remove();
+    heading.insertAdjacentHTML('beforeend', '<span class="pill anatomy-unavailable">UNAVAILABLE</span>');
+    $$('#bp .sub').filter(el => el.textContent === 'No deviation.' || el.textContent === 'No data yet.').forEach(el => {
+      el.textContent = SEL === 'eye' ? 'No vision test measurement is stored. Symptom reports are not a confirmed normal eye examination.' : 'Missing or incomplete measurements. Normal health cannot be confirmed.';
+    });
+  }
+  const readings = document.createElement('div');
+  readings.className = 'anatomy-readings';
+  const available = (BodyAnatomy.fields[SEL] || []).filter(key => latest && real(latest, key) && Number.isFinite(latest[key]));
+  readings.innerHTML = '<h3>Latest saved readings</h3>' + (latest ? '<p class="sub">' + esc(latest.d) + ' · Entered or device-measured values</p>' : '') + (available.length ? '<dl>' + available.map(key => {
+    const item = NUM.find(item => item[0] === key);
+    return '<div><dt>' + esc(NAMES[key]) + '</dt><dd>' + esc(latest[key]) + ' ' + esc(item ? item[2] : '/10') + '</dd></div>';
+  }).join('') + '</dl>' : '<p class="sub">No measured readings for this region.</p>');
+  heading.after(readings);
+};
 $('#bsvg').parentElement.classList.add('body-layout');
+$('#bd > .grid').classList.add('anatomy-layout');
+$('#bp').setAttribute('aria-live', 'polite');
 const viewOverview = document.createElement('button');
 viewOverview.textContent = 'View overview'; viewOverview.onclick = () => tab('ov');
 $('#draft-state').after(viewOverview);
