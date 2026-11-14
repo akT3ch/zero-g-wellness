@@ -30,8 +30,10 @@ export function WellnessGuidance() {
       if (!parsed.success || typeof event.data.mission !== 'string') return;
       setReadings(parsed.data); setMission(event.data.mission.slice(0,100)); setOpen(true);
     };
+    const openDirect = () => setOpen(true);
     window.addEventListener('message', receive);
-    return () => window.removeEventListener('message', receive);
+    window.addEventListener('zero-g:wellness-open', openDirect);
+    return () => { window.removeEventListener('message', receive); window.removeEventListener('zero-g:wellness-open', openDirect); };
   }, []);
 
   const submit = async (event: React.FormEvent) => {
