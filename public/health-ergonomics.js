@@ -66,6 +66,16 @@ renderOv = function() {
       priorityOrder(result.D.map(domain => domain.l)).forEach(index => {
         const card = cards[index];
         grid.append(card);
+        const actions = card.querySelector('.act');
+        if (actions) {
+          const details = document.createElement('details');
+          details.className = 'act overview-actions';
+          const summary = document.createElement('summary');
+          summary.textContent = 'Actions';
+          details.append(summary);
+          [...actions.children].filter(child => child.tagName !== 'B').forEach(child => details.append(child));
+          actions.replaceWith(details);
+        }
         if (result.D[index].l === 0) {
           const details = document.createElement('details');
           const summary = document.createElement('summary');
