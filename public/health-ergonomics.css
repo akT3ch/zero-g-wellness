@@ -28,7 +28,7 @@ h1 { font-size: 26px; line-height: 1.25; }
 h2 { font-size: 17px; line-height: 1.4; }
 .top { margin-bottom: 24px; gap: 20px; }
 #meta { margin-top: 6px; }
-.header-tools { display: flex; align-items: end; gap: 12px; }
+.header-tools { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; }
 .mission-label { font-size: 12px; font-weight: 600; }
 .mission-label select { margin-top: 4px; min-width: 200px; }
 button, select, input[type=number], input[type=date], summary { min-height: 44px; }
@@ -90,6 +90,7 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
   .header-tools { width: 100%; justify-content: space-between; }
   .mission-label { flex: 1; }
   .mission-label select { min-width: 0; }
+  #wellness-open { flex: 1 1 100%; }
   nav { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 4px; }
   nav button { padding: 8px 4px; }
   .f { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }

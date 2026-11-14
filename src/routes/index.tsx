@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { WellnessGuidance } from '@/components/wellness-guidance';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,11 +17,14 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
+    <>
     <iframe
       src="/astro-health-monitor.html"
       title="Astro Health Monitor"
       allow="bluetooth"
       className="block h-screen w-full border-0"
     />
+    <WellnessGuidance />
+    </>
   );
 }
