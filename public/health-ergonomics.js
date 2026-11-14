@@ -345,3 +345,13 @@ $('.tool-menu').append(researchLink);
 const researchShortcut = researchLink.cloneNode(true);
 researchShortcut.className = 'research-shortcut';
 $('.header-tools').append(researchShortcut);
+const nasaKeyLabel = document.createElement('label');
+nasaKeyLabel.className = 'mission-label'; nasaKeyLabel.textContent = 'NASA API key (optional, stored on this device)';
+const nasaKeyInput = document.createElement('input');
+nasaKeyInput.type = 'password'; nasaKeyInput.autocomplete = 'off'; nasaKeyInput.maxLength = 128;
+nasaKeyInput.setAttribute('aria-label', 'NASA API key'); nasaKeyInput.value = getPreference('nasa-key', '');
+nasaKeyInput.onchange = () => {
+  if (nasaKeyInput.value && !/^[a-zA-Z0-9_-]{1,128}$/.test(nasaKeyInput.value)) { nasaKeyInput.setCustomValidity('Use a valid NASA API key.'); nasaKeyInput.reportValidity(); return; }
+  nasaKeyInput.setCustomValidity(''); setPreference('nasa-key', nasaKeyInput.value); void loadEnv();
+};
+nasaKeyLabel.append(nasaKeyInput); $('.tool-menu').append(nasaKeyLabel);
