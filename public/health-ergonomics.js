@@ -332,3 +332,8 @@ wellnessButton.onclick = () => {
   window.parent.postMessage({ type: 'astro:wellness-open', readings, mission: P().n }, window.location.origin);
 };
 $('.header-tools').append(wellnessButton);
+const evaluationLink = document.createElement('a');
+evaluationLink.href = '/evaluation'; evaluationLink.target = '_blank'; evaluationLink.rel = 'noopener';
+evaluationLink.textContent = 'Task evaluation';
+evaluationLink.className = 'evaluation-link';
+$('.tool-menu').append(evaluationLink);
