@@ -2,7 +2,7 @@ import { requiredValue } from '@/lib/research/required-value';
 import { jStat } from 'jstat';
 import { numeric } from './import';
 import type { Dataset, Result } from './types';
-export function quantile(values: number[], p: number) { const a = values.slice().sort((x, y) => x - y); if (!a.length) return NaN; const i = (a.length - 1) * p, lo = Math.floor(i); return requiredValue(a[lo]) + ((requiredValue(a[lo + 1]) ?? requiredValue(a[lo])) - requiredValue(a[lo])) * (i - lo); }
+export function quantile(values: number[], p: number) { const a = values.slice().sort((x, y) => x - y); if (!a.length) return NaN; const i = (a.length - 1) * p, lo = Math.floor(i); return requiredValue(a[lo]) + ((a[lo + 1] ?? requiredValue(a[lo])) - requiredValue(a[lo])) * (i - lo); }
 export function describe(values: number[]) {
   const n = values.length; if (!n) return null;
   const mean = values.reduce((a, b) => a + b, 0) / n;
