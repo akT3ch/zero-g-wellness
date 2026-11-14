@@ -199,60 +199,34 @@ $('#demo').onclick=()=>{
 };
 $('#exp').onclick=()=>{const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(E,null,1));a.download='health-log.json';a.click()};
 $('#rst').onclick=()=>{if(confirm('Delete all entries?')){E=[];store();renderOv();renderTr()}};
-// ===== Datenquellen-Adapter: ISS Live (Lightstreamer) und NASA DONKI, Fallback Snapshot =====
-// Item-IDs und Bibliotheksversion vor Einsatz gegen die ISS-Mimic-Telemetrieliste prüfen.
-const CFG={ls:'https://push.lightstreamer.com',lib:'https://cdn.jsdelivr.net/npm/lightstreamer-client-web@9.1.1/lightstreamer.min.js',items:{temp:'USLAB000058',press:'USLAB000055'},key:'DEMO_KEY',noaa:'https://services.swpc.noaa.gov/json/goes/primary/integral-protons-1-day.json'};
-const SNAP={temp:22.8,press:101.3};
-let ENV={src:'none',donki:'none',sep:[],xflr:false};
+// Cabin channels are withheld until the provider confirms semantics and units.
+let ENV={donki:'none',sep:[],xflr:false};
 function addEnv(add){
- if(ENV.src==='live'&&P().id==='iss'){
-  if(station.temp?.source==='live'&&Date.now()-station.temp.at<60000&&(ENV.temp>27||ENV.temp<18))add(4,1,'Cabin temperature '+f1(ENV.temp)+' °C (ISS Live)');
-  if(station.press?.source==='live'&&Date.now()-station.press.at<60000&&(ENV.press<97||ENV.press>104))add(4,1,'Cabin pressure '+f1(ENV.press)+' kPa (ISS Live)');
- }
  if(ENV.noaa==='live'){
   if(ENV.pf>=100)add(4,2,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S2 or higher, NOAA)');else if(ENV.pf>=10)add(4,1,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S1, NOAA)');
  }
  if(ENV.donki==='live'||ENV.donki==='partial'){
-  if(weatherState.SEP&&!weatherState.SEP.stale&&ENV.sep.length)add(4,2,'Particle event (SEP) in the last 3 days per DONKI');
-  if(weatherState.FLR&&!weatherState.FLR.stale&&ENV.xflr)add(4,1,'Class X flare in the last 3 days per DONKI');
+  if(weatherState.SEP&&!weatherState.SEP.stale&&!weatherState.SEP.cached&&ENV.sep.length)add(4,2,'Particle event (SEP) in the last 3 days per DONKI');
+  if(weatherState.FLR&&!weatherState.FLR.stale&&!weatherState.FLR.cached&&ENV.xflr)add(4,1,'Class X flare in the last 3 days per DONKI');
  }
 }
 function renderEnv(){
  const tg=(ok,t)=>'<span class="tag l'+(ok?0:1)+'">'+esc(t)+'</span>';
- const measurement=(key,label,unit)=>{const m=station[key];return '<span>'+label+': '+(m?f1(m.value)+' '+unit+' ('+(m.source==='snapshot'?'sample snapshot':station.connection==='live'&&Date.now()-m.at<60000?'live':'stale live')+')':'not received')+'</span>'};
  const status=k=>weatherState[k]?(weatherState[k].stale?'stale cached':weatherState[k].cached?'cached (≤30 min)':'retrieved'):'unavailable';
- $('#env').innerHTML='<h2>Environment sources</h2><div class="src">'+tg(ENV.src==='live','ISS '+station.connection)+measurement('temp','Cabin temperature','°C')+measurement('press','Cabin pressure','kPa')+['SEP','FLR','NOAA'].map(k=>tg(weatherState[k]&&!weatherState[k].stale,k+': '+status(k))+(weatherErrors[k]?'<span>'+esc(weatherErrors[k])+'</span>':'')).join('')+(weatherState.SEP?'<span>'+ENV.sep.length+' SEP</span>':'')+(weatherState.FLR?'<span>X-Flare: '+(ENV.xflr?'yes':'no')+'</span>':'')+(weatherState.NOAA?'<span>≥10 MeV max. '+f1(ENV.pf)+' pfu (24 h)</span>':'')+'</div><div class="sub">Sample snapshots are not live measurements. Cached source timestamps: '+Object.entries(weatherState).map(([k,v])=>k+' '+new Date(v.at).toISOString()).join('; ')+'</div>';
+ $('#env').innerHTML='<h2>Environment sources</h2><div class="src">'+tg(false,'ISS cabin telemetry: UNVERIFIED')+['SEP','FLR','NOAA'].map(k=>tg(weatherState[k]&&!weatherState[k].stale,k+': '+status(k))+(weatherErrors[k]?'<span>'+esc(weatherErrors[k])+'</span>':'')).join('')+(weatherState.SEP?'<span>'+ENV.sep.length+' SEP</span>':'')+(weatherState.FLR?'<span>X-Flare: '+(ENV.xflr?'yes':'no')+'</span>':'')+(weatherState.NOAA?'<span>≥10 MeV max. '+f1(ENV.pf)+' pfu (24 h)</span>':'')+'</div><div class="sub">Cabin temperature and pressure are withheld until the channels and units can be verified. Space weather is context, not personal dosimetry. Source retrieval timestamps: '+Object.entries(weatherState).map(([k,v])=>k+' '+new Date(v.at).toISOString()).join('; ')+'</div>';
 }
-const station=NasaIntegrations.telemetry(),weatherState={},weatherErrors={};
-let liveTask=null,environmentTask=null;
-function syncStation(){
- ENV.temp=station.temp?.value;ENV.press=station.press?.value;
- ENV.src=station.connection==='live'&&((station.temp?.source==='live'&&Date.now()-station.temp.at<60000)||(station.press?.source==='live'&&Date.now()-station.press.at<60000))?'live':'snap';
- renderEnv();renderOv();
-}
-function live(){if(liveTask)return liveTask;liveTask=new Promise((res,rej)=>{
- let settled=false;const finish=(ok)=>{if(settled)return;settled=true;if(!ok)clearTimeout(timer);ok?res():rej(new Error('ISS connection timeout'))};
- const timer=setTimeout(()=>{if(!settled)station.connection='timeout';NasaIntegrations.update(station,'temp',SNAP.temp,'snapshot');NasaIntegrations.update(station,'press',SNAP.press,'snapshot');syncStation();finish(false)},NasaIntegrations.timeout);
- const sc=document.createElement('script');sc.src=CFG.lib;sc.onerror=()=>{station.connection='unavailable';finish(false)};
- sc.onload=()=>{try{
-  const L=window.Lightstreamer||window,c=new L.LightstreamerClient(CFG.ls,'ISSLIVE'),ids=Object.values(CFG.items),s=new L.Subscription('MERGE',ids,['Value']);
-  c.addListener({onStatusChange:status=>{station.connection=status.startsWith('CONNECTED')?(station.lastUpdate?'live':'connecting'):status.startsWith('DISCONNECTED')?'disconnected':'reconnecting';syncStation()}});
-  s.addListener({onItemUpdate:u=>{const raw=u.getValue('Value');if(raw==null||String(raw).trim()==='')return;const v=Number(raw);if(!Number.isFinite(v))return;const it=u.getItemName();
-   const key=it===CFG.items.temp?'temp':it===CFG.items.press?'press':null;
-   if(key&&NasaIntegrations.update(station,key,key==='press'&&v<30?v*6.895:v,'live')){syncStation();finish(true)}}});
-  c.subscribe(s);c.connect();}catch(e){station.connection='unavailable';finish(false)}};
- document.head.appendChild(sc)});return liveTask}
+const weatherState={},weatherErrors={};
+let environmentTask=null;
 async function loadEnv(){if(environmentTask)return environmentTask;
  environmentTask=(async()=>{
- const stationTask=live().catch(()=>{NasaIntegrations.update(station,'temp',SNAP.temp,'snapshot');NasaIntegrations.update(station,'press',SNAP.press,'snapshot');syncStation()});
  await Promise.allSettled(['SEP','FLR','NOAA'].map(async k=>{
   try{const result=await NasaIntegrations.weather(k);weatherState[k]=result;weatherErrors[k]=result.error||'';
    if(k==='SEP')ENV.sep=result.records;
    if(k==='FLR')ENV.xflr=result.records.some(x=>/^X/.test(x.classType||''));
-   if(k==='NOAA'){const f=result.records.filter(x=>/10 MeV/.test(x.energy||'')&&Number.isFinite(x.flux)).map(x=>x.flux);if(!f.length)throw new Error('NOAA returned no ≥10 MeV measurements.');ENV.pf=Math.max(...f);ENV.noaa=result.stale?'stale':'live'}
+   if(k==='NOAA'){const f=result.records.filter(x=>/10 MeV/.test(x.energy||'')&&Number.isFinite(x.flux)&&Date.parse(x.time_tag)<=Date.now()&&Date.parse(x.time_tag)>=Date.now()-86400000).map(x=>x.flux);if(!f.length)throw new Error('NOAA returned no ≥10 MeV measurements.');ENV.pf=Math.max(...f);ENV.noaa=result.stale?'stale':result.cached?'cached':'live'}
   }catch(e){weatherErrors[k]=e.message;if(k==='NOAA')ENV.noaa='snap'}
   ENV.donki=weatherState.SEP&&!weatherState.SEP.stale&&weatherState.FLR&&!weatherState.FLR.stale?'live':'partial';renderEnv();renderOv();
- }));await stationTask;
+ }));
  })();try{await environmentTask}finally{environmentTask=null}
 }
 setInterval(()=>{syncStation()},15000);
@@ -321,7 +295,7 @@ function renderBody(){
 $$('#bsvg .rg').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',REG[el.dataset.r].n);el.onclick=()=>{SEL=el.dataset.r;renderBody()};el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();el.onclick()}}});
 // ===== Einsatzprofile, Aufgaben, Gamification, 5 Gefahren =====
 const PROF=[
- {id:'iss',n:'Space station (LEO)',g:'approx. 0 g',ex:1,cm:'Communication: ground medical reachable in near real time.',nt:'The Earth magnetic field provides partial protection. ISS live environment data is usable.'},
+ {id:'iss',n:'Space station (LEO)',g:'approx. 0 g',ex:1,cm:'Communication: ground medical reachable in near real time.',nt:'The Earth magnetic field provides partial protection. ISS cabin telemetry is currently unverified.'},
  {id:'mtr',n:'Mars transit',g:'approx. 0 g',ex:1,cm:'Communication: one-way delay roughly 4 to 24 min. Start immediate actions yourself, send reports asynchronously.',nt:'No protection from the Earth magnetic field, high autonomy needed. ISS live data does not apply here.'},
  {id:'moon',n:'Moon base',g:'approx. 1/6 g',ex:.7,cm:'Communication: one-way delay approx. 1.3 s. Ground medical by voice, return to Earth takes days.',nt:'Partial gravity. Mind dust and surface radiation. Training target reduced (assumption).'},
  {id:'mars',n:'Mars base',g:'approx. 3/8 g',ex:.5,cm:'Communication: one-way delay roughly 4 to 24 min. Self-sufficiency takes priority.',nt:'Partial gravity for up to two years (NASA HRP). Training target reduced (assumption).'},
