@@ -1,0 +1,5 @@
+# Project description
+
+Zero-G Wellness gives a crew member a place to record daily observations, inspect trends and review changes against an individual baseline. Mission Control models a 30-day Mars transit with a fixed communication delay. Days 1–5 establish a baseline. Later phases introduce worsening sleep, rising resting heart rate, concurrent stress and fatigue, a scripted solar particle event, and recovery. The demo compares current measurements with the five-day mean and exposes each directional threshold, percentage deviation and trend. The health alert timeline records concurrent departures without inferring causation.
+
+The standalone health monitor keeps records in browser storage. Mission Control runs in memory, separate from health records. The NASA Research workspace provides public study discovery and local file analysis. DONKI and NOAA observations provide environmental context. With explicit consent, Lovable AI Gateway provides general wellness guidance using the input the user selects. The prototype requires clinical and hardware validation before any operational use.
