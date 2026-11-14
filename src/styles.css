@@ -62,6 +62,9 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-alert-ok: var(--alert-ok);
+  --color-alert-watch: var(--alert-watch);
+  --color-alert-act: var(--alert-act);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -74,6 +77,9 @@
 
 :root {
   --radius: 0.625rem;
+  --alert-ok: oklch(0.65 0.17 150);
+  --alert-watch: oklch(0.8 0.16 80);
+  --alert-act: oklch(0.6 0.22 27);
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
