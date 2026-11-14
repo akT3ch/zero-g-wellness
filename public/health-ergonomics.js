@@ -299,6 +299,7 @@ onSample = function(key, value, source) { originalSample(key, value, source); if
 // Keep remote source values and medical evaluation unchanged, including uncertain telemetry.
 renderOv(); renderEnv(); tab('ov', false);
 const trendPreference = getPreference('trend', 'hr');
+originalTrends();
 if ([...$('#met').options].some(option => option.value === trendPreference)) $('#met').value = trendPreference;
 $('#met').addEventListener('change', () => setPreference('trend', $('#met').value));
 // Give small body regions equivalent full-size keyboard and touch controls.
