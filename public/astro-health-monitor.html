@@ -231,7 +231,7 @@ function syncStation(){
  renderEnv();renderOv();
 }
 function live(){if(liveTask)return liveTask;liveTask=new Promise((res,rej)=>{
- let settled=false;const finish=(ok)=>{if(settled)return;settled=true;clearTimeout(timer);ok?res():rej(new Error('ISS connection timeout'))};
+ let settled=false;const finish=(ok)=>{if(settled)return;settled=true;if(!ok)clearTimeout(timer);ok?res():rej(new Error('ISS connection timeout'))};
  const timer=setTimeout(()=>{if(!settled)station.connection='timeout';NasaIntegrations.update(station,'temp',SNAP.temp,'snapshot');NasaIntegrations.update(station,'press',SNAP.press,'snapshot');syncStation();finish(false)},NasaIntegrations.timeout);
  const sc=document.createElement('script');sc.src=CFG.lib;sc.onerror=()=>{station.connection='unavailable';finish(false)};
  sc.onload=()=>{try{
