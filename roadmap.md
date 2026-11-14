@@ -25,6 +25,6 @@
 
 # Cognitive ergonomics
 
-- [ ] Add separate task-observation dashboard and optional Raw NASA-TLX feedback.
-- [ ] Add expert error register and walkthrough protocol with clear evidence labels.
-- [ ] Verify metrics, local persistence, workload visualization and mobile use.
+- [x] Add separate task-observation dashboard and optional Raw NASA-TLX feedback.
+- [x] Add expert error register and walkthrough protocol with clear evidence labels.
+- [x] Verify metrics, local persistence, workload visualization and mobile use.
