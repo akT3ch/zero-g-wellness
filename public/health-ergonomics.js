@@ -35,6 +35,8 @@ function applyAppearance() {
 appearanceSelect.onchange = () => { applyAppearance(); setPreference('appearance', appearanceSelect.value); };
 applyAppearance(); appearance.append(appearanceSelect); $('.header-tools').append(appearance);
 const screenNames = { ov: 'Overview', ci: 'Daily check-in', tr: 'Trends', bd: 'Body model', tk: 'Tasks', hz: 'Spaceflight hazards' };
+// Trends screen is temporarily retired from navigation; the overview trend tiles cover it. Remove the next line to restore the tab.
+$('nav button[data-t="tr"]').remove();
 const contextBand = document.createElement('div');
 contextBand.className = 'monitor-context';
 contextBand.setAttribute('aria-label', 'Current monitor status');
@@ -76,11 +78,99 @@ renderOv = function() {
     }
     const overall = $$('#ov > .bar').at(-1);
     if (overall) $('#ov').prepend(overall);
+    renderTrendTiles();
   }
   updateContext();
 };
 // Keep source detail secondary to the selected health screen, without changing the feeds.
 $('#hz').after($('#env'));
+
+// Overview trend tiles: presentation only, values come from the saved entries unchanged.
+function trendTicks(min, max, count) {
+  const span = (max - min) || 1;
+  const power = Math.pow(10, Math.floor(Math.log10(span / count)));
+  const step = [1, 2, 2.5, 5, 10].map(factor => factor * power).find(size => span / size <= count) || power * 10;
+  const ticks = [];
+  for (let value = Math.ceil(min / step) * step; value <= max + step / 1000; value += step) ticks.push(Math.round(value * 1000) / 1000);
+  return ticks;
+}
+function buildTrendChart(key, entries, detailed) {
+  const values = entries.map(entry => entry[key]);
+  const numeric = NUM.find(item => item[0] === key);
+  const unit = numeric ? numeric[2] : '/10';
+  const axisUnit = numeric ? numeric[2] : 'scale 1–10';
+  const baseline = base()?.[key];
+  let mn = Math.min(...values, ...(baseline == null ? [] : [baseline]));
+  let mx = Math.max(...values, ...(baseline == null ? [] : [baseline]));
+  if (mn === mx) { mn -= 1; mx += 1; }
+  const pad = (mx - mn) * 0.08; mn -= pad; mx += pad;
+  const W = detailed ? 920 : 320, H = detailed ? 430 : 110;
+  const m = detailed ? { top: 24, right: 56, bottom: 64, left: 76 } : { top: 8, right: 8, bottom: 8, left: 8 };
+  const X = index => m.left + index * (W - m.left - m.right) / (entries.length - 1);
+  const Y = value => H - m.bottom - (value - mn) / (mx - mn) * (H - m.top - m.bottom);
+  let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="' + (detailed ? 'trend-chart-large' : 'trend-sparkline') + '" ' + (detailed ? 'role="img" aria-label="' + esc(NAMES[key]) + ' over time with labeled axes"' : 'aria-hidden="true"') + '>';
+  if (detailed) {
+    trendTicks(mn, mx, 6).forEach(tick => {
+      const y = Y(tick);
+      svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + y + '" y2="' + y + '" stroke="var(--line)"/>';
+      svg += '<text x="' + (m.left - 8) + '" y="' + (y + 4) + '" text-anchor="end" fill="var(--mut)" font-size="12">' + tick + '</text>';
+    });
+    const tickCount = Math.min(entries.length, 6);
+    [...new Set(Array.from({ length: tickCount }, (_, slot) => Math.round(slot * (entries.length - 1) / (tickCount - 1))))].forEach(index => {
+      const x = X(index);
+      svg += '<line x1="' + x + '" x2="' + x + '" y1="' + (H - m.bottom) + '" y2="' + (H - m.bottom + 6) + '" stroke="var(--fg)"/>';
+      svg += '<text x="' + x + '" y="' + (H - m.bottom + 22) + '" text-anchor="middle" fill="var(--mut)" font-size="12">' + esc(entries[index].d) + '</text>';
+    });
+    svg += '<line x1="' + m.left + '" x2="' + m.left + '" y1="' + m.top + '" y2="' + (H - m.bottom) + '" stroke="var(--fg)"/>';
+    svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + (H - m.bottom) + '" y2="' + (H - m.bottom) + '" stroke="var(--fg)"/>';
+    svg += '<text x="' + (m.left + (W - m.left - m.right) / 2) + '" y="' + (H - 14) + '" text-anchor="middle" fill="var(--fg)" font-size="13" font-weight="600">Date of check-in</text>';
+    svg += '<text transform="rotate(-90)" x="' + (-(m.top + (H - m.top - m.bottom) / 2)) + '" y="18" text-anchor="middle" fill="var(--fg)" font-size="13" font-weight="600">' + esc(NAMES[key]) + ' (' + esc(axisUnit) + ')</text>';
+  }
+  if (baseline != null) svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + Y(baseline) + '" y2="' + Y(baseline) + '" stroke="var(--mut)" stroke-dasharray="5 4"/>';
+  svg += '<polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="' + values.map((value, index) => X(index) + ',' + Y(value)).join(' ') + '"/>';
+  if (detailed) svg += values.map((value, index) => '<circle cx="' + X(index) + '" cy="' + Y(value) + '" r="4" fill="var(--acc)"><title>' + esc(entries[index].d) + ': ' + esc(value) + ' ' + esc(unit) + '</title></circle>').join('');
+  else svg += '<circle cx="' + X(values.length - 1) + '" cy="' + Y(values[values.length - 1]) + '" r="3.5" fill="var(--acc)"/>';
+  return svg + '</svg>';
+}
+const trendDialog = document.createElement('dialog');
+trendDialog.className = 'trend-dialog';
+trendDialog.setAttribute('aria-labelledby', 'trend-dialog-title');
+trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><div id="trend-dialog-chart"></div><p class="sub">Dashed: personal baseline (mean of the first 5 entries).</p><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
+document.body.append(trendDialog);
+function openTrendDialog(key) {
+  const entries = allE().filter(entry => real(entry, key));
+  if (entries.length < 2) return;
+  const latest = entries[entries.length - 1];
+  const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
+  $('#trend-dialog-title').textContent = NAMES[key];
+  $('#trend-dialog-meta').textContent = entries.length + ' measured entries · ' + entries[0].d + ' to ' + latest.d + ' · Latest: ' + latest[key] + ' ' + unit;
+  $('#trend-dialog-chart').innerHTML = buildTrendChart(key, entries, true);
+  const previous = document.activeElement;
+  const finish = () => { trendDialog.close(); previous?.focus(); };
+  $('#trend-dialog-close').onclick = finish;
+  trendDialog.oncancel = event => { event.preventDefault(); finish(); };
+  trendDialog.showModal();
+}
+function renderTrendTiles() {
+  const tracked = keys.map(key => ({ key, entries: allE().filter(entry => real(entry, key)) })).filter(item => item.entries.length >= 2);
+  if (!tracked.length) return;
+  const section = document.createElement('section');
+  section.className = 'trend-tiles-section';
+  section.setAttribute('aria-label', 'Measurement trends');
+  section.innerHTML = '<h2>Trends</h2><p class="sub">Measured values over time. Select a tile to enlarge its chart with labeled axes.</p><div class="trend-tiles">' + tracked.map(({ key, entries }) => {
+    const latest = entries[entries.length - 1], previous = entries[entries.length - 2];
+    const change = f1(latest[key] - previous[key]);
+    const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
+    return '<button type="button" class="trend-tile" data-trend="' + key + '" aria-haspopup="dialog" aria-label="' + esc(NAMES[key]) + ': latest ' + esc(latest[key]) + ' ' + esc(unit) + ' on ' + esc(latest.d) + ', change ' + (change > 0 ? '+' : '') + change + ' since the previous entry. Enlarge the trend chart.">'
+      + '<span class="trend-tile-name">' + esc(NAMES[key]) + '</span>'
+      + '<span class="trend-tile-value">' + esc(latest[key]) + ' ' + esc(unit) + '<small>' + (change > 0 ? '+' : '') + change + ' vs. previous</small></span>'
+      + buildTrendChart(key, entries, false)
+      + '<span class="trend-tile-range">' + esc(entries[0].d) + ' to ' + esc(latest.d) + ' · ' + entries.length + ' entries</span>'
+      + '</button>';
+  }).join('') + '</div>';
+  $('#ov').append(section);
+  $$('#ov .trend-tile').forEach(tile => { tile.onclick = () => openTrendDialog(tile.dataset.trend); });
+}
 
 const confirmation = document.createElement('dialog');
 confirmation.setAttribute('aria-labelledby', 'confirm-title');
@@ -352,7 +442,7 @@ renderBody = function() {
     button.setAttribute('aria-pressed', String(button.dataset.region === SEL));
     const state = states[button.dataset.region];
     button.dataset.state = state;
-    button.setAttribute('aria-label', REG[button.dataset.region].n + ' � ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
+    button.setAttribute('aria-label', REG[button.dataset.region].n + ' � ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
   });
   const heading = $('#bp h2');
   if (states[SEL] === 'n') {
@@ -1133,7 +1223,7 @@ function renderRisks() {
             </p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" id="sync-sim-to-monitor" class="pri">Load ${esc(simAstronautId)} (148 days) into Monitor Trends</button>
+            <button type="button" id="sync-sim-to-monitor" class="pri">Load ${esc(simAstronautId)} (148 days) into Monitor</button>
             <a href="/research?sim=daily_health_metrics" target="_top" class="research-shortcut" style="min-height:38px;padding:6px 12px;font-size:13px">Analyze in Research Workspace</a>
           </div>
         </div>

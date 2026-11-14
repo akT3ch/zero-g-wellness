@@ -12,6 +12,14 @@ const taskSource = source.slice(source.indexOf('function taskVisible('), source.
 const visibleTask = new Function(taskSource + '; return taskVisible;')();
 const risksEvalSource = source.slice(source.indexOf('const SPACE_RISKS_11 ='), source.indexOf('let riskFilter ='));
 const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11 };')((x: number) => Math.round(x * 10) / 10);
+const trendSource = source.slice(source.indexOf('function trendTicks('), source.indexOf('const trendDialog ='));
+const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', trendSource + '; return { trendTicks, buildTrendChart };')(
+  [['hr', 'Resting heart rate', 'bpm', 40, 140, 1, 62]],
+  { hr: 'Resting heart rate', mood: 'Mood (10 = very good)' },
+  () => ({ hr: 60 }),
+  (value: unknown) => String(value),
+  (x: number) => Math.round(x * 10) / 10,
+);
 
 describe('11 Spaceflight Risks, OSDR mapping & simulated datasets', () => {
   it('covers all 11 spaceflight risks from Risks.md, 20 OSDR study mappings, and 4 simulated dataset exports', () => {
@@ -64,6 +72,36 @@ describe('Task view filtering', () => {
 describe('Existing assessment prioritization', () => {
   it('puts action-required level 2 before warning level 1 and normal level 0 without changing ties', () => {
     expect(prioritize([0, 1, 2, 1, 0, 2])).toEqual([2, 5, 1, 3, 0, 4]);
+  });
+});
+
+describe('Overview trend charts', () => {
+  const entries = [
+    { d: '2026-11-01', hr: 58, mood: 7 },
+    { d: '2026-11-02', hr: 64, mood: 6 },
+    { d: '2026-11-03', hr: 72, mood: 8 },
+  ];
+
+  it('produces evenly spaced round tick values covering the range', () => {
+    expect(chartTools.trendTicks(0, 100, 5)).toEqual([0, 20, 40, 60, 80, 100]);
+    expect(chartTools.trendTicks(55, 75, 5)).toEqual([55, 60, 65, 70, 75]);
+  });
+
+  it('labels both axes of the enlarged chart with the measurement, unit and check-in dates', () => {
+    const svg = chartTools.buildTrendChart('hr', entries, true);
+    expect(svg).toContain('Resting heart rate (bpm)');
+    expect(svg).toContain('Date of check-in');
+    expect(svg).toContain('2026-11-01');
+    expect(svg).toContain('2026-11-03');
+    expect(svg).toContain('role="img"');
+    expect(svg).toContain('stroke-dasharray="5 4"');
+  });
+
+  it('labels subjective scales with the 1–10 scale and keeps sparklines decorative without axis text', () => {
+    expect(chartTools.buildTrendChart('mood', entries, true)).toContain('Mood (10 = very good) (scale 1–10)');
+    const sparkline = chartTools.buildTrendChart('hr', entries, false);
+    expect(sparkline).toContain('aria-hidden="true"');
+    expect(sparkline).not.toContain('Date of check-in');
   });
 });
 
