@@ -3,7 +3,6 @@ let draftDirty = false;
 let undoAction = null;
 const originalSave = $('#save').onclick;
 const originalDemo = $('#demo').onclick;
-const originalExport = $('#exp').onclick;
 const originalImport = $('#csv').onchange;
 const originalCalendar = ics;
 const originalTab = tab;
@@ -11,7 +10,10 @@ const originalTrends = renderTr;
 const originalTasks = renderTk;
 const originalEnvironment = renderEnv;
 const originalOverview = renderOv;
+const sourceSampleHandler = window.onSample;
 let taskView = 'all';
+const measurementTimes = Object.create(null);
+const manualMeasurements = Object.create(null);
 function getPreference(key, fallback) {
   try { return localStorage.getItem('ahm-ui-' + key) || fallback; } catch { return fallback; }
 }
@@ -52,6 +54,15 @@ function updateContext() {
   $('#form-context').textContent = draftDirty ? 'Unsaved changes' : 'No unsaved changes';
   $('#form-context').classList.toggle('context-warning', draftDirty);
   document.title = screenNames[current] + ' · Astro Health Monitor';
+}
+if (typeof sourceSampleHandler === 'function') {
+  window.onSample = (key, value, source) => {
+    sourceSampleHandler(key, value, source);
+    if (SRC[key] === source && RNG[key] && Number.isFinite(value) && value >= RNG[key][0] && value <= RNG[key][1]) {
+      measurementTimes[key] = new Date().toISOString();
+      delete manualMeasurements[key];
+    }
+  };
 }
 function priorityOrder(levels) {
   return levels.map((level, index) => ({ level, index })).sort((a, b) => b.level - a.level || a.index - b.index).map(item => item.index);
@@ -107,6 +118,8 @@ const domainTrendKeys = [
   ['gluc', 'meal'],
 ];
 const symptomTrendNames = Object.fromEntries(CK.map(item => [item[0], item[1]]));
+let trendDomainFilter = getPreference('trend-domain', 'all');
+if (!['all', ...DN].includes(trendDomainFilter)) trendDomainFilter = 'all';
 function trendName(key) { return NAMES[key] || symptomTrendNames[key]; }
 function trendEntries(key) {
   return allE().filter(entry => symptomTrendNames[key]
@@ -115,8 +128,96 @@ function trendEntries(key) {
 }
 function trendBaseline(key, entries) {
   if (symptomTrendNames[key] || entries.length < 5) return null;
-  const value = base()?.[key];
-  return Number.isFinite(value) ? value : null;
+  const firstFive = entries.slice(0, 5).map(entry => Number(entry[key])).filter(Number.isFinite);
+  if (firstFive.length < 5) return null;
+  return mean(firstFive);
+}
+function measurementSource(entry, key) {
+  const provenance = entry.provenance?.[key];
+  if (typeof provenance?.source === 'string') return provenance.source;
+  if (entry.src?.[key] === 'Default') return 'Suggested value · not measured';
+  if (entry.src?.[key] === 'Import') return 'CSV import';
+  if (entry.src?.[key]) return 'Device: ' + entry.src[key];
+  if (entry.meas?.[key]) return 'Manual entry';
+  if (entry.origin === 'Demo data') return 'Demo data';
+  if (entry.origin === 'CSV import') return 'CSV import';
+  if (entry.origin === 'Personal check-in') return 'Personal check-in · source not recorded';
+  return 'Historical entry · source not recorded';
+}
+function measurementTimestamp(entry, key) {
+  const value = entry.provenance?.[key]?.measuredAt || entry.measuredAt || entry.d;
+  if (typeof value !== 'string') return 'Time not recorded';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value + ' · time not recorded';
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) ? new Date(timestamp).toLocaleString() : 'Time not recorded';
+}
+function missionDayForDate(date, startDate) {
+  if (!startDate || !/^\d{4}-\d{2}-\d{2}$/.test(startDate)) return '';
+  const recorded = Date.parse(date + 'T12:00:00Z');
+  const launch = Date.parse(startDate + 'T12:00:00Z');
+  if (!Number.isFinite(recorded) || !Number.isFinite(launch)) return '';
+  const day = Math.round((recorded - launch) / 86400000);
+  return 'Day ' + (day > 0 ? '+' : '') + day;
+}
+function validatePersonalBackup(parsed) {
+  const isEnvelope = parsed && !Array.isArray(parsed) && parsed.format === 'zero-g-wellness-local-health-log' && parsed.version === 1;
+  const rows = Array.isArray(parsed) ? parsed : isEnvelope ? parsed.entries : null;
+  if (!Array.isArray(rows) || !rows.length || rows.length > LIMIT) throw new Error('Backup must contain 1 to ' + LIMIT + ' daily entries.');
+  const availableKeys = [...keys, ...CK.map(item => item[0])];
+  const numericKeys = new Set([...NUM, ...SL].map(item => item[0]));
+  const dates = new Set();
+  return rows.map((row, index) => {
+    if (!row || typeof row !== 'object' || Array.isArray(row)) throw new Error('Entry ' + (index + 1) + ' must be a JSON object.');
+    if (typeof row.d !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(row.d) || !Number.isFinite(Date.parse(row.d)) || new Date(row.d).toISOString().slice(0, 10) !== row.d) {
+      throw new Error('Entry ' + (index + 1) + ' has an invalid date.');
+    }
+    if (dates.has(row.d)) throw new Error('Backup contains more than one entry for ' + row.d + '.');
+    dates.add(row.d);
+    const entry = { d: row.d };
+    for (const key of availableKeys) {
+      if (!Object.prototype.hasOwnProperty.call(row, key)) continue;
+      if (numericKeys.has(key)) {
+        if (typeof row[key] !== 'number' || !Number.isFinite(row[key])) throw new Error('Entry ' + row.d + ' has an invalid numeric value for ' + key + '.');
+        entry[key] = row[key];
+      } else {
+        if (typeof row[key] !== 'boolean') throw new Error('Entry ' + row.d + ' has an invalid symptom value for ' + key + '.');
+        entry[key] = row[key];
+      }
+    }
+    if (!availableKeys.some(key => Object.prototype.hasOwnProperty.call(entry, key))) throw new Error('Entry ' + row.d + ' contains no health measurements or symptom reports.');
+    for (const field of ['src', 'meas']) {
+      if (!row[field] || typeof row[field] !== 'object' || Array.isArray(row[field])) continue;
+      entry[field] = Object.fromEntries(availableKeys.filter(key => Object.prototype.hasOwnProperty.call(row[field], key) && (field === 'meas' ? typeof row[field][key] === 'boolean' : typeof row[field][key] === 'string')).map(key => [key, row[field][key]]));
+    }
+    if (row.env && typeof row.env === 'object' && !Array.isArray(row.env)) {
+      entry.env = Object.fromEntries(['temp', 'press', 'pf'].filter(key => Number.isFinite(row.env[key])).map(key => [key, row.env[key]]));
+    }
+    if (typeof row.prof === 'string') entry.prof = row.prof.slice(0, 80);
+    if (Number.isFinite(row.v)) entry.v = row.v;
+    if (typeof row.origin === 'string') entry.origin = row.origin.slice(0, 120);
+    if (typeof row.recordedAt === 'string' && Number.isFinite(Date.parse(row.recordedAt))) entry.recordedAt = row.recordedAt;
+    if (row.provenance && typeof row.provenance === 'object' && !Array.isArray(row.provenance)) {
+      entry.provenance = Object.fromEntries(availableKeys.filter(key => {
+        const detail = row.provenance[key];
+        return detail && typeof detail === 'object' && typeof detail.source === 'string' && detail.source.length <= 120;
+      }).map(key => {
+        const detail = row.provenance[key];
+        return [key, { source: detail.source, ...(typeof detail.measuredAt === 'string' && Number.isFinite(Date.parse(detail.measuredAt)) ? { measuredAt: detail.measuredAt } : {}) }];
+      }));
+    }
+    entry.origin = entry.origin || (isEnvelope ? 'Imported local health backup' : 'Legacy backup · source not recorded');
+    return entry;
+  }).sort((a, b) => a.d.localeCompare(b.d));
+}
+function storeImportedHealthEntries(entries) {
+  store();
+  try {
+    const saved = localStorage.getItem('ahm1');
+    if (!saved || JSON.stringify(JSON.parse(saved)) !== JSON.stringify(entries)) throw new Error('The saved backup could not be verified.');
+  } catch (error) {
+    if (error instanceof Error && error.message === 'The saved backup could not be verified.') throw error;
+    throw new Error('Browser storage is unavailable; the current local health log was not replaced.');
+  }
 }
 function trendExplanation(key, entries) {
   if (symptomTrendNames[key]) return 'Symptom reports are shown as logged (not reported / reported). This is not a diagnosis.';
@@ -124,7 +225,7 @@ function trendExplanation(key, entries) {
   const previous = entries[entries.length - 2], latest = entries[entries.length - 1];
   const change = f1(latest[key] - previous[key]);
   const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
-  return 'Change from the previous recorded measurement (' + previous.d + '): ' + (change > 0 ? '+' : '') + change + ' ' + unit + '. This is a descriptive comparison, not a medical assessment.';
+  return 'Change compared with your previous recorded value (' + previous.d + '): ' + (change > 0 ? '+' : '') + change + ' ' + unit + '. This describes your recorded history; it is not a diagnosis or medical assessment.';
 }
 function trendTicks(min, max, count) {
   const span = (max - min) || 1;
@@ -170,7 +271,7 @@ function buildTrendChart(key, entries, detailed) {
   }
   if (baseline != null) svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + Y(baseline) + '" y2="' + Y(baseline) + '" stroke="var(--mut)" stroke-dasharray="5 4"/>';
   svg += '<polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="' + values.map((value, index) => X(index) + ',' + Y(value)).join(' ') + '"/>';
-  if (detailed) svg += values.map((value, index) => '<circle cx="' + X(index) + '" cy="' + Y(value) + '" r="4" fill="var(--acc)"><title>' + esc(entries[index].d) + ': ' + esc(value) + ' ' + esc(unit) + '</title></circle>').join('');
+  if (detailed) svg += values.map((value, index) => '<circle cx="' + X(index) + '" cy="' + Y(value) + '" r="4" fill="var(--acc)"><title>' + esc(entries[index].d) + ': ' + esc(value) + ' ' + esc(unit) + ' · ' + esc(measurementSource(entries[index], key)) + ' · ' + esc(measurementTimestamp(entries[index], key)) + '</title></circle>').join('');
   else svg += '<circle cx="' + X(values.length - 1) + '" cy="' + Y(values[values.length - 1]) + '" r="3.5" fill="var(--acc)"/>';
   return svg + '</svg>';
 }
@@ -178,8 +279,14 @@ const trendDialog = document.createElement('dialog');
 trendDialog.className = 'trend-dialog';
 trendDialog.setAttribute('aria-labelledby', 'trend-dialog-title');
 trendDialog.setAttribute('aria-describedby', 'trend-dialog-meta trend-dialog-baseline trend-dialog-note');
-trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><div id="trend-dialog-chart"></div><p class="sub" id="trend-dialog-baseline"></p><p class="sub" id="trend-dialog-note"></p><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
+trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><p class="trend-data-origin">Personal check-ins · stored locally in this browser. Simulation and research datasets are separate and are not included.</p><div class="trend-context"><label for="trend-mission-start">Mission start date (optional)</label><input id="trend-mission-start" type="date"><p class="sub">Mission day is shown as context only; it is not saved with your health records.</p></div><div id="trend-dialog-chart"></div><p class="sub" id="trend-dialog-baseline"></p><p class="sub" id="trend-dialog-note"></p><div class="scroll"><table class="trend-provenance"><caption id="trend-provenance-caption">Measurement details</caption><thead><tr><th scope="col">Mission day</th><th scope="col">Check-in date</th><th scope="col">Value</th><th scope="col">Source</th><th scope="col">Measured at</th></tr></thead><tbody id="trend-provenance-rows"></tbody></table></div><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
 document.body.append(trendDialog);
+function renderTrendProvenance(key, entries) {
+  const startDate = getPreference('mission-start-date', '');
+  const unit = NUM.find(item => item[0] === key)?.[2] || '';
+  $('#trend-provenance-caption').textContent = trendName(key) + ' · source and measurement history';
+  $('#trend-provenance-rows').innerHTML = entries.map(entry => '<tr><td>' + esc(missionDayForDate(entry.d, startDate) || '—') + '</td><td>' + esc(entry.d) + '</td><td>' + esc(symptomTrendNames[key] ? (entry[key] ? 'Reported' : 'Not reported') : entry[key] + ' ' + unit) + '</td><td>' + esc(measurementSource(entry, key)) + '</td><td>' + esc(measurementTimestamp(entry, key)) + '</td></tr>').join('');
+}
 function openTrendDialog(key) {
   const entries = trendEntries(key);
   if (entries.length < 2) return;
@@ -189,13 +296,22 @@ function openTrendDialog(key) {
   $('#trend-dialog-title').textContent = trendName(key);
   $('#trend-dialog-meta').textContent = entries.length + (symptom ? ' reported entries' : ' measured entries') + ' · ' + entries[0].d + ' to ' + latest.d + ' · Latest: ' + (symptom ? (latest[key] ? 'Reported' : 'Not reported') : latest[key] + ' ' + unit);
   const baseline = trendBaseline(key, entries);
+  const baselineCount = baseline == null ? 0 : 5;
   $('#trend-dialog-baseline').textContent = symptom
     ? 'No personal baseline is calculated for symptom reports.'
     : baseline == null
       ? 'Personal baseline not shown: ' + entries.length + ' of 5 required measurements for this value.'
-      : 'Dashed line: personal baseline, the mean of the first 5 measured entries for this value.';
+      : 'Dashed line: your personal baseline, the mean of ' + baselineCount + ' measured entries for this value.';
   $('#trend-dialog-note').textContent = trendExplanation(key, entries);
   $('#trend-dialog-chart').innerHTML = buildTrendChart(key, entries, true);
+  const missionStart = $('#trend-mission-start');
+  missionStart.value = getPreference('mission-start-date', '');
+  missionStart.onchange = () => {
+    if (missionStart.value && !/^\d{4}-\d{2}-\d{2}$/.test(missionStart.value)) return;
+    setPreference('mission-start-date', missionStart.value);
+    renderTrendProvenance(key, entries);
+  };
+  renderTrendProvenance(key, entries);
   const previous = document.activeElement;
   const finish = () => { trendDialog.close(); previous?.focus(); };
   $('#trend-dialog-close').onclick = finish;
@@ -203,12 +319,29 @@ function openTrendDialog(key) {
   trendDialog.showModal();
 }
 function renderTrendTiles() {
+  const grid = $('#ov > .grid');
+  if (grid && !$('#trend-domain-filter')) {
+    const filter = document.createElement('label');
+    filter.className = 'trend-domain-filter';
+    filter.innerHTML = '<span>Trend area</span><select id="trend-domain-filter" aria-label="Filter trend tiles by health area"><option value="all">All health areas</option>' + DN.map((name, index) => '<option value="' + index + '">' + esc(name) + '</option>').join('') + '</select>';
+    grid.before(filter);
+  }
+  const filterSelect = $('#trend-domain-filter');
+  if (filterSelect) {
+    filterSelect.value = trendDomainFilter === 'all' ? 'all' : String(DN.indexOf(trendDomainFilter));
+    filterSelect.onchange = () => {
+      trendDomainFilter = filterSelect.value === 'all' ? 'all' : DN[Number(filterSelect.value)];
+      setPreference('trend-domain', trendDomainFilter);
+      applyTrendDomainFilter();
+    };
+  }
   $$('#ov > .grid > .card').forEach(card => {
     const domainKeys = domainTrendKeys[Number(card.dataset.healthDomain)];
     if (!domainKeys) return;
     const tracked = domainKeys.map(key => ({ key, entries: trendEntries(key) })).filter(item => item.entries.length >= 2);
     const section = document.createElement('div');
     section.className = 'domain-trends';
+    section.dataset.trendDomain = DN[Number(card.dataset.healthDomain)];
     section.setAttribute('aria-label', 'Trends · ' + DN[Number(card.dataset.healthDomain)]);
     if (!tracked.length) {
       section.innerHTML = '<p class="sub">No trend history yet · at least two recorded check-ins needed.</p>';
@@ -223,14 +356,20 @@ function renderTrendTiles() {
     const value = symptom ? (latest[key] ? 'Reported' : 'Not reported') : esc(latest[key]) + ' ' + esc(unit);
     return '<button type="button" class="trend-tile" data-trend="' + key + '" aria-haspopup="dialog" aria-label="' + esc(trendName(key)) + ': latest ' + value + ' on ' + esc(latest.d) + '. Enlarge the trend chart.">'
       + '<span class="trend-tile-name">' + esc(trendName(key)) + '</span>'
-      + '<span class="trend-tile-value">' + value + (symptom ? '' : '<small>' + (change > 0 ? '+' : '') + change + ' ' + esc(unit) + ' vs. previous measurement</small>') + '</span>'
+      + '<span class="trend-tile-value">' + value + (symptom ? '' : '<small>' + (change > 0 ? '+' : '') + change + ' ' + esc(unit) + ' compared with your previous value</small>') + '</span>'
       + buildTrendChart(key, entries, false)
       + '<span class="trend-tile-range">' + esc(entries[0].d) + ' to ' + esc(latest.d) + ' · ' + entries.length + ' entries</span>'
       + '</button>';
     }).join('');
     card.append(section);
   });
-  $$('#ov .trend-tile').forEach(tile => { tile.onclick = () => openTrendDialog(tile.dataset.trend); });
+    applyTrendDomainFilter();
+    $$('#ov .trend-tile').forEach(tile => { tile.onclick = () => openTrendDialog(tile.dataset.trend); });
+}
+function applyTrendDomainFilter() {
+    $$('#ov .domain-trends').forEach(section => {
+      section.hidden = trendDomainFilter !== 'all' && section.dataset.trendDomain !== trendDomainFilter;
+    });
 }
 
 const confirmation = document.createElement('dialog');
@@ -298,7 +437,18 @@ NUM.forEach(item => {
 });
 $('#n_d').required = true;
 $('#n_d').parentElement.firstChild.textContent = 'Date (required)';
-$$('#ci input').forEach(input => input.addEventListener('input', updateDraft));
+$$('#ci input').forEach(input => input.addEventListener('input', () => {
+  updateDraft();
+  const key = input.id.startsWith('n_') ? input.id.slice(2) : input.id.startsWith('s_') ? input.id.slice(2) : '';
+  if (keys.includes(key)) {
+    measurementTimes[key] = new Date().toISOString();
+    manualMeasurements[key] = true;
+  }
+}));
+$$('#ci input[type=checkbox]').forEach(input => input.addEventListener('change', () => {
+  const key = input.id.slice(2);
+  if (CK.some(item => item[0] === key) && input.checked) measurementTimes[key] = new Date().toISOString();
+}));
 $$('#ci input[type=number], #ci input[type=date]').forEach(input => input.addEventListener('change', () => {
   if (!input.checkValidity()) validateCheckIn();
 }));
@@ -320,9 +470,28 @@ $('#save').onclick = async () => {
   const date = $('#n_d').value;
   if (E.some(entry => entry.d === date) && !await askConfirmation('Replace this check-in?', 'An entry for ' + date + ' already exists. Saving will replace it. You can undo this change.', 'Replace entry')) return;
   const undo = snapshot();
+  const measuredAt = new Date().toISOString();
+  const provenance = Object.fromEntries([...NUM, ...SL].filter(item => TOUCH[item[0]] || SRC[item[0]]).map(item => {
+    const key = item[0];
+    return [key, { source: SRC[key] && !manualMeasurements[key] ? 'Device: ' + SRC[key] : 'Manual entry', measuredAt: measurementTimes[key] || measuredAt }];
+  }));
+  CK.forEach(item => {
+    const key = item[0];
+    if ($('#c_' + key).checked) provenance[key] = { source: 'Manual symptom report', measuredAt: measurementTimes[key] || measuredAt };
+  });
   // Empty measurements must retain the original app's unmeasured status.
   NUM.forEach(item => { if (!$('#n_' + item[0]).value) { delete TOUCH[item[0]]; delete SRC[item[0]]; } });
   originalSave(); draftDirty = false;
+  const saved = E.find(entry => entry.d === date);
+  if (saved) {
+    saved.origin = 'Personal check-in';
+    saved.recordedAt = measuredAt;
+    saved.provenance = provenance;
+    store();
+    renderOv();
+  }
+  Object.keys(measurementTimes).forEach(key => delete measurementTimes[key]);
+  Object.keys(manualMeasurements).forEach(key => delete manualMeasurements[key]);
   tab('ci', false);
   $('#draft-state').textContent = 'All changes saved';
   NUM.forEach(item => { $('#n_' + item[0]).parentElement.querySelector('.field-status').textContent = 'Suggested · not measured'; });
@@ -331,7 +500,7 @@ $('#save').onclick = async () => {
 };
 $('#demo').onclick = async () => {
   if ((E.length || draftDirty) && !await askConfirmation('Load demo data?', 'This replaces saved entries with 21 sample days. Your unsaved form stays unchanged. You can undo the replacement.', 'Load demo data')) return;
-  const undo = snapshot(); originalDemo(); tab('ov');
+  const undo = snapshot(); originalDemo(); E = E.map(entry => ({ ...entry, origin: 'Demo data' })); store(); renderOv(); tab('ov');
   showToast('Loaded 21 days of demo data.', undo); $('.data-tools').open = false;
 };
 $('#rst').onclick = async () => {
@@ -342,7 +511,59 @@ $('#rst').onclick = async () => {
 };
 $('#exp').onclick = () => {
   if (!E.length) { showToast('No saved entries to export. Save a check-in first.'); return; }
-  originalExport(); showToast('Export prepared: health-log.json.'); $('.data-tools').open = false;
+  const backup = {
+    format: 'zero-g-wellness-local-health-log',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    source: 'Local personal check-ins · export created on this device',
+    entries: E
+  };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }));
+  const link = document.createElement('a'); link.href = url; link.download = 'zero-g-wellness-health-log.json'; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  showToast('Local backup prepared: zero-g-wellness-health-log.json. No data was uploaded.'); $('.data-tools').open = false;
+};
+$('#exp').textContent = 'Export local backup';
+const backupInput = document.createElement('input');
+backupInput.type = 'file'; backupInput.accept = '.json,application/json'; backupInput.hidden = true;
+backupInput.setAttribute('aria-label', 'Choose local health backup');
+const backupButton = document.createElement('button');
+backupButton.type = 'button'; backupButton.textContent = 'Import health backup';
+backupButton.onclick = () => backupInput.click();
+$('.tool-menu').append(backupButton, backupInput);
+backupInput.onchange = async () => {
+  const file = backupInput.files?.[0];
+  if (!file) return;
+  try {
+    if (file.size > 5 * 1024 * 1024) throw new Error('Backup exceeds the 5 MB local import limit.');
+    const parsed = JSON.parse(await file.text());
+    const imported = validatePersonalBackup(parsed);
+    const sourceCounts = imported.reduce((counts, entry) => {
+      const source = entry.origin || 'Source not recorded';
+      counts[source] = (counts[source] || 0) + 1;
+      return counts;
+    }, {});
+    const sourcePreview = Object.entries(sourceCounts).map(([source, count]) => source + ': ' + count).join(' · ');
+    const approved = await askConfirmation(
+      'Preview local health backup',
+      file.name + ' contains ' + imported.length + ' daily entries (' + imported[0].d + ' to ' + imported[imported.length - 1].d + '). Sources: ' + sourcePreview + '. Confirming replaces all current local health entries; nothing is uploaded. You can undo the replacement.',
+      'Replace with this backup'
+    );
+    if (!approved) return;
+    const undo = snapshot();
+    const previousEntries = E;
+    E = imported;
+    try { storeImportedHealthEntries(imported); }
+    catch (error) { E = previousEntries; store(); throw error; }
+    renderOv(); renderTr(); refreshCurrentScreen();
+    showToast('Imported ' + imported.length + ' local health entries from backup.', undo);
+    $('.data-tools').open = false;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Backup import failed. No data changed.';
+    showToast('Backup import failed. No data changed: ' + message);
+  } finally {
+    backupInput.value = '';
+  }
 };
 $('#csv').onchange = async event => {
   const file = event.target.files[0]; if (!file) return;
@@ -359,7 +580,23 @@ $('#csv').onchange = async event => {
   }
   if (dates.some(date => E.some(entry => entry.d === date)) && !await askConfirmation('Replace matching entries?', 'This file contains dates already in your log. Importing replaces those entries. You can undo the import.', 'Import and replace')) { event.target.value = ''; return; }
   const undo = snapshot(); $('#b_csv').disabled = true; $('#b_csv').textContent = 'Importing…';
-  try { await originalImport(event); showToast('Imported ' + new Set(dates).size + ' days from CSV.', undo); }
+  try {
+    await originalImport(event);
+    const importedDates = new Set(dates);
+    E = E.map(entry => {
+      if (!importedDates.has(entry.d)) return entry;
+      const importedKeys = keys.filter(key => entry.src?.[key] === 'Import');
+      entry.origin = 'CSV import';
+      entry.meas = { ...(entry.meas || {}), ...Object.fromEntries(importedKeys.map(key => [key, true])) };
+      entry.provenance = {
+        ...(entry.provenance || {}),
+        ...Object.fromEntries(importedKeys.map(key => [key, { source: 'CSV import', measuredAt: entry.d }]))
+      };
+      return entry;
+    });
+    store();
+    showToast('Imported ' + new Set(dates).size + ' days from CSV. Missing defaults are not treated as measurements.', undo);
+  }
   catch { dvs('Import failed. Check the CSV format and try again.'); undo(); showToast($('#dvs').textContent); }
   finally { $('#b_csv').disabled = false; $('#b_csv').textContent = 'Import CSV'; }
 };
@@ -1199,50 +1436,6 @@ function buildSimLongitudinalSvg(rows, metricKey, currentDay) {
   </svg>`;
 }
 
-async function syncAstronautToMonitor(aid) {
-  const rows = getSimDailyRows(aid);
-  if (!rows.length) return;
-  const profile = SIM_BUNDLE?.astronauts?.find(a => a.astronaut_id === aid);
-  if ((E.length || draftDirty) && !await askConfirmation('Load simulated astronaut time-series?', `This replaces saved check-ins with ${rows.length} simulated mission days for ${profile ? profile.name : aid} (from simulate_health_data.py). You can undo this replacement at any time.`, 'Load astronaut mission data')) return;
-  const undo = snapshot();
-  E = rows.map(r => {
-    const m = mapSimRowToRiskMetrics(r);
-    return {
-      d: r.date,
-      hr: Math.round(m.hr),
-      sys: Math.round(m.sys),
-      dia: Math.round(m.dia),
-      spo2: Math.round(m.spo2),
-      temp: f1(m.temp),
-      sleep: f1(m.sleep),
-      ex: Math.round(m.ex / 5) * 5,
-      dose: Math.round(r.radiation_dose_mSv_day * 1000),
-      co2: m.co2,
-      gluc: m.gluc,
-      mood: Math.max(1, Math.min(10, Math.round(r.team_cohesion_score + 1.5))),
-      stress: Math.max(1, Math.min(10, Math.round((r.cortisol_ug_dL - 10) / 3))),
-      fatigue: m.fatigue,
-      isol: Math.max(1, Math.min(10, Math.round(9 - r.team_cohesion_score))),
-      back: m.back,
-      meal: m.meal,
-      vision: m.vision,
-      head: m.head,
-      dizzy: m.dizzy,
-      cough: false,
-      rash: m.rash,
-      gi: m.gi,
-      eye: false
-    };
-  });
-  store();
-  const curRow = getSimCurrentRow() || rows[rows.length - 1];
-  writeSupplementalMetrics(mapSimRowToRiskMetrics(curRow));
-  renderOv();
-  renderTr();
-  renderRisks();
-  showToast(`Loaded ${rows.length} simulated days for ${profile ? profile.name : aid} into Monitor.`, undo);
-}
-
 async function ensureSimulatedDatasetLoaded() {
   if (SIM_BUNDLE) return SIM_BUNDLE;
   try {
@@ -1719,13 +1912,13 @@ function renderRisks() {
         <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:start;gap:12px">
           <div>
             <h3 style="margin:0;font-size:16px">Longitudinal Mission Simulator (<code>simulate_health_data.py</code> · ${simRows.length} Days)</h3>
+            <p class="sub" style="margin:4px 0 0"><strong>SIMULATED DATA</strong> · Separate from personal check-ins and health records.</p>
             <p class="sub" style="margin:4px 0 0">
               ${simAstro ? `<b>${esc(simAstro.name)}</b> (${esc(simAstro.role)})` : esc(simAstronautId)}
               ${simRow ? ` · <b>Day ${simRow.mission_day}</b> (${esc(simRow.date)}) · Environment: <b>${esc(simRow.environment)}</b> (${simRow.gravity_g}g, ${esc(simRow.mission_phase)}) · <span class="sim-xp" role="img" aria-label="Experience points ${esc(simRow.gamification?.total_xp || 0)}"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6,21.5q-1.45,0-2.47-1.02T2.5,18t1.03-2.47T6,14.5t2.47,1.03T9.5,18q0,0.55-0.16,1.06T8.85,20.02V19.35q0.75,0.32 1.55,0.49T12,20q3.35,0 5.68-2.32T20,12h2q0,2.07-0.79,3.9t-2.14,3.17q-1.35,1.35-3.17,2.14T12,22q-1.13,0-2.2-0.24T7.73,21.05q-0.4,0.22-0.84,0.34T6,21.5Zm1.06-2.44Q7.5,18.63 7.5,18T7.06,16.94T6,16.5T4.94,16.94T4.5,18t0.44,1.06T6,19.5t1.06-0.44ZM12,15.5q-1.45,0-2.47-1.03T8.5,12T9.53,9.52T12,8.5t2.48,1.02T15.5,12t-1.02,2.47T12,15.5ZM2,12Q2,9.92 2.79,8.1Q3.58,6.27 4.93,4.93Q6.28,3.57 8.1,2.79Q9.93,2 12,2q1.13,0 2.2,0.24t2.08,0.71q0.4-0.23 0.84-0.34T18,2.5q1.45,0 2.48,1.02T21.5,6T20.48,8.48T18,9.5T15.53,8.48T14.5,6q0-0.55 0.16-1.06q0.16-0.51 0.49-0.96V4.65Q14.4,4.32 13.6,4.16T12,4Q8.65,4 6.33,6.32T4,12H2ZM18,7.5q0.63,0 1.06-0.44T19.5,6T19.06,4.94T18,4.5T16.94,4.94T16.5,6t0.44 1.06T18,7.5ZM6,18ZM18,6Z"/></svg><b>${esc(simRow.gamification?.total_xp || 0)}</b></span> (${esc(simRow.gamification?.badge_level || '')})` : ''}
             </p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button type="button" id="sync-sim-to-monitor" class="pri">Load ${esc(simAstronautId)} (148 days) into Monitor</button>
             <a href="/research?sim=daily_health_metrics" target="_top" class="research-shortcut" style="min-height:38px;padding:6px 12px;font-size:13px">Analyze in Research Workspace</a>
           </div>
         </div>
@@ -1928,11 +2121,6 @@ function renderRisks() {
       renderOv();
     };
   });
-
-  const syncBtn = $('#sync-sim-to-monitor');
-  if (syncBtn) {
-    syncBtn.onclick = () => void syncAstronautToMonitor(simAstronautId);
-  }
 
   $$('#rk button[data-rfilter]').forEach(btn => {
     btn.onclick = () => {
