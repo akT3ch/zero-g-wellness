@@ -44,7 +44,7 @@ export function OsdrExplorer({ onImport }: { onImport: (d: Dataset) => void }) {
       const res = await fetch(item.path);
       if (!res.ok) throw new Error('Could not load generated dataset ' + item.path);
       const text = await res.text();
-      const d = parseText(text, item.id + '.csv', 'Simulated Mission Dataset (simulate_health_data.py)', item.path);
+      const d = parseText(text, item.id + '.csv', 'Example Dataset', item.path);
       onImport(d);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Dataset import failed.');
