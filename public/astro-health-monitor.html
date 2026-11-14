@@ -144,7 +144,7 @@ function evaluate(){
 const LBL=['Normal','Watch','Act'];
 function renderOv(){
  const o=$('#ov'),R=evaluate();
- if(!R){o.innerHTML='<div class="empty-state"><h2>Your health overview</h2><p>No check-ins yet.</p><button class="pri" onclick="tab('ci')">Start check-in</button></div>';$('#meta').textContent='No data';return}
+ if(!R){o.innerHTML='<div class="empty-state"><h2>Your health overview</h2><p>No check-ins yet.</p><button class="pri" onclick="tab(\'ci\')">Start check-in</button></div>';$('#meta').textContent='No data';return}
  const top=Math.max(...R.D.map(d=>d.l));
  $('#meta').textContent=E.length+' entries, latest: '+R.e.d+(base()?'':' (baseline from 5 entries)');
  const msg=['All areas within target range.','At least one area deviates. Review actions.','At least one area requires action. Involve ground medical.'][top];
