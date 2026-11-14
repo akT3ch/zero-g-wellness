@@ -37,3 +37,4 @@ use the editor.
 - Keep parsers, preprocessing, statistical calculations, chart preparation and deterministic interpretations in separate testable research modules; inferential tests require explicit design/assumption confirmation rather than assuming biological replicates from rows.
 - Keep NASA network stabilization in integration-only helpers and stateless server functions, using validated same-origin iframe messages; source caching and telemetry provenance must remain independent of health records.
 - Keep anatomical SVG geometry and measured-coverage display in a presentation-only helper, delegating all region selection and medical evaluations to the existing monitor; this preserves thresholds and stored records.
+- Header health notifications only mirror the monitor's existing evaluate() levels via checked iframe messages; never add separate thresholds there, so alerts always match the monitor.
