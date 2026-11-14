@@ -99,6 +99,27 @@ button[aria-pressed="true"] { background: var(--selected); color: var(--acc); bo
 #bp { min-width: 0; }
 #bp > p { font-size: 14px; line-height: 1.65; }
 #bp h2 { flex-wrap: wrap; }
+.risk-toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; margin: 16px 0; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.risk-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+.risk-stat-box { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--card); }
+.risk-stat-box .stat-label { display: block; font-size: 12px; color: var(--mut); }
+.risk-stat-box .stat-value { display: block; font-size: 20px; font-weight: 700; margin-top: 4px; }
+.risk-card { display: flex; flex-direction: column; gap: 10px; }
+.risk-meta { font-size: 12px; color: var(--mut); }
+.risk-metrics-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 6px 0; padding: 10px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
+.risk-metric-item { font-size: 12px; line-height: 1.4; }
+.risk-metric-item strong { display: block; font-size: 13px; color: var(--fg); }
+.risk-prompt-box { border: 1px dashed var(--acc); border-radius: 6px; padding: 10px 12px; background: var(--selected); font-size: 13px; }
+.risk-osdr-box { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; font-size: 13px; }
+.osdr-study-item { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; background: var(--bg); }
+.osdr-study-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.osdr-study-actions button, .osdr-study-actions a { min-height: 34px; padding: 4px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--fg); text-decoration: none; display: inline-flex; align-items: center; }
+.osdr-study-actions a:hover, .osdr-study-actions button:hover { border-color: var(--acc); background: var(--selected); color: var(--acc); }
+.risk-inputs-panel { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 16px 0; background: var(--card); }
+.ov-risk-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; border: 1px solid var(--line); }
+.sim-explorer-panel { border: 1px solid var(--acc); border-radius: 8px; padding: 16px; margin: 16px 0; background: var(--card); }
+.sim-milestone-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.sim-milestone-bar button { min-height: 34px; padding: 4px 10px; font-size: 12px; }
 @media (max-width: 680px) {
   .anatomy-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   #bsvg { max-width: 310px; }

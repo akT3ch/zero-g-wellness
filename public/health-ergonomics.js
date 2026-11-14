@@ -403,3 +403,1017 @@ nasaKeyInput.onchange = () => {
   nasaKeyInput.setCustomValidity(''); setPreference('nasa-key', nasaKeyInput.value); void loadEnv();
 };
 nasaKeyLabel.append(nasaKeyInput); $('.tool-menu').append(nasaKeyLabel);
+
+// ===== 11 NASA Spaceflight Risks Dashboard + simulate_health_data.py Integration =====
+screenNames.rk = '11 Spaceflight Risks';
+const riskSection = document.createElement('section');
+riskSection.id = 'rk';
+riskSection.className = 'hide card';
+$('#hz').after(riskSection);
+
+const riskTabButton = document.createElement('button');
+riskTabButton.dataset.t = 'rk';
+riskTabButton.id = 'tab-rk';
+riskTabButton.setAttribute('role', 'tab');
+riskTabButton.setAttribute('aria-controls', 'rk');
+riskTabButton.setAttribute('aria-selected', 'false');
+riskTabButton.tabIndex = -1;
+riskTabButton.textContent = '11 Risks';
+$('nav').append(riskTabButton);
+riskSection.tabIndex = -1;
+riskSection.setAttribute('role', 'tabpanel');
+riskSection.setAttribute('aria-labelledby', 'tab-rk');
+
+$$('nav button').forEach((button, index, buttons) => {
+  button.onclick = () => tab(button.dataset.t);
+  button.onkeydown = event => {
+    let next;
+    if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+    if (event.key === 'ArrowLeft') next = (index + buttons.length - 1) % buttons.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = buttons.length - 1;
+    if (next === undefined) return;
+    event.preventDefault(); tab(buttons[next].dataset.t, false); buttons[next].focus();
+  };
+});
+
+const SPACE_RISKS_11 = [
+  {
+    num: 1,
+    key: 'immune_response',
+    cat: 'env',
+    nameEn: 'Altered Immune System Responses',
+    nameDe: 'Veränderte Immunantwort',
+    desc: 'Microgravity, radiation, and stress dysregulate innate and adaptive immunity, elevating systemic inflammation (hs-CRP) and latent virus (EBV) reactivation.',
+    measure: 'Oral/tympanic body temperature (°C), fatigue rating (1–10), skin/mucosal symptom check, and finger-stick hs-CRP / T-cell function assay.',
+    prompt: 'Weekly Immune & Symptom Biomarker Check: inspect skin/mucosa and log temperature + hs-CRP.',
+    act1: ['Prioritize 7+ hours of circadian-aligned sleep and reduce peak workload stress', 'Re-measure temperature after 2 h and log skin rash or allergy symptoms early'],
+    act2: ['Contact the flight surgeon for inflammatory / viral reactivation workup', 'Consider crew isolation protocol if infectious symptoms accompany fever (≥ 38.0 °C)'],
+    studies: [
+      { osd: 'OSD-569', title: 'Inspiration4 Crew Whole Blood RNA-Seq & CBC', metrics: 'Differential CBC (leukocytes, lymphocytes, platelets), RNA-Seq', std: 'Integrated Immune / Standard Measures (Cellular Profile)' },
+      { osd: 'OSD-575', title: 'Inspiration4 Serum Cytokine Array & Metabolomics', metrics: 'Multiplex cytokines (IL-6, TNF-α, IFN-γ), inflammation biomarkers', std: 'Integrated Immune / Standard Measures' },
+      { osd: 'OSD-687', title: 'Inspiration4 T-Cell Histone Modification Profiling', metrics: 'T-cell differentiation, epigenetic histone modification in microgravity', std: 'Standard Measures (Cellular Profile)' }
+    ]
+  },
+  {
+    num: 2,
+    key: 'sensorimotor_vestibular',
+    cat: 'eva',
+    nameEn: 'Altered Sensorimotor and Vestibular Function',
+    nameDe: 'Sensorimotorische & Vestibuläre Störungen',
+    desc: 'Gravity transitions (0G ↔ 0.16G Moon / 0.38G Mars / 1G Earth) impair otolith signaling, balance, spatial orientation, and locomotion, increasing fall risk during egress or surface EVAs.',
+    measure: 'Functional Task Test (timed Sit-to-Stand in seconds, Eyes-Closed Tandem Walk % correct steps) and motion sickness score (0–20).',
+    prompt: 'Gravity-Transition Balance Test: complete timed Sit-to-Stand and 10-step Eyes-Closed Tandem Walk.',
+    act1: ['Perform slow, controlled head movements during posture or gravity transitions', 'Execute daily proprioceptive and balance stabilization drills'],
+    act2: ['Delay critical surface EVA or unassisted vehicle egress until vestibular stability recovers', 'Coordinate anti-motion-sickness medication protocol with ground medical'],
+    studies: [
+      { osd: 'OSD-473', title: 'Otolith and Neuromuscular Locomotor Models', metrics: 'Balance adaptation, otolith stimulation, neuromuscular locomotor control', std: 'Functional Task Test (FTT) / Field Test (Sit-to-stand, Tandem-walk)' }
+    ]
+  },
+  {
+    num: 3,
+    key: 'cardiovascular',
+    cat: 'long',
+    nameEn: 'Cardiovascular Adaptations',
+    nameDe: 'Kardiovaskuläre Anpassung & Thromboserisiko (VTE)',
+    desc: 'Fluid shifts and cardiac deconditioning cause orthostatic intolerance upon gravity reloading. Low serum albumin (< 3.5 g/dL) elevates venous thromboembolism (VTE) risk.',
+    measure: 'Resting heart rate and blood pressure after 5 min rest, orthostatic ΔHR (supine-to-stand), and biochemical serum albumin (g/dL).',
+    prompt: 'Orthostatic Vitals & Venous Screening: measure 5-min resting HR/BP followed by 3-min standing ΔHR.',
+    act1: ['Repeat resting BP/HR after 30 min rest; execute fluid and electrolyte loading protocol', 'Prepare Lower Body Gradient Compression Garments (GCG) prior to gravity transitions'],
+    act2: ['Contact flight surgeon immediately; pause high-strain exercise and record 12-lead ECG', 'Perform jugular venous ultrasound screening if serum albumin < 3.5 g/dL'],
+    studies: [
+      { osd: 'OSD-575', title: 'Inspiration4 Serum Cardiovascular Biomarkers', metrics: 'Troponin, cardiovascular proteins, transferrin (VTE risk factor)', std: 'Integrated Cardiovascular / CCISS / Biochemical Profile' },
+      { osd: 'OSD-635', title: 'Human Aortic Smooth Muscle Cells in Microgravity', metrics: 'Vascular endothelial remodeling, arterial elasticity, wall shear stress', std: 'Biochemical Profile (Serum Albumin & Hematocrit)' },
+      { osd: 'OSD-435', title: 'Human Induced Pluripotent Stem Cell Cardiomyocytes', metrics: 'Contractility and electrophysiological function of cardiomyocytes on ISS', std: 'Integrated Cardiovascular (Holter ECG, Finapres BP)' }
+    ]
+  },
+  {
+    num: 4,
+    key: 'decompression_sickness',
+    cat: 'eva',
+    nameEn: 'Decompression Sickness (DCS)',
+    nameDe: 'Dekompressionskrankheit (DCS)',
+    desc: 'Depressurizing from cabin atmosphere (101.3 kPa) to lower EVA suit pressure (~29.6 kPa) can form nitrogen venous gas emboli (VGE) in tissues if O₂ pre-breathe is incomplete.',
+    measure: '100% O₂ pre-breathe duration (min), EVA suit pressure (kPa), calculated Tissue N₂ Ratio, and post-EVA Doppler VGE score.',
+    prompt: 'Pre-EVA Denitrogenation Verification: confirm ≥ 120 min O₂ pre-breathe and airlock suit pressure check.',
+    act1: ['Extend 100% O₂ pre-breathe duration and include light denitrogenation ergometer exercise', 'Monitor closely for joint pain ("bends"), skin mottling, or paresthesia'],
+    act2: ['Abort EVA depressurization immediately or re-pressurize airlock/suit to cabin pressure', 'Initiate 100% O₂ hyperbaric treatment protocol and alert flight surgeon'],
+    studies: [
+      { osd: 'OSD-684', title: 'Microvascular Response to Decompression Stress', metrics: 'Microvascular endothelial strain, gas-bubble-induced vascular stress markers', std: 'Prebreathe Reduction Program (PRP) (Doppler VGE Scores)' }
+    ]
+  },
+  {
+    num: 5,
+    key: 'host_microorganism',
+    cat: 'env',
+    nameEn: 'Host-Microorganism Interactions',
+    nameDe: 'Wirt-Mikroorganismus-Interaktionen',
+    desc: 'Closed spacecraft habitats and altered diet reduce gut microbiome α-diversity (Shannon index) and promote opportunistic skin and nasal pathogen colonization (e.g., MRSA).',
+    measure: 'Gut microbiome Shannon diversity index (H′), skin/nasal swab dysbiosis score (0–1), and GI/skin barrier symptoms.',
+    prompt: 'Weekly Crew Microbiome Swab & Hygiene Protocol: collect skin/nasal swab and sanitize high-touch surfaces.',
+    act1: ['Maintain probiotic and prebiotic fiber intake; apply skin barrier emollient', 'Execute targeted disinfection of high-touch cabin handrails, exercise gear, and headsets'],
+    act2: ['Collect targeted microbial swab for on-orbit PCR pathogen identification', 'Consult flight surgeon for topical or systemic antimicrobial protocol'],
+    studies: [
+      { osd: 'OSD-630', title: 'Inspiration4 Stool Metagenomics', metrics: 'Gut microbiome diversity (Shannon index), relative taxa abundance, dysbiosis', std: 'Microbial Tracking / Standard Measures (Microbiome)' },
+      { osd: 'OSD-572', title: 'Inspiration4 Skin Swab Metagenomics', metrics: 'Skin microbiome shifts, epidermal barrier integrity', std: 'Microbial Tracking / SWAB' },
+      { osd: 'OSD-574', title: 'Inspiration4 Nasal Swab Metagenomics', metrics: 'Nasal mucosal colonization, opportunistic pathogen surveillance (MRSA)', std: 'Microbial Tracking / Hygiene Survey' }
+    ]
+  },
+  {
+    num: 6,
+    key: 'hypoxia',
+    cat: 'env',
+    nameEn: 'Hypoxia & Atmospheric Stress',
+    nameDe: 'Hypoxie & Atemgas-Belastung',
+    desc: 'Reduced oxygen partial pressure (ppO₂) or elevated carbon dioxide (ppCO₂ / ppm) in closed habitats, rovers, or EVA suits impairs arterial oxygenation (SpO₂) and cognition.',
+    measure: 'Finger-clip pulse oximetry (SpO₂ %), cabin/suit oxygen partial pressure ppO₂ (kPa), and cabin CO₂ (ppm / kPa).',
+    prompt: 'Daily SpO₂ Oximetry & ECLSS Gas Check: verify SpO₂ ≥ 95%, ppO₂ ≥ 19.7 kPa, and CO₂ ≤ 3500 ppm.',
+    act1: ['Check ECLSS air circulation fans, CO₂ scrubber cartridges (CDRA/LiOH), and O₂ valves', 'Reduce physical activity and avoid stagnant airflow zones'],
+    act2: ['Switch to backup O₂ breathing loop immediately if SpO₂ < 92% or ppO₂ < 18.4 kPa', 'Alert crew and ground control; verify habitat/suit pressure integrity'],
+    studies: [
+      { osd: 'OSD-254', title: 'Cellular Responses to Hypoxia and Altered Gas Pressure', metrics: 'Cellular response to altered oxygen partial pressure (ppO₂) and hypoxia markers', std: 'VaPER / AGBRESA Bed Rest with elevated CO₂' }
+    ]
+  },
+  {
+    num: 7,
+    key: 'nutrition',
+    cat: 'long',
+    nameEn: 'Inadequate Food and Nutrition',
+    nameDe: 'Unzureichende Ernährung & Hydratation',
+    desc: 'Spaceflight appetite suppression and menu fatigue lead to caloric deficits, dehydration, micronutrient depletion (Vitamin D, Iron), and increased renal stone risk.',
+    measure: 'Daily meal intake (1–10 / % kcal target), daily hydration volume (L), fasting blood glucose (mg/dL), and serum Vitamin D (ng/mL).',
+    prompt: 'Daily Nutrition & Hydration Log: record meal completion, ≥ 2.2 L fluid intake, and Vitamin D3 supplement.',
+    act1: ['Log all meals, increase daily fluid intake to ≥ 2.2 L, and take scheduled Vitamin D3', 'Re-measure fasting blood glucose the following morning'],
+    act2: ['Coordinate high-density caloric/electrolyte supplementation and renal stone prophylaxis with ground medical', 'If fasting blood glucose < 70 mg/dL, take fast-acting carbohydrates immediately'],
+    studies: [
+      { osd: 'OSD-575', title: 'Inspiration4 Serum Metabolic & Nutritional Profile', metrics: 'Metabolic panels (glucose, lipids, electrolytes, minerals, vitamin status)', std: 'Nutritional Status Assessment (Vitamin D, Ferritin, Iron)' },
+      { osd: 'OSD-656', title: 'Inspiration4 Urine Proteomics & Inflammation Panel', metrics: 'Urine proteomics, inflammation markers, renal stone risk profile (oxalate, uric acid)', std: 'Nutritional Biochemistry (24h Urine Void Pool)' }
+    ]
+  },
+  {
+    num: 8,
+    key: 'eva_injury_performance',
+    cat: 'eva',
+    nameEn: 'Injury and Compromised Performance from Spacewalks',
+    nameDe: 'Verletzungsrisiko & Leistungseinbußen bei EVAs',
+    desc: 'Pressurized EVA gloves and suits cause severe forearm/hand-grip fatigue, shoulder joint compression, fingernail trauma, and metabolic thermal stress.',
+    measure: 'Hand-grip dynamometer fatigue drop (%), EVA musculoskeletal strain rating (1–10), and core body temperature (°C).',
+    prompt: 'EVA Biomechanics & Thermal Check: measure pre/post-EVA hand-grip force and monitor suit cooling loop.',
+    act1: ['Take micro-rests during high-torque glove tasks and increase LCVG cooling water flow', 'Perform post-EVA forearm, shoulder, and spinal decompression stretching'],
+    act2: ['Halt high-load EVA tool tasks immediately if core temp > 38.3 °C or grip fatigue > 38%', 'Return to airlock for thermal cool-down, hydration, and flight surgeon orthopedic review'],
+    studies: [
+      { osd: 'OSD-474', title: 'Musculoskeletal Strain and Biomechanics in Extreme Environments', metrics: 'Muscular overload, hand-grip fatigue, thermal strain in pressurized suits', std: 'EVA Glove Study / Biomechanics of Extravehicular Activity' }
+    ]
+  },
+  {
+    num: 9,
+    key: 'fitness_deconditioning',
+    cat: 'long',
+    nameEn: 'Reduced Cardiorespiratory and Musculoskeletal Fitness',
+    nameDe: 'Reduzierte Kardiorespiratorische & Muskuläre Fitness',
+    desc: 'Mechanical unloading rapidly degrades lower-body muscle strength (Isometric Mid-Thigh Pull) and aerobic capacity (VO₂max) without consistent high-load countermeasures.',
+    measure: 'Daily exercise duration (min, scaled to mission gravity), Isometric Mid-Thigh Pull (IMTP) force change (%), and VO₂max change (%).',
+    prompt: 'Daily Countermeasure Exercise & Monthly IMTP/VO₂max Check: log resistive (ARED) + aerobic (T2/CEVIS) training.',
+    act1: ['Complete full daily resistive and aerobic training block (approx. 120 min in 0G)', 'Ensure high-intensity aerobic intervals (Sprint protocol) and post-exercise protein intake'],
+    act2: ['Adjust resistive loading prescription with ground exercise physiologist and flight surgeon', 'Postpone physically demanding surface EVA timelines until strength/aerobic baselines recover'],
+    studies: [
+      { osd: 'OSD-608', title: 'ALSDA Skeletal and Muscular Unloading Study', metrics: 'Muscle atrophy, force loss, myofiber type shift during unloading', std: 'Sprint Study (VO₂max, CEVIS Ergometer) / IMTP Force' },
+      { osd: 'OSD-612', title: 'Skeletal Muscle Tissue Plasticity in Microgravity', metrics: 'Molecular pathways of muscle degradation and countermeasure response', std: 'ZeroT2 / Advanced Resistive Exercise Device (ARED)' }
+    ]
+  },
+  {
+    num: 10,
+    key: 'sans_neuroocular',
+    cat: 'long',
+    nameEn: 'Spaceflight Associated Neuro-ocular Syndrome (SANS)',
+    nameDe: 'Spaceflight-Associated Neuro-ocular Syndrome (SANS)',
+    desc: 'Chronic cephalad fluid shift elevates intracranial and orbital pressure, causing optic nerve sheath distension (ONSD), optic disc edema, and hyperopic refractive shift.',
+    measure: '2D ocular ultrasound Optic Nerve Sheath Diameter ONSD (mm), hyperopic refractive shift (diopters D), and near-vision / head-pressure symptoms.',
+    prompt: 'Bi-Weekly SANS Ocular Ultrasound & Amsler Acuity Check: measure ONSD (mm) and test near vision at fixed distance.',
+    act1: ['Perform scheduled Lower Body Negative Pressure (LBNP) or thigh-cuff countermeasure sessions', 'Repeat near-vision Amsler test and verify B-vitamin nutritional status'],
+    act2: ['Discuss ocular findings with ground medical the same day; transmit ocular ultrasound / OCT', 'Adjust reading lens diopter prescription and evaluate intracranial pressure countermeasures'],
+    studies: [
+      { osd: 'OSD-569', title: 'Inspiration4 Vascular & Ocular Permeability Biomarkers', metrics: 'Blood-brain/retinal barrier integrity, vascular biomarkers correlated with fluid shifts', std: 'Fluid Shifts (ONSD Ultrasound, OCT Retinal Thickness, IOP)' }
+    ]
+  },
+  {
+    num: 11,
+    key: 'bone_changes',
+    cat: 'long',
+    nameEn: 'Spaceflight-induced Bone Changes',
+    nameDe: 'Raumflug-induzierter Knochenabbau',
+    desc: 'Bone resorption exceeds formation ~3:1 in microgravity, causing trabecular and cortical bone mineral density (BMD) loss in weight-bearing skeleton (tibia, hip, spine).',
+    measure: 'Tibial BMD change (%), biochemical bone resorption marker serum CTx (ng/mL), daily ARED exercise (min), and back pain (1–10).',
+    prompt: 'Monthly Bone Turnover (Serum CTx) & Daily Axial ARED Loading Check: verify high-load squat/deadlift compliance.',
+    act1: ['Maximize high-strain axial ARED squat/deadlift loading and verify Vitamin D3 + Calcium intake', 'Monitor back pain and avoid abrupt spinal flexion'],
+    act2: ['Coordinate bone-protective training modification and antiresorptive evaluation with flight surgeon', 'Enforce post-landing skeletal impact precautions during recovery remodeling window'],
+    studies: [
+      { osd: 'OSD-608', title: 'ALSDA Bone Unloading & Microstructural Loss', metrics: 'Quantitative CT bone mineral density (BMD), trabecular microstructure loss', std: 'Bone Densitometry (DXA) / HR-pQCT Tibia (Walle et al. 2024)' },
+      { osd: 'OSD-612', title: 'Rodent Research-10: Bone Tissue Regeneration', metrics: 'Molecular markers for osteoclast resorption vs. osteoblast bone formation', std: 'Biochemical Markers (Serum CTx, BSAP, Osteocalcin)' }
+    ]
+  }
+];
+
+const DEFAULT_SUPP_METRICS = {
+  hsCrp: 1.1,
+  tCellPct: 84,
+  sitToStandS: 2.1,
+  tandemWalkPct: 78,
+  motionSickness: 1,
+  orthoDeltaHr: 9,
+  albumin: 4.2,
+  o2PrebreatheMin: 140,
+  suitPressureKpa: 29.6,
+  gutShannon: 3.35,
+  skinDysbiosis: 0.34,
+  cabinPpo2: 20.8,
+  hydrationL: 2.3,
+  vitaminD: 32,
+  gripFatiguePct: 18,
+  evaStrain: 3.2,
+  imtpChangePct: -4.5,
+  vo2ChangePct: -4.0,
+  onsdMm: 4.8,
+  refractiveShift: 0.2,
+  bmdChangePct: -1.4,
+  serumCtx: 0.48
+};
+
+const CREW_SCENARIOS = {
+  nominal: {
+    label: 'Nominal Baseline Crew (All 11 Risks Green)',
+    values: {
+      hr: 60, sys: 116, dia: 74, spo2: 98, temp: 36.6, sleep: 7.5, ex: 120, co2: 2600, gluc: 88, meal: 9, back: 2, fatigue: 2,
+      vision: false, head: false, dizzy: false, cough: false, rash: false, gi: false, eye: false,
+      ...DEFAULT_SUPP_METRICS
+    }
+  },
+  ast01: {
+    label: 'Cmdr. Alex Mercer (AST-01 · SANS & Bone Turnover Scenario)',
+    values: {
+      hr: 62, sys: 120, dia: 77, spo2: 97, temp: 36.7, sleep: 6.8, ex: 95, co2: 3400, gluc: 92, meal: 8, back: 4, fatigue: 4,
+      vision: true, head: true, dizzy: false, cough: false, rash: false, gi: false, eye: false,
+      ...DEFAULT_SUPP_METRICS,
+      onsdMm: 5.88, refractiveShift: 0.92, bmdChangePct: -2.7, serumCtx: 0.72, imtpChangePct: -9.2, vo2ChangePct: -8.5
+    }
+  },
+  ast02: {
+    label: 'Dr. Elena Vance (AST-02 · Cardiovascular VTE, Immune & Hypoxia Scenario)',
+    values: {
+      hr: 84, sys: 132, dia: 86, spo2: 91.5, temp: 37.6, sleep: 5.8, ex: 75, co2: 5200, gluc: 95, meal: 7, back: 3, fatigue: 7,
+      vision: false, head: true, dizzy: false, cough: true, rash: true, gi: false, eye: false,
+      ...DEFAULT_SUPP_METRICS,
+      albumin: 3.38, orthoDeltaHr: 24, hsCrp: 3.9, tCellPct: 59, cabinPpo2: 18.2, gutShannon: 2.78, skinDysbiosis: 0.62
+    }
+  },
+  ast03: {
+    label: 'Spec. Kenji Takahashi (AST-03 · Surface EVA Decompression, Thermal & Sensorimotor Scenario)',
+    values: {
+      hr: 76, sys: 124, dia: 80, spo2: 95, temp: 38.4, sleep: 6.2, ex: 45, co2: 3800, gluc: 104, meal: 5, back: 7, fatigue: 8,
+      vision: false, head: false, dizzy: true, cough: false, rash: false, gi: true, eye: false,
+      ...DEFAULT_SUPP_METRICS,
+      o2PrebreatheMin: 35, suitPressureKpa: 29.6, gripFatiguePct: 43, evaStrain: 8.1,
+      sitToStandS: 4.4, tandemWalkPct: 36, motionSickness: 11,
+      hydrationL: 1.45, vitaminD: 18.5, bmdChangePct: -4.8, serumCtx: 0.89, imtpChangePct: -16.2, vo2ChangePct: -15.4
+    }
+  }
+};
+
+function readSupplementalMetrics() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('ahm-ui-risk-metrics') || 'null');
+    return raw && typeof raw === 'object' ? { ...DEFAULT_SUPP_METRICS, ...raw } : { ...DEFAULT_SUPP_METRICS };
+  } catch {
+    return { ...DEFAULT_SUPP_METRICS };
+  }
+}
+
+function writeSupplementalMetrics(next) {
+  try { localStorage.setItem('ahm-ui-risk-metrics', JSON.stringify(next)); } catch { /* UI-only storage */ }
+}
+
+function readPromptLog() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('ahm-ui-risk-prompts') || '{}');
+    return raw && typeof raw === 'object' ? raw : {};
+  } catch {
+    return {};
+  }
+}
+
+function writePromptLog(next) {
+  try { localStorage.setItem('ahm-ui-risk-prompts', JSON.stringify(next)); } catch { /* UI-only storage */ }
+}
+
+function evaluateSpaceRisks(m, exFactor = 1) {
+  const results = SPACE_RISKS_11.map(r => ({ ...r, l: 0, reasons: [], metricsDisplay: [] }));
+  const flag = (idx, level, text) => {
+    results[idx].l = Math.max(results[idx].l, level);
+    if (text) results[idx].reasons.push(text);
+  };
+
+  // 1. Immune System Responses
+  const symCount = ['cough', 'rash', 'gi', 'eye'].filter(k => m[k]).length;
+  results[0].metricsDisplay = [
+    ['hs-CRP', m.hsCrp + ' mg/L', '< 1.8 mg/L'],
+    ['T-cell function', m.tCellPct + '%', '≥ 75%'],
+    ['Temperature', m.temp + ' °C', '36.1–37.4 °C']
+  ];
+  if (m.hsCrp > 3.5 || m.tCellPct < 62 || m.temp >= 38 || symCount >= 2) {
+    flag(0, 2, `Elevated immune/inflammatory markers (hs-CRP ${m.hsCrp} mg/L, T-cell ${m.tCellPct}%, temp ${m.temp} °C)`);
+  } else if (m.hsCrp > 1.8 || m.tCellPct < 75 || m.temp >= 37.5 || symCount === 1 || m.fatigue >= 6) {
+    flag(0, 1, `Mild immune dysregulation or symptom onset (hs-CRP ${m.hsCrp} mg/L, T-cell ${m.tCellPct}%)`);
+  }
+
+  // 2. Sensorimotor and Vestibular Function
+  results[1].metricsDisplay = [
+    ['Sit-to-Stand', m.sitToStandS + ' s', '≤ 2.6 s'],
+    ['Tandem walk (EC)', m.tandemWalkPct + '%', '≥ 65%'],
+    ['Motion sickness', m.motionSickness + '/20', '0–3 /20']
+  ];
+  if (m.tandemWalkPct < 40 || m.sitToStandS > 4.2 || m.motionSickness >= 10 || (m.dizzy && (m.vision || m.head))) {
+    flag(1, 2, `Severe balance/vestibular deficit (Tandem walk ${m.tandemWalkPct}%, Sit-to-Stand ${m.sitToStandS} s)`);
+  } else if (m.tandemWalkPct < 65 || m.sitToStandS > 2.6 || m.motionSickness >= 4 || m.dizzy) {
+    flag(1, 1, `Moderate sensorimotor adaptation strain (Sit-to-Stand ${m.sitToStandS} s, Tandem walk ${m.tandemWalkPct}%)`);
+  }
+
+  // 3. Cardiovascular Adaptations & VTE
+  results[2].metricsDisplay = [
+    ['Resting HR / BP', `${m.hr} bpm · ${m.sys}/${m.dia} mmHg`, '≤ 80 bpm · ≤ 130/85'],
+    ['Orthostatic ΔHR', '+' + m.orthoDeltaHr + ' bpm', '≤ +14 bpm'],
+    ['Serum albumin', m.albumin + ' g/dL', '≥ 3.8 g/dL']
+  ];
+  if (m.albumin < 3.5 || m.orthoDeltaHr > 22 || m.hr > 90 || m.sys > 140 || m.dia > 90) {
+    flag(2, 2, `Critical cardiovascular / VTE alert (Albumin ${m.albumin} g/dL, ΔHR +${m.orthoDeltaHr} bpm, BP ${m.sys}/${m.dia})`);
+  } else if (m.albumin < 3.8 || m.orthoDeltaHr > 14 || m.hr > 80 || m.sys > 130 || m.dia > 85) {
+    flag(2, 1, `Elevated orthostatic strain or borderline albumin (${m.albumin} g/dL, ΔHR +${m.orthoDeltaHr} bpm)`);
+  }
+
+  // 4. Decompression Sickness (DCS)
+  const n2Ratio = f1(Math.max(1.0, Math.min(1.88, 1.86 - (m.o2PrebreatheMin / 225))));
+  const dcsIndex = Math.max(2, Math.min(95, Math.round((n2Ratio - 1.05) * 115)));
+  results[3].metricsDisplay = [
+    ['O₂ pre-breathe', m.o2PrebreatheMin + ' min', '≥ 120 min'],
+    ['Tissue N₂ ratio', String(n2Ratio), '< 1.35'],
+    ['DCS risk index', dcsIndex + '/100', '< 35 /100']
+  ];
+  if (dcsIndex >= 65 || m.o2PrebreatheMin < 60) {
+    flag(3, 2, `High decompression sickness risk (DCS index ${dcsIndex}/100, O₂ pre-breathe only ${m.o2PrebreatheMin} min)`);
+  } else if (dcsIndex >= 35 || m.o2PrebreatheMin < 110) {
+    flag(3, 1, `Moderate nitrogen supersaturation before EVA (DCS index ${dcsIndex}/100, pre-breathe ${m.o2PrebreatheMin} min)`);
+  }
+
+  // 5. Host-Microorganism Interactions
+  results[4].metricsDisplay = [
+    ['Gut Shannon diversity', m.gutShannon + ' H′', '≥ 2.95 H′'],
+    ['Skin/nasal dysbiosis', m.skinDysbiosis + ' (0–1)', '≤ 0.56'],
+    ['GI / Rash symptoms', (m.gi || m.rash) ? 'Reported' : 'None', 'None']
+  ];
+  if (m.gutShannon < 2.55 || m.skinDysbiosis > 0.75 || (m.gi && m.rash)) {
+    flag(4, 2, `Severe microbiome dysbiosis (Gut Shannon ${m.gutShannon}, skin dysbiosis ${m.skinDysbiosis})`);
+  } else if (m.gutShannon < 2.95 || m.skinDysbiosis > 0.56 || m.gi || m.rash) {
+    flag(4, 1, `Reduced gut/skin microbiome stability (Shannon ${m.gutShannon}, dysbiosis ${m.skinDysbiosis})`);
+  }
+
+  // 6. Hypoxia & Atmospheric Stress
+  results[5].metricsDisplay = [
+    ['SpO₂ saturation', m.spo2 + '%', '95–100%'],
+    ['Cabin/suit ppO₂', m.cabinPpo2 + ' kPa', '19.7–22.5 kPa'],
+    ['Cabin CO₂', m.co2 + ' ppm', '≤ 3500 ppm']
+  ];
+  if (m.spo2 < 92 || m.cabinPpo2 < 18.4 || m.co2 > 5000) {
+    flag(5, 2, `Hypoxia / atmospheric gas alert (SpO₂ ${m.spo2}%, ppO₂ ${m.cabinPpo2} kPa, CO₂ ${m.co2} ppm)`);
+  } else if (m.spo2 < 95 || m.cabinPpo2 < 19.7 || m.co2 > 3500) {
+    flag(5, 1, `Borderline oxygenation or cabin CO₂ (SpO₂ ${m.spo2}%, ppO₂ ${m.cabinPpo2} kPa, CO₂ ${m.co2} ppm)`);
+  }
+
+  // 7. Inadequate Food and Nutrition
+  const calPct = Math.round(Math.min(110, Math.max(50, m.meal * 10 + 12)));
+  results[6].metricsDisplay = [
+    ['Calorie intake / Meals', `${calPct}% (${m.meal}/10)`, '≥ 85% (≥ 7/10)'],
+    ['Daily hydration', m.hydrationL + ' L', '≥ 1.9 L'],
+    ['Vitamin D / Glucose', `${m.vitaminD} ng/mL · ${m.gluc} mg/dL`, '≥ 27 ng/mL · 70–99 mg/dL']
+  ];
+  if (m.hydrationL < 1.55 || m.vitaminD < 20 || m.meal <= 3 || m.gluc < 70 || m.gluc > 125) {
+    flag(6, 2, `Significant nutritional/hydration deficit (${m.hydrationL} L fluid, Vit D ${m.vitaminD} ng/mL, glucose ${m.gluc} mg/dL)`);
+  } else if (m.hydrationL < 1.9 || m.vitaminD < 27 || m.meal <= 5 || m.gluc >= 100) {
+    flag(6, 1, `Suboptimal hydration, Vitamin D, or caloric intake (${m.hydrationL} L, Vit D ${m.vitaminD} ng/mL)`);
+  }
+
+  // 8. Injury and Compromised Performance from Spacewalks (EVA)
+  results[7].metricsDisplay = [
+    ['Hand-grip fatigue', m.gripFatiguePct + '%', '≤ 24%'],
+    ['EVA strain score', m.evaStrain + '/10', '< 5.2 /10'],
+    ['Core body temp', m.temp + ' °C', '36.2–37.7 °C']
+  ];
+  if (m.gripFatiguePct > 38 || m.evaStrain >= 7.5 || m.temp > 38.3) {
+    flag(7, 2, `High EVA musculoskeletal strain or thermal load (Grip fatigue ${m.gripFatiguePct}%, strain ${m.evaStrain}/10, temp ${m.temp} °C)`);
+  } else if (m.gripFatiguePct > 24 || m.evaStrain >= 5.2 || m.temp > 37.7) {
+    flag(7, 1, `Moderate EVA forearm fatigue or suit thermal strain (Grip fatigue ${m.gripFatiguePct}%, strain ${m.evaStrain}/10)`);
+  }
+
+  // 9. Reduced Cardiorespiratory and Musculoskeletal Fitness
+  results[8].metricsDisplay = [
+    ['Daily exercise', `${m.ex} min (target ${Math.round(120 * exFactor)} min)`, `≥ ${Math.round(60 * exFactor)} min`],
+    ['IMTP peak force Δ', m.imtpChangePct + '%', '≥ -8.0%'],
+    ['VO₂max Δ', m.vo2ChangePct + '%', '≥ -8.0%']
+  ];
+  if (m.imtpChangePct < -15 || m.vo2ChangePct < -15 || m.ex < 30 * exFactor) {
+    flag(8, 2, `Marked musculoskeletal/aerobic deconditioning (IMTP ${m.imtpChangePct}%, VO₂max ${m.vo2ChangePct}%, exercise ${m.ex} min)`);
+  } else if (m.imtpChangePct < -8 || m.vo2ChangePct < -8 || m.ex < 60 * exFactor) {
+    flag(8, 1, `Mild strength/aerobic fitness drift (IMTP ${m.imtpChangePct}%, VO₂max ${m.vo2ChangePct}%, exercise ${m.ex} min)`);
+  }
+
+  // 10. Spaceflight Associated Neuro-ocular Syndrome (SANS)
+  results[9].metricsDisplay = [
+    ['ONSD ultrasound', m.onsdMm + ' mm', '≤ 5.25 mm'],
+    ['Refractive shift', '+' + m.refractiveShift + ' D', '< +0.45 D'],
+    ['Ocular symptoms', (m.vision && m.head) ? 'Vision + head pressure' : (m.vision ? 'Vision change' : (m.head ? 'Head pressure' : 'None')), 'None']
+  ];
+  if (m.onsdMm > 5.75 || m.refractiveShift >= 0.85 || (m.vision && m.head)) {
+    flag(9, 2, `SANS progression alert (ONSD ${m.onsdMm} mm, refractive shift +${m.refractiveShift} D${m.vision && m.head ? ', vision + head pressure' : ''})`);
+  } else if (m.onsdMm > 5.25 || m.refractiveShift >= 0.45 || m.vision || m.head) {
+    flag(9, 1, `Early SANS cephalad fluid-shift indicators (ONSD ${m.onsdMm} mm, shift +${m.refractiveShift} D)`);
+  }
+
+  // 11. Spaceflight-induced Bone Changes
+  results[10].metricsDisplay = [
+    ['Tibial BMD change', m.bmdChangePct + '%', '≥ -2.3%'],
+    ['Serum CTx resorption', m.serumCtx + ' ng/mL', '≤ 0.68 ng/mL'],
+    ['Back pain (3-day)', m.back + '/10', '< 5 /10']
+  ];
+  if (m.bmdChangePct < -4.5 || m.serumCtx > 0.85 || m.back >= 7) {
+    flag(10, 2, `Accelerated bone resorption / skeletal strain (Tibia BMD ${m.bmdChangePct}%, CTx ${m.serumCtx} ng/mL, back pain ${m.back}/10)`);
+  } else if (m.bmdChangePct < -2.3 || m.serumCtx > 0.68 || m.back >= 5) {
+    flag(10, 1, `Elevated bone turnover imbalance (Tibia BMD ${m.bmdChangePct}%, CTx ${m.serumCtx} ng/mL)`);
+  }
+
+  const penalty = results.reduce((sum, r) => sum + (r.l === 2 ? 9 : r.l === 1 ? 4 : 0), 0);
+  const readiness = Math.max(15, 100 - penalty);
+  return { results, readiness };
+}
+
+let riskFilter = 'all';
+let riskScenario = getPreference('risk-scenario', 'live');
+if (!['live', 'nominal', 'ast01', 'ast02', 'ast03', 'sim'].includes(riskScenario)) riskScenario = 'live';
+
+// Simulated Dataset State (loaded from /generated_data/astronaut_health_dataset.json generated by simulate_health_data.py)
+let SIM_BUNDLE = null;
+let simAstronautId = getPreference('sim-astronaut', 'AST-01');
+let simMissionDay = Number(getPreference('sim-day', '56'));
+if (!Number.isFinite(simMissionDay)) simMissionDay = 56;
+let simChartMetric = getPreference('sim-metric', 'overall_readiness_score');
+
+function mapSimRowToRiskMetrics(row) {
+  return {
+    hr: row.resting_hr_bpm,
+    sys: row.systolic_bp_mmHg,
+    dia: row.diastolic_bp_mmHg,
+    spo2: row.spo2_pct,
+    temp: row.core_temp_c,
+    sleep: row.sleep_duration_h,
+    ex: row.daily_exercise_min,
+    co2: Math.round(row.cabin_ppco2_kPa * 9870),
+    gluc: 92,
+    meal: Math.max(1, Math.min(10, Math.round(row.calories_pct_target / 10))),
+    back: row.bmd_tibia_change_pct < -4 ? 7 : (row.bmd_tibia_change_pct < -2 ? 5 : 2),
+    fatigue: Math.max(1, Math.min(10, Math.round(11 - row.alertness_rating))),
+    vision: row.refractive_shift_diopters >= 0.45,
+    head: row.optic_nerve_sheath_mm > 5.25,
+    dizzy: row.motion_sickness_score >= 4 || row.tandem_walk_ec_pct < 65,
+    cough: false,
+    rash: row.skin_dysbiosis_score > 0.65,
+    gi: row.gut_shannon_diversity < 2.75,
+    eye: false,
+    hsCrp: row.hs_crp_mg_L,
+    tCellPct: row.t_cell_function_pct,
+    sitToStandS: row.sit_to_stand_s,
+    tandemWalkPct: row.tandem_walk_ec_pct,
+    motionSickness: row.motion_sickness_score,
+    orthoDeltaHr: row.orthostatic_delta_hr_bpm,
+    albumin: row.serum_albumin_g_dL,
+    o2PrebreatheMin: row.environment === 'ROVER_EVA' ? row.o2_prebreathe_min : 145,
+    suitPressureKpa: row.eva_suit_pressure_kPa,
+    gutShannon: row.gut_shannon_diversity,
+    skinDysbiosis: row.skin_dysbiosis_score,
+    cabinPpo2: row.cabin_ppo2_kPa,
+    hydrationL: row.hydration_liters,
+    vitaminD: row.vitamin_d_ng_mL,
+    gripFatiguePct: row.hand_grip_fatigue_pct,
+    evaStrain: row.eva_musculoskeletal_strain,
+    imtpChangePct: row.imtp_change_pct,
+    vo2ChangePct: row.vo2_max_change_pct,
+    onsdMm: row.optic_nerve_sheath_mm,
+    refractiveShift: row.refractive_shift_diopters,
+    bmdChangePct: row.bmd_tibia_change_pct,
+    serumCtx: row.serum_ctx_ng_mL
+  };
+}
+
+function getSimDailyRows(aid = simAstronautId) {
+  if (!SIM_BUNDLE || !Array.isArray(SIM_BUNDLE.daily_timeseries)) return [];
+  return SIM_BUNDLE.daily_timeseries.filter(r => r.astronaut_id === aid);
+}
+
+function getSimCurrentRow() {
+  const rows = getSimDailyRows(simAstronautId);
+  if (!rows.length) return null;
+  return rows.find(r => r.mission_day === simMissionDay) || rows[Math.min(rows.length - 1, Math.max(0, simMissionDay + 14))] || rows[0];
+}
+
+function getActiveRiskMetrics(scenarioKey) {
+  if (scenarioKey === 'sim') {
+    const simRow = getSimCurrentRow();
+    if (simRow) return mapSimRowToRiskMetrics(simRow);
+  }
+  if (scenarioKey !== 'live' && CREW_SCENARIOS[scenarioKey]) {
+    return Object.assign({}, CREW_SCENARIOS[scenarioKey].values);
+  }
+  const supp = readSupplementalMetrics();
+  const latest = E[E.length - 1];
+  const baseVals = {
+    hr: latest && real(latest, 'hr') ? latest.hr : 62,
+    sys: latest && real(latest, 'sys') ? latest.sys : 118,
+    dia: latest && real(latest, 'dia') ? latest.dia : 76,
+    spo2: latest && real(latest, 'spo2') ? latest.spo2 : 97,
+    temp: latest && real(latest, 'temp') ? latest.temp : 36.6,
+    sleep: latest && real(latest, 'sleep') ? latest.sleep : 7.0,
+    ex: Number.isFinite(lastAvg('ex', 3)) ? Math.round(lastAvg('ex', 3)) : (latest && real(latest, 'ex') ? latest.ex : 110),
+    co2: latest && real(latest, 'co2') ? latest.co2 : 2900,
+    gluc: latest && real(latest, 'gluc') ? latest.gluc : 90,
+    meal: Number.isFinite(lastAvg('meal', 3)) ? f1(lastAvg('meal', 3)) : (latest && real(latest, 'meal') ? latest.meal : 8),
+    back: Number.isFinite(lastAvg('back', 3)) ? f1(lastAvg('back', 3)) : (latest && real(latest, 'back') ? latest.back : 2),
+    fatigue: latest && real(latest, 'fatigue') ? latest.fatigue : 3,
+    vision: Boolean(latest?.vision),
+    head: Boolean(latest?.head),
+    dizzy: Boolean(latest?.dizzy),
+    cough: Boolean(latest?.cough),
+    rash: Boolean(latest?.rash),
+    gi: Boolean(latest?.gi),
+    eye: Boolean(latest?.eye)
+  };
+  return Object.assign({}, baseVals, supp);
+}
+
+const SIM_CHART_METRICS = [
+  ['overall_readiness_score', 'Overall Readiness Score (0–100)'],
+  ['optic_nerve_sheath_mm', 'SANS: Optic Nerve Sheath Diameter (mm)'],
+  ['bmd_tibia_change_pct', 'Bone: Tibia BMD Change (%)'],
+  ['imtp_change_pct', 'Fitness: IMTP Strength Change (%)'],
+  ['serum_albumin_g_dL', 'Cardiovascular/VTE: Serum Albumin (g/dL)'],
+  ['hs_crp_mg_L', 'Immune: hs-CRP Inflammation (mg/L)'],
+  ['spo2_pct', 'Hypoxia: Arterial SpO₂ (%)'],
+  ['tandem_walk_ec_pct', 'Sensorimotor: Eyes-Closed Tandem Walk (%)'],
+  ['gut_shannon_diversity', 'Microbiome: Gut Shannon Diversity (H′)'],
+  ['pvt_speed_score', 'Cognitive: PVT Psychomotor Vigilance Speed']
+];
+
+function buildSimLongitudinalSvg(rows, metricKey, currentDay) {
+  if (!rows || rows.length < 2) return '<div class="sub">Loading simulated time-series…</div>';
+  const vals = rows.map(r => Number(r[metricKey]) || 0);
+  const W = 680, H = 190, padL = 42, padR = 14, padT = 16, padB = 28;
+  let mn = Math.min(...vals), mx = Math.max(...vals);
+  if (mn === mx) { mn -= 1; mx += 1; }
+  const margin = (mx - mn) * 0.1;
+  mn -= margin; mx += margin;
+  const X = i => padL + (i * (W - padL - padR)) / (rows.length - 1);
+  const Y = v => H - padB - ((v - mn) / (mx - mn)) * (H - padT - padB);
+  const pts = vals.map((v, i) => `${f1(X(i))},${f1(Y(v))}`).join(' ');
+  const curIdx = rows.findIndex(r => r.mission_day === currentDay);
+  const curMarker = curIdx >= 0 ? `<line x1="${f1(X(curIdx))}" y1="${padT}" x2="${f1(X(curIdx))}" y2="${H - padB}" stroke="var(--warn)" stroke-dasharray="4 3" stroke-width="1.5"/><circle cx="${f1(X(curIdx))}" cy="${f1(Y(vals[curIdx]))}" r="5" fill="var(--warn)"/>` : '';
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Simulated longitudinal time-series for ${esc(metricKey)}">
+    <g stroke="var(--line)"><line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}"/><line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}"/></g>
+    <polyline fill="none" stroke="var(--acc)" stroke-width="2.2" points="${pts}"/>
+    ${curMarker}
+    <g fill="var(--mut)" font-size="11">
+      <text x="4" y="${f1(Y(mx - margin) + 4)}">${f1(mx - margin)}</text>
+      <text x="4" y="${f1(Y(mn + margin) + 4)}">${f1(mn + margin)}</text>
+      <text x="${padL}" y="${H - 8}">Day ${rows[0].mission_day} (Pre)</text>
+      <text x="${f1(W / 2)}" y="${H - 8}" text-anchor="middle">Flight (ISS / Lunar / EVA)</text>
+      <text x="${W - padR}" y="${H - 8}" text-anchor="end">Day +${rows[rows.length - 1].mission_day} (Post)</text>
+    </g>
+  </svg>`;
+}
+
+async function syncAstronautToMonitor(aid) {
+  const rows = getSimDailyRows(aid);
+  if (!rows.length) return;
+  const profile = SIM_BUNDLE?.astronauts?.find(a => a.astronaut_id === aid);
+  if ((E.length || draftDirty) && !await askConfirmation('Load simulated astronaut time-series?', `This replaces saved check-ins with ${rows.length} simulated mission days for ${profile ? profile.name : aid} (from simulate_health_data.py). You can undo this replacement at any time.`, 'Load astronaut mission data')) return;
+  const undo = snapshot();
+  E = rows.map(r => {
+    const m = mapSimRowToRiskMetrics(r);
+    return {
+      d: r.date,
+      hr: Math.round(m.hr),
+      sys: Math.round(m.sys),
+      dia: Math.round(m.dia),
+      spo2: Math.round(m.spo2),
+      temp: f1(m.temp),
+      sleep: f1(m.sleep),
+      ex: Math.round(m.ex / 5) * 5,
+      dose: Math.round(r.radiation_dose_mSv_day * 1000),
+      co2: m.co2,
+      gluc: m.gluc,
+      mood: Math.max(1, Math.min(10, Math.round(r.team_cohesion_score + 1.5))),
+      stress: Math.max(1, Math.min(10, Math.round((r.cortisol_ug_dL - 10) / 3))),
+      fatigue: m.fatigue,
+      isol: Math.max(1, Math.min(10, Math.round(9 - r.team_cohesion_score))),
+      back: m.back,
+      meal: m.meal,
+      vision: m.vision,
+      head: m.head,
+      dizzy: m.dizzy,
+      cough: false,
+      rash: m.rash,
+      gi: m.gi,
+      eye: false
+    };
+  });
+  store();
+  const curRow = getSimCurrentRow() || rows[rows.length - 1];
+  writeSupplementalMetrics(mapSimRowToRiskMetrics(curRow));
+  renderOv();
+  renderTr();
+  renderRisks();
+  showToast(`Loaded ${rows.length} simulated days for ${profile ? profile.name : aid} into Monitor.`, undo);
+}
+
+async function ensureSimulatedDatasetLoaded() {
+  if (SIM_BUNDLE) return SIM_BUNDLE;
+  try {
+    const res = await fetch('/generated_data/astronaut_health_dataset.json');
+    if (!res.ok) return null;
+    SIM_BUNDLE = await res.json();
+    if (!$('#rk')?.classList.contains('hide')) renderRisks();
+    renderOv();
+    return SIM_BUNDLE;
+  } catch {
+    return null;
+  }
+}
+
+function renderRisks() {
+  const el = $('#rk');
+  if (!el) return;
+  const activeMetrics = getActiveRiskMetrics(riskScenario);
+  const { results, readiness } = evaluateSpaceRisks(activeMetrics, P().ex);
+  const counts = {
+    0: results.filter(r => r.l === 0).length,
+    1: results.filter(r => r.l === 1).length,
+    2: results.filter(r => r.l === 2).length
+  };
+  const promptLog = readPromptLog();
+  const completedPrompts = SPACE_RISKS_11.filter(r => promptLog[r.key]).length;
+  const promptXp = completedPrompts * 25;
+
+  const ordered = priorityOrder(results.map(r => r.l)).map(i => results[i]);
+  const visible = ordered.filter(r => {
+    if (riskFilter === 'flagged') return r.l > 0;
+    if (riskFilter === 'eva') return r.cat === 'eva';
+    if (riskFilter === 'long') return r.cat === 'long';
+    if (riskFilter === 'env') return r.cat === 'env';
+    return true;
+  });
+
+  const supp = readSupplementalMetrics();
+  const topLevel = Math.max(...results.map(r => r.l));
+  const simRows = getSimDailyRows(simAstronautId);
+  const simRow = getSimCurrentRow();
+  const simAstro = SIM_BUNDLE?.astronauts?.find(a => a.astronaut_id === simAstronautId);
+
+  el.innerHTML = `
+    <h2>11 NASA Spaceflight Health Risks · Mission Overview</h2>
+    <p class="sub">Complete risk monitoring for all 11 spaceflight risks defined in the NASA Space Challenge, with color-coded thresholds, guided astronaut measurement prompts, longitudinal simulation time-series (<code>simulate_health_data.py</code>), mission-site context (${esc(P().n)}, ${esc(P().g)}), and curated NASA OSDR studies.</p>
+    <div class="bar l${topLevel}" style="margin-top:12px">
+      11-Risk Mission Readiness: ${readiness}/100 (${LBL[topLevel]}) · ${counts[2]} Act (Red), ${counts[1]} Watch (Yellow), ${counts[0]} Normal (Green) · Routine Prompts Verified: ${completedPrompts}/11 (+${promptXp} XP)
+    </div>
+    <div class="risk-toolbar">
+      <label class="mission-label" style="flex:1;min-width:240px">
+        Assessment data source / Crew profile
+        <select id="risk-scenario-select" aria-label="Assessment data source or crew profile">
+          <option value="sim" ${riskScenario === 'sim' ? 'selected' : ''}>Simulated Mission Time-Series (simulate_health_data.py · 148 days)</option>
+          <option value="live" ${riskScenario === 'live' ? 'selected' : ''}>Live Monitor Check-in + Supplemental Inputs</option>
+          <option value="ast01" ${riskScenario === 'ast01' ? 'selected' : ''}>${esc(CREW_SCENARIOS.ast01.label)}</option>
+          <option value="ast02" ${riskScenario === 'ast02' ? 'selected' : ''}>${esc(CREW_SCENARIOS.ast02.label)}</option>
+          <option value="ast03" ${riskScenario === 'ast03' ? 'selected' : ''}>${esc(CREW_SCENARIOS.ast03.label)}</option>
+          <option value="nominal" ${riskScenario === 'nominal' ? 'selected' : ''}>${esc(CREW_SCENARIOS.nominal.label)}</option>
+        </select>
+      </label>
+      <div class="task-filters" role="group" aria-label="Filter 11 spaceflight risks" style="margin:0">
+        ${[
+          ['all', `All 11 risks (11)`],
+          ['flagged', `Act / Watch (${counts[1] + counts[2]})`],
+          ['eva', 'EVA & Surface (3)'],
+          ['long', 'Microgravity & Long-term (5)'],
+          ['env', 'Environment & Immune (3)']
+        ].map(([val, label]) => `<button type="button" data-rfilter="${val}" aria-pressed="${riskFilter === val}">${label}</button>`).join('')}
+      </div>
+    </div>
+
+    ${SIM_BUNDLE ? `
+      <div class="sim-explorer-panel" aria-label="Simulated Mission Time-Series Explorer">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:start;gap:12px">
+          <div>
+            <h3 style="margin:0;font-size:16px">Longitudinal Mission Simulator (<code>simulate_health_data.py</code> · ${simRows.length} Days)</h3>
+            <p class="sub" style="margin:4px 0 0">
+              ${simAstro ? `<b>${esc(simAstro.name)}</b> (${esc(simAstro.role)})` : esc(simAstronautId)}
+              ${simRow ? ` · <b>Day ${simRow.mission_day}</b> (${esc(simRow.date)}) · Environment: <b>${esc(simRow.environment)}</b> (${simRow.gravity_g}g, ${esc(simRow.mission_phase)}) · XP: <b>${simRow.gamification?.total_xp || 0}</b> (${esc(simRow.gamification?.badge_level || '')})` : ''}
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" id="sync-sim-to-monitor" class="pri">Load ${esc(simAstronautId)} (148 days) into Monitor Trends</button>
+            <a href="/research?sim=daily_health_metrics" target="_top" class="research-shortcut" style="min-height:38px;padding:6px 12px;font-size:13px">Analyze in Research Workspace</a>
+          </div>
+        </div>
+        <div class="f" style="margin-top:12px">
+          <label>Simulated Astronaut
+            <select id="sim-astro-select" aria-label="Simulated Astronaut">
+              ${SIM_BUNDLE.astronauts.map(a => `<option value="${esc(a.astronaut_id)}" ${a.astronaut_id === simAstronautId ? 'selected' : ''}>${esc(a.astronaut_id)} · ${esc(a.name)} (${esc(a.role)})</option>`).join('')}
+            </select>
+          </label>
+          <label>Mission Day Timeline (L-14 to R+14): <b id="sim-day-label">Day ${simMissionDay}</b>
+            <input type="range" id="sim-day-slider" min="-14" max="133" step="1" value="${simMissionDay}">
+          </label>
+          <label>Dynamic Longitudinal Chart Indicator
+            <select id="sim-metric-select" aria-label="Dynamic Longitudinal Chart Indicator">
+              ${SIM_CHART_METRICS.map(([k, lbl]) => `<option value="${k}" ${simChartMetric === k ? 'selected' : ''}>${esc(lbl)}</option>`).join('')}
+            </select>
+          </label>
+        </div>
+        <div class="sim-milestone-bar" role="group" aria-label="Jump to mission anomaly events">
+          <span class="sub" style="align-self:center;margin-right:4px">Jump to event:</span>
+          <button type="button" data-simjump="AST-01:-7">Pre-Flight Baseline (Day -7)</button>
+          <button type="button" data-simjump="AST-01:1">Launch 0G Transition (Day 1)</button>
+          <button type="button" data-simjump="AST-02:36">AST-02 VTE / Low Albumin Alert (Day 36)</button>
+          <button type="button" data-simjump="AST-02:56">Cabin Hypoxia & CO₂ Spike (Day 56)</button>
+          <button type="button" data-simjump="AST-01:82">AST-01 SANS Ocular Alert (Day 82)</button>
+          <button type="button" data-simjump="AST-03:93">AST-03 Surface EVA DCS & Thermal Strain (Day 93)</button>
+          <button type="button" data-simjump="AST-03:120">R+0 Earth Landing Gravity Reload (Day 120)</button>
+        </div>
+        <div style="margin-top:12px" class="scroll">
+          ${buildSimLongitudinalSvg(simRows, simChartMetric, simMissionDay)}
+        </div>
+      </div>
+    ` : ''}
+
+    <details class="risk-inputs-panel">
+      <summary>Supplemental Spaceflight & EVA Indicators (${riskScenario === 'live' ? 'Editable for Live Monitor mode' : 'Viewing scenario / simulation — click Apply to switch to custom Live Monitor'})</summary>
+      <p class="sub" style="margin:8px 0 14px">Adjust specialized indicators (DCS O₂ pre-breathe, EVA hand-grip fatigue, vestibular Sit-to-Stand, SANS ONSD ultrasound, microbiome diversity, and bone turnover) to evaluate all 11 risks without altering your saved daily check-in log.</p>
+      <div class="f">
+        <label>hs-CRP inflammation (mg/L)<input type="number" step="0.1" min="0.1" max="15" data-skey="hsCrp" value="${supp.hsCrp}"></label>
+        <label>T-cell function (%)<input type="number" step="1" min="30" max="100" data-skey="tCellPct" value="${supp.tCellPct}"></label>
+        <label>Sit-to-Stand time (s)<input type="number" step="0.1" min="1" max="10" data-skey="sitToStandS" value="${supp.sitToStandS}"></label>
+        <label>Tandem walk eyes closed (%)<input type="number" step="1" min="0" max="100" data-skey="tandemWalkPct" value="${supp.tandemWalkPct}"></label>
+        <label>Motion sickness (0–20)<input type="number" step="1" min="0" max="20" data-skey="motionSickness" value="${supp.motionSickness}"></label>
+        <label>Orthostatic ΔHR (bpm)<input type="number" step="1" min="0" max="40" data-skey="orthoDeltaHr" value="${supp.orthoDeltaHr}"></label>
+        <label>Serum albumin (g/dL)<input type="number" step="0.1" min="2.5" max="5.5" data-skey="albumin" value="${supp.albumin}"></label>
+        <label>EVA O₂ pre-breathe (min)<input type="number" step="5" min="0" max="240" data-skey="o2PrebreatheMin" value="${supp.o2PrebreatheMin}"></label>
+        <label>Gut Shannon diversity (H′)<input type="number" step="0.05" min="1.5" max="4.5" data-skey="gutShannon" value="${supp.gutShannon}"></label>
+        <label>Skin/nasal dysbiosis (0–1)<input type="number" step="0.02" min="0" max="1" data-skey="skinDysbiosis" value="${supp.skinDysbiosis}"></label>
+        <label>Cabin/suit ppO₂ (kPa)<input type="number" step="0.1" min="14" max="25" data-skey="cabinPpo2" value="${supp.cabinPpo2}"></label>
+        <label>Daily hydration (L)<input type="number" step="0.1" min="0.5" max="5" data-skey="hydrationL" value="${supp.hydrationL}"></label>
+        <label>Serum Vitamin D (ng/mL)<input type="number" step="1" min="8" max="80" data-skey="vitaminD" value="${supp.vitaminD}"></label>
+        <label>EVA hand-grip fatigue (%)<input type="number" step="1" min="0" max="70" data-skey="gripFatiguePct" value="${supp.gripFatiguePct}"></label>
+        <label>EVA strain score (1–10)<input type="number" step="0.5" min="0" max="10" data-skey="evaStrain" value="${supp.evaStrain}"></label>
+        <label>IMTP force change (%)<input type="number" step="0.5" min="-30" max="10" data-skey="imtpChangePct" value="${supp.imtpChangePct}"></label>
+        <label>VO₂max change (%)<input type="number" step="0.5" min="-30" max="10" data-skey="vo2ChangePct" value="${supp.vo2ChangePct}"></label>
+        <label>ONSD ocular ultrasound (mm)<input type="number" step="0.05" min="3.5" max="7.0" data-skey="onsdMm" value="${supp.onsdMm}"></label>
+        <label>Refractive shift (D)<input type="number" step="0.05" min="-0.5" max="2.0" data-skey="refractiveShift" value="${supp.refractiveShift}"></label>
+        <label>Tibia BMD change (%)<input type="number" step="0.1" min="-12" max="2" data-skey="bmdChangePct" value="${supp.bmdChangePct}"></label>
+        <label>Serum CTx resorption (ng/mL)<input type="number" step="0.02" min="0.1" max="1.5" data-skey="serumCtx" value="${supp.serumCtx}"></label>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" id="apply-supp-metrics" class="pri">Apply supplemental indicators</button>
+        <button type="button" id="reset-supp-metrics">Reset to nominal defaults</button>
+      </div>
+    </details>
+
+    <div class="grid" id="risk-cards-grid">
+      ${visible.map(r => `
+        <article class="card risk-card" data-risk-key="${r.key}">
+          <div>
+            <div class="risk-meta">Risk #${r.num} · ${esc(r.nameDe)}</div>
+            <h2>${esc(r.nameEn)}<span class="pill l${r.l}">${LBL[r.l]}</span></h2>
+          </div>
+          <p class="sub" style="margin:0">${esc(r.desc)}</p>
+          <div class="risk-metrics-list" aria-label="Indicators for ${esc(r.nameEn)}">
+            ${r.metricsDisplay.map(([label, val, ref]) => `
+              <div class="risk-metric-item">
+                <span>${esc(label)}</span>
+                <strong>${esc(val)}</strong>
+                <span class="sub">Target: ${esc(ref)}</span>
+              </div>
+            `).join('')}
+          </div>
+          ${r.reasons.length ? `<ul>${r.reasons.map(reason => `<li><strong>${esc(reason)}</strong></li>`).join('')}</ul>` : `<div class="sub">All indicators within nominal spaceflight target range.</div>`}
+          <div class="risk-prompt-box">
+            <label style="display:flex;gap:8px;align-items:start;cursor:pointer">
+              <input type="checkbox" data-rprompt="${r.key}" ${promptLog[r.key] ? 'checked' : ''}>
+              <span>
+                <strong>Guided Measurement Prompt (+25 XP):</strong> ${esc(r.prompt)}
+                <span class="sub" style="display:block;margin-top:4px"><b>How to assess:</b> ${esc(r.measure)}</span>
+              </span>
+            </label>
+          </div>
+          ${r.l > 0 ? `
+            <div class="act">
+              <b>Recommended Countermeasures (${LBL[r.l]})</b>
+              <ul>
+                ${(r.l === 2 ? r.act2 : r.act1).map(step => `<li>${esc(step)}</li>`).join('')}
+                ${r.l === 2 ? `<li><b>${esc(P().cm)}</b></li>` : ''}
+              </ul>
+            </div>
+          ` : ''}
+          <details class="risk-osdr-box">
+            <summary>NASA OSDR Reference Studies & Standard Measures (${r.studies.length})</summary>
+            ${r.studies.map(s => `
+              <div class="osdr-study-item">
+                <div><strong>${esc(s.osd)}</strong> · ${esc(s.title)}</div>
+                <div class="sub">Biomarkers / Metrics: ${esc(s.metrics)}</div>
+                <div class="sub">Standard Measures: ${esc(s.std)}</div>
+                <div class="osdr-study-actions">
+                  <a href="/research?osd=${encodeURIComponent(s.osd)}&risk=${r.num}" target="_top">Analyze ${esc(s.osd)} in Research Workspace</a>
+                  <a href="https://osdr.nasa.gov/bio/repo/data/studies/${encodeURIComponent(s.osd)}" target="_blank" rel="noopener">NASA OSDR Repository</a>
+                </div>
+              </div>
+            `).join('')}
+          </details>
+        </article>
+      `).join('')}
+    </div>
+  `;
+
+  $('#risk-scenario-select').onchange = ev => {
+    riskScenario = ev.target.value;
+    setPreference('risk-scenario', riskScenario);
+    renderRisks();
+    renderOv();
+  };
+
+  const astroSel = $('#sim-astro-select');
+  if (astroSel) {
+    astroSel.onchange = ev => {
+      simAstronautId = ev.target.value;
+      riskScenario = 'sim';
+      setPreference('sim-astronaut', simAstronautId);
+      setPreference('risk-scenario', 'sim');
+      renderRisks();
+      renderOv();
+    };
+  }
+
+  const daySlider = $('#sim-day-slider');
+  if (daySlider) {
+    daySlider.oninput = ev => {
+      const lbl = $('#sim-day-label');
+      if (lbl) lbl.textContent = 'Day ' + ev.target.value;
+    };
+    daySlider.onchange = ev => {
+      simMissionDay = Number(ev.target.value);
+      riskScenario = 'sim';
+      setPreference('sim-day', String(simMissionDay));
+      setPreference('risk-scenario', 'sim');
+      renderRisks();
+      renderOv();
+    };
+  }
+
+  const metricSel = $('#sim-metric-select');
+  if (metricSel) {
+    metricSel.onchange = ev => {
+      simChartMetric = ev.target.value;
+      setPreference('sim-metric', simChartMetric);
+      renderRisks();
+    };
+  }
+
+  $$('#rk button[data-simjump]').forEach(btn => {
+    btn.onclick = () => {
+      const [aid, dayStr] = btn.dataset.simjump.split(':');
+      simAstronautId = aid;
+      simMissionDay = Number(dayStr);
+      riskScenario = 'sim';
+      setPreference('sim-astronaut', simAstronautId);
+      setPreference('sim-day', String(simMissionDay));
+      setPreference('risk-scenario', 'sim');
+      renderRisks();
+      renderOv();
+    };
+  });
+
+  const syncBtn = $('#sync-sim-to-monitor');
+  if (syncBtn) {
+    syncBtn.onclick = () => void syncAstronautToMonitor(simAstronautId);
+  }
+
+  $$('#rk button[data-rfilter]').forEach(btn => {
+    btn.onclick = () => {
+      riskFilter = btn.dataset.rfilter;
+      renderRisks();
+      $(`#rk button[data-rfilter="${riskFilter}"]`)?.focus();
+    };
+  });
+
+  $$('#rk input[data-rprompt]').forEach(chk => {
+    chk.onchange = () => {
+      const next = readPromptLog();
+      if (chk.checked) next[chk.dataset.rprompt] = td();
+      else delete next[chk.dataset.rprompt];
+      writePromptLog(next);
+      const riskObj = SPACE_RISKS_11.find(item => item.key === chk.dataset.rprompt);
+      showToast((chk.checked ? 'Verified protocol (+25 XP): ' : 'Reopened protocol: ') + (riskObj ? riskObj.nameEn : chk.dataset.rprompt));
+      renderRisks();
+    };
+  });
+
+  const applyBtn = $('#apply-supp-metrics');
+  if (applyBtn) {
+    applyBtn.onclick = () => {
+      const next = readSupplementalMetrics();
+      $$('#rk input[data-skey]').forEach(inp => {
+        const val = parseFloat(inp.value);
+        if (Number.isFinite(val)) next[inp.dataset.skey] = val;
+      });
+      writeSupplementalMetrics(next);
+      riskScenario = 'live';
+      setPreference('risk-scenario', 'live');
+      renderRisks();
+      renderOv();
+      showToast('Supplemental spaceflight indicators updated for Live Monitor evaluation.');
+    };
+  }
+
+  const resetBtn = $('#reset-supp-metrics');
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      writeSupplementalMetrics(DEFAULT_SUPP_METRICS);
+      riskScenario = 'live';
+      setPreference('risk-scenario', 'live');
+      renderRisks();
+      renderOv();
+      showToast('Supplemental indicators reset to nominal baseline values.');
+    };
+  }
+}
+
+const baseEnhancedOverview = renderOv;
+renderOv = function() {
+  baseEnhancedOverview();
+  const ovEl = $('#ov');
+  if (!ovEl) return;
+  const activeMetrics = getActiveRiskMetrics(riskScenario);
+  const { results, readiness } = evaluateSpaceRisks(activeMetrics, P().ex);
+  const actCount = results.filter(r => r.l === 2).length;
+  const watchCount = results.filter(r => r.l === 1).length;
+  const topRiskLevel = Math.max(...results.map(r => r.l));
+  const banner = document.createElement('div');
+  banner.className = `card ov-risk-banner l${topRiskLevel}`;
+  const modeLabel = riskScenario === 'sim' ? `Simulated Mission (${simAstronautId} · Day ${simMissionDay})` : (riskScenario === 'live' ? 'Live Monitor' : CREW_SCENARIOS[riskScenario]?.label || 'Crew Profile');
+  banner.innerHTML = `
+    <div>
+      <strong>11 NASA Spaceflight Risks Matrix (${esc(modeLabel)})</strong>
+      <div class="sub" style="color:inherit">Readiness Score: <b>${readiness}/100</b> · ${actCount} Act, ${watchCount} Watch, ${11 - actCount - watchCount} Normal across all 11 challenge risks (incl. DCS, Microbiome, EVA, Sensorimotor, SANS & Bone).</div>
+    </div>
+    <button type="button" class="pri" id="open-11-risks-btn">Open 11 Risks Matrix</button>
+  `;
+  const firstGrid = $('#ov > .grid');
+  if (firstGrid) firstGrid.before(banner);
+  else ovEl.append(banner);
+  const openBtn = $('#open-11-risks-btn');
+  if (openBtn) openBtn.onclick = () => tab('rk');
+};
+
+const baseRenderHz = renderHz;
+renderHz = function() {
+  baseRenderHz();
+  const hzEl = $('#hz');
+  if (!hzEl) return;
+  const callout = document.createElement('div');
+  callout.className = 'card';
+  callout.style.marginTop = '12px';
+  callout.innerHTML = `
+    <h2>Complete 11 Spaceflight Risks Assessment & NASA OSDR Mapping</h2>
+    <p class="sub">All 11 spaceflight risks from the NASA Space Challenge — including Decompression Sickness (DCS), Host-Microorganism Interactions, Spacewalk (EVA) Injuries, Sensorimotor/Vestibular Adaptation, Hypoxia, SANS, and Bone Remodeling — are interactively monitored with guided prompts, longitudinal simulation data (<code>simulate_health_data.py</code>), and 20 curated NASA OSDR studies in the dedicated 11 Risks view.</p>
+    <button type="button" class="pri" id="hz-to-rk-btn">Open 11 Spaceflight Risks</button>
+  `;
+  hzEl.append(callout);
+  const btn = $('#hz-to-rk-btn');
+  if (btn) btn.onclick = () => tab('rk');
+};
+
+const prevTab = tab;
+tab = function(id, moveFocus = true) {
+  $('#rk')?.classList.toggle('hide', id !== 'rk');
+  prevTab(id, moveFocus);
+  if (id === 'rk') renderRisks();
+};
+
+const origProfChange = $('#prof').onchange;
+$('#prof').onchange = e => {
+  if (origProfChange) origProfChange(e);
+  if (!$('#rk')?.classList.contains('hide')) renderRisks();
+};
+
+renderOv();
+void ensureSimulatedDatasetLoaded();
