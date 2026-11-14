@@ -37,7 +37,7 @@ toastActions.className = 'toast-actions';
 toastActions.append(undoButton, $('#tx')); $('#toast').append(toastActions);
 showToast = function(message, undo) {
   $('#tt').textContent = message;
-  $('#toast').className = 'bar l0';
+  $('#toast').className = 'bar ' + (message.startsWith('Due:') ? 'l1' : 'l0');
   $('#toast').style.display = 'flex';
   undoAction = undo || null; undoButton.hidden = !undoAction;
 };
@@ -54,6 +54,8 @@ function refreshCurrentScreen() {
 }
 function updateDraft() {
   draftDirty = true;
+  $$('#ci input[aria-invalid]').forEach(input => { if (input.checkValidity()) input.removeAttribute('aria-invalid'); });
+  if (!$('#ci input[aria-invalid]')) $('#form-error').classList.add('hide');
   const count = NUM.filter(item => TOUCH[item[0]] || SRC[item[0]]).length;
   $('#draft-state').textContent = 'Unsaved changes · ' + count + ' measurements';
   NUM.forEach(item => {
@@ -188,5 +190,7 @@ $('#dvs').setAttribute('role','status');
 $('#met').setAttribute('aria-label','Trend measurement');
 $('#b_hr').textContent = 'Connect pulse monitor'; $('#b_bp').textContent = 'Connect blood pressure monitor';
 $('#b_ox').textContent = 'Connect oxygen monitor'; $('#b_t').textContent = 'Connect thermometer';
+const originalSample = onSample;
+onSample = function(key, value, source) { originalSample(key, value, source); if (SRC[key]) updateDraft(); };
 // Keep remote source values and medical evaluation unchanged, including uncertain telemetry.
 renderEnv(); tab('ov', false);
