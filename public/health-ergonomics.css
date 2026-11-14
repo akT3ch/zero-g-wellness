@@ -97,6 +97,8 @@ input[aria-invalid=true] { border-color: var(--bad); }
 .tool-menu { position: absolute; right: 0; z-index: 6; top: 100%; background: var(--card); border: 1px solid var(--line); padding: 6px; min-width: 200px; box-shadow: var(--shadow); border-radius: 6px; }
 .tool-menu button { display: block; text-align: left; width: 100%; border: 0; }
 .tool-menu .evaluation-link { display: block; padding: 12px; min-height: 44px; border-top: 1px solid var(--line); color: var(--acc); }
+.research-shortcut { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 14px; border: 1px solid var(--acc); border-radius: 6px; background: var(--selected); color: var(--acc); font-size: 14px; font-weight: 600; text-align: center; overflow-wrap: anywhere; }
+.research-shortcut:hover { text-decoration: underline; }
 .empty-state { text-align: center; padding: 48px 20px; }
 .empty-state p { color: var(--mut); }
 #toast { position: relative !important; top: auto !important; margin: 0 0 16px; border: 1px solid var(--line); gap: 16px; }
@@ -119,6 +121,7 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
   .mission-label { flex: 1; }
   .mission-label select { min-width: 0; }
   #wellness-open { flex: 1 1 100%; }
+  .research-shortcut { flex: 1 1 100%; }
   nav { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 4px; }
   nav button { padding: 8px 4px; }
   .monitor-context { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; margin-bottom: 20px; }

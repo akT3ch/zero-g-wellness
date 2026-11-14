@@ -342,3 +342,6 @@ researchLink.href = '/research'; researchLink.target = '_top';
 researchLink.textContent = 'NASA Research Data Analytics';
 researchLink.className = 'evaluation-link';
 $('.tool-menu').append(researchLink);
+const researchShortcut = researchLink.cloneNode(true);
+researchShortcut.className = 'research-shortcut';
+$('.header-tools').append(researchShortcut);
