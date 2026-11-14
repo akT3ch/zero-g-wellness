@@ -304,3 +304,6 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
 @media (prefers-reduced-motion: reduce) {
   #bsvg .rg > *, #bsvg .anatomy-landmark rect { transition: none; }
 }
+
+/* Shared app header owns mission site, appearance and data options when embedded. */
+.embedded-in-app .header-tools { display: none !important; }

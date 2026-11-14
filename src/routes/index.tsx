@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <AppHeader />
+      <AppHeader monitorControls />
       <iframe
         src="/astro-health-monitor.html"
         title="Astro Health Monitor"
