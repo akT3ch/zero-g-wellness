@@ -1,3 +1,4 @@
+import { requiredValue } from '@/lib/research/required-value';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { limits, type Cell, type Dataset, type Row, type Source, type VariableType } from './types';
@@ -28,7 +29,7 @@ export function fromRows(input: unknown[], name: string, source: Source = 'User 
   if (!columns.length || columns.length > limits.columns || columns.length * input.length > limits.cells) throw new Error('Dataset must have 1–250 columns and at most 2 million cells.');
   if (columns.some(c => ['__proto__', 'constructor', 'prototype'].includes(c))) throw new Error('Unsupported column name. Rename reserved object-property names.');
   const original: Row[] = input.map(r => Object.fromEntries(columns.map(c => [c, cell((r as Record<string, unknown>)[c])])));
-  const types = Object.fromEntries(columns.map(c => [c, classify(original.map(r => r[c]))]));
+  const types = Object.fromEntries(columns.map(c => [c, classify(original.map(r => requiredValue(r[c])))]));
   return { id: crypto.randomUUID(), name, source, reference, importedAt: new Date().toISOString(), columns, original, rows: original.map(r => ({ ...r })), types, operations: [], warnings, units: {} };
 }
 function matrixRows(matrix: unknown[][]): { rows: Row[]; warnings: string[] } {
@@ -51,7 +52,7 @@ export function parseText(text: string, name: string, source: Source = 'User Upl
   if (!/\.(csv|tsv)$/i.test(name)) throw new Error('Supported formats: CSV, TSV, XLSX and JSON.');
   const parsed = Papa.parse<string[]>(text, { skipEmptyLines: 'greedy', delimiter: /\.tsv$/i.test(name) ? '\t' : '' });
   const errors = parsed.errors.filter(e => e.code !== 'UndetectableDelimiter');
-  if (errors.length) throw new Error(`Malformed delimited file: ${errors[0]?.message}`);
+  if (errors.length) throw new Error(`Malformed delimited file: ${requiredValue(errors[0])?.message}`);
   const table = matrixRows(parsed.data); return fromRows(table.rows, name, source, reference, table.warnings);
 }
 export function readWorkbook(buffer: ArrayBuffer) {
@@ -59,7 +60,7 @@ export function readWorkbook(buffer: ArrayBuffer) {
   catch { throw new Error('Excel file could not be read. Use an unencrypted XLSX workbook.'); }
 }
 export function parseWorkbook(buffer: ArrayBuffer, name: string, sheet?: string, source: Source = 'User Upload', reference = name) {
-  const book = readWorkbook(buffer); const selected = sheet || book.SheetNames[0]; const page = selected ? book.Sheets[selected] : undefined;
+  const book = readWorkbook(buffer); const selected = sheet || requiredValue(book.SheetNames[0]); const page = selected ? requiredValue(book.Sheets[selected]) : undefined;
   if (!page) throw new Error('Worksheet not found.');
   const table = matrixRows(XLSX.utils.sheet_to_json<unknown[]>(page, { header: 1, defval: null, blankrows: false }));
   return fromRows(table.rows, `${name} · ${selected}`, source, reference, table.warnings);
