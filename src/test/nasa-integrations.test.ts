@@ -38,6 +38,13 @@ describe('OSDR normalization', () => {
   });
 });
 describe('Cache, keys, UTC and telemetry', () => {
+  it('excludes snapshot pressure from live rules while retaining fresh independent SEP warnings', () => {
+    const html = readFileSync('public/astro-health-monitor.html', 'utf8');
+    const body = html.slice(html.indexOf('function addEnv('), html.indexOf('function renderEnv('));
+    const run = new Function('ENV', 'station', 'weatherState', 'P', 'f1', body + '; const result=[];addEnv((...args)=>result.push(args));return result;');
+    const result = run({ src: 'live', temp: 22, press: 10, donki: 'partial', sep: [{}], xflr: false }, { temp: { source: 'live', at: Date.now() }, press: { source: 'snapshot' } }, { SEP: { stale: false } }, () => ({ id: 'iss' }), (v: number) => v);
+    expect(result).toEqual([[4, 2, 'Particle event (SEP) in the last 3 days per DONKI']]);
+  });
   it('deduplicates simultaneous calls and reuses successful records for 30 minutes', async () => {
     const t = transport(); await Promise.all([t.h.weather('SEP'), t.h.weather('SEP')]); expect(t.calls()).toBe(1);
     expect((await t.h.weather('SEP')).cached).toBe(true); expect(t.calls()).toBe(1);
