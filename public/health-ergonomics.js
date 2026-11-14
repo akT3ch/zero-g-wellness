@@ -352,7 +352,7 @@ renderBody = function() {
     button.setAttribute('aria-pressed', String(button.dataset.region === SEL));
     const state = states[button.dataset.region];
     button.dataset.state = state;
-    button.setAttribute('aria-label', REG[button.dataset.region].n + ' � ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
+    button.setAttribute('aria-label', REG[button.dataset.region].n + ' · ' + (state === 'n' ? 'Unavailable or incomplete' : LBL[state]));
   });
   const heading = $('#bp h2');
   if (states[SEL] === 'n') {
@@ -864,6 +864,17 @@ function evaluateSpaceRisks(m, exFactor = 1) {
   return { results, readiness };
 }
 
+const BODY_REGION_TO_RISKS = {
+  brain: ['sensorimotor_vestibular', 'hypoxia'],
+  eye: ['sans_neuroocular', 'sensorimotor_vestibular'],
+  heart: ['cardiovascular', 'hypoxia'],
+  immun: ['immune_response', 'host_microorganism'],
+  gut: ['nutrition', 'host_microorganism'],
+  bone: ['bone_changes', 'eva_injury_performance'],
+  muscle: ['fitness_deconditioning', 'eva_injury_performance'],
+  rad: ['decompression_sickness', 'hypoxia', 'immune_response']
+};
+
 let riskFilter = 'all';
 let riskScenario = getPreference('risk-scenario', 'live');
 if (!['live', 'nominal', 'ast01', 'ast02', 'ast03', 'sim'].includes(riskScenario)) riskScenario = 'live';
@@ -1057,11 +1068,400 @@ async function ensureSimulatedDatasetLoaded() {
     if (!res.ok) return null;
     SIM_BUNDLE = await res.json();
     if (!$('#rk')?.classList.contains('hide')) renderRisks();
+    if (!$('#bd')?.classList.contains('hide')) renderBody();
     renderOv();
     return SIM_BUNDLE;
   } catch {
     return null;
   }
+}
+
+function jumpToRiskCard(riskKey) {
+  riskFilter = 'all';
+  tab('rk');
+  const card = $(`#rk [data-risk-key="${riskKey}"]`);
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('risk-card-highlight');
+    setTimeout(() => card.classList.remove('risk-card-highlight'), 2400);
+  }
+}
+
+function buildAmslerGridSvg() {
+  const lines = [];
+  for (let i = 10; i < 200; i += 10) {
+    const sw = i === 100 ? '1.4' : '0.6';
+    lines.push(`<line x1="${i}" y1="0" x2="${i}" y2="200" stroke="currentColor" stroke-width="${sw}" opacity="0.65"/>`);
+    lines.push(`<line x1="0" y1="${i}" x2="200" y2="${i}" stroke="currentColor" stroke-width="${sw}" opacity="0.65"/>`);
+  }
+  return `<svg class="amsler-svg" viewBox="0 0 200 200" role="img" aria-label="SANS Near-Vision Amsler Grid with central fixation dot">
+    ${lines.join('')}
+    <circle cx="100" cy="100" r="4.5" fill="var(--acc)"/>
+  </svg>`;
+}
+
+const wizardDialog = document.createElement('dialog');
+wizardDialog.id = 'measurement-wizard-dialog';
+wizardDialog.className = 'wizard-dialog';
+wizardDialog.setAttribute('aria-labelledby', 'wizard-dialog-title');
+document.body.append(wizardDialog);
+
+let wizardActiveTimer = null;
+function clearWizardTimers() {
+  if (wizardActiveTimer) {
+    clearInterval(wizardActiveTimer);
+    clearTimeout(wizardActiveTimer);
+    wizardActiveTimer = null;
+  }
+}
+wizardDialog.addEventListener('close', clearWizardTimers);
+
+function openMeasurementWizard(riskKey) {
+  clearWizardTimers();
+  const risk = SPACE_RISKS_11.find(r => r.key === riskKey) || SPACE_RISKS_11[0];
+  const supp = readSupplementalMetrics();
+  const activeMetrics = getActiveRiskMetrics(riskScenario);
+  const evalSingle = evaluateSpaceRisks(activeMetrics, P().ex).results.find(r => r.key === risk.key);
+
+  let interactiveWidgetHtml = '';
+  if (risk.key === 'sensorimotor_vestibular') {
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · Interactive Sit-to-Stand Stopwatch & 10-Step Tandem Walk</h4>
+        <p class="sub" style="margin:0">Fold arms across chest. Click <b>Start Timer</b> as you rise from seated/restrained posture, stabilize upright for 2 seconds, then click <b>Stop & Record</b>.</p>
+        <div class="wizard-interactive-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <span class="wizard-timer-display" id="wiz-sts-display">${f1(supp.sitToStandS)} s</span>
+            <div style="display:flex;gap:8px">
+              <button type="button" class="pri" id="wiz-sts-toggle">Start Sit-to-Stand Timer</button>
+              <button type="button" id="wiz-sts-reset">Reset</button>
+            </div>
+          </div>
+          <div class="f" style="margin-top:6px">
+            <label>Sit-to-Stand Time (s · target ≤ 3.3s)
+              <input type="number" step="0.1" min="1" max="15" data-wiz-skey="sitToStandS" id="wiz-sts-input" value="${supp.sitToStandS}">
+            </label>
+            <label>Tandem Walk Correct Steps (0–10 eyes closed)
+              <input type="number" step="1" min="0" max="10" id="wiz-tandem-steps" value="${Math.round(supp.tandemWalkPct / 10)}">
+            </label>
+            <label>Tandem Walk Score (% · target ≥ 72%)
+              <input type="number" step="1" min="0" max="100" data-wiz-skey="tandemWalkPct" id="wiz-tandem-pct" value="${supp.tandemWalkPct}">
+            </label>
+            <label>Motion Sickness Score (0–20 · target ≤ 3)
+              <input type="number" step="1" min="0" max="20" data-wiz-skey="motionSickness" value="${supp.motionSickness}">
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (risk.key === 'decompression_sickness' || risk.key === 'eva_injury_performance') {
+    const n2Ratio = f1(Math.max(1.0, Math.min(1.88, 1.86 - (supp.o2PrebreatheMin / 225))));
+    const dcsIndex = Math.max(2, Math.min(95, Math.round((n2Ratio - 1.05) * 115)));
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · Interactive EVA Denitrogenation & Hand-Grip Calculator</h4>
+        <p class="sub" style="margin:0">Adjust 100% O₂ pre-breathe time and post-EVA hand-grip dynamometer values to verify safe decompression and forearm fatigue limits before/after airlock depressurization.</p>
+        <div class="wizard-interactive-box">
+          <div id="wiz-dcs-live" class="bar l${dcsIndex >= 65 || supp.o2PrebreatheMin < 60 ? 2 : (dcsIndex >= 35 || supp.o2PrebreatheMin < 110 ? 1 : 0)}" style="margin:0">
+            Calculated Tissue N₂ Ratio: <b>${n2Ratio}</b> (target &lt; 1.35) · DCS Risk Index: <b>${dcsIndex}/100</b> (target &lt; 35)
+          </div>
+          <div class="f">
+            <label>100% O₂ Pre-Breathe Duration (min · target ≥ 120)
+              <input type="number" step="5" min="0" max="240" data-wiz-skey="o2PrebreatheMin" id="wiz-o2-input" value="${supp.o2PrebreatheMin}">
+            </label>
+            <label>EVA Hand-Grip Fatigue (% · target ≤ 24%)
+              <input type="number" step="1" min="0" max="75" data-wiz-skey="gripFatiguePct" value="${supp.gripFatiguePct}">
+            </label>
+            <label>EVA Musculoskeletal Strain (1–10 · target &lt; 5.2)
+              <input type="number" step="0.5" min="0" max="10" data-wiz-skey="evaStrain" value="${supp.evaStrain}">
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (risk.key === 'sans_neuroocular') {
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · Interactive 30 cm Amsler Grid & Ocular Ultrasound ONSD Guide</h4>
+        <div class="amsler-wrap">
+          ${buildAmslerGridSvg()}
+          <div style="flex:1;min-width:220px">
+            <p class="sub" style="margin:0 0 8px"><b>Amsler Visual Self-Test:</b> Hold display at 30 cm (12 in), cover one eye, and fixate on the central dot. Check if any grid lines look wavy (metamorphopsia) or missing (scotoma).</p>
+            <p class="sub" style="margin:0 0 10px"><b>2D Ocular Ultrasound:</b> Apply sterile gel over closed eyelid; measure Optic Nerve Sheath Diameter (ONSD) 3 mm behind globe.</p>
+            <div class="f" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+              <label>ONSD Ultrasound (mm · ≤ 5.25)
+                <input type="number" step="0.05" min="3.5" max="7.5" data-wiz-skey="onsdMm" value="${supp.onsdMm}">
+              </label>
+              <label>Refractive Shift (+D · &lt; +0.45)
+                <input type="number" step="0.05" min="-0.5" max="2.5" data-wiz-skey="refractiveShift" value="${supp.refractiveShift}">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (risk.key === 'cardiovascular') {
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · 3-Minute Orthostatic Stand/Tilt ΔHR Calculator & VTE Albumin</h4>
+        <p class="sub" style="margin:0">Measure heart rate after 5 min relaxed supine/floating, then after 3 min standing/tethered. Enter both below to auto-compute Orthostatic ΔHR.</p>
+        <div class="wizard-interactive-box">
+          <div class="f">
+            <label>Supine / Floating HR (bpm)
+              <input type="number" step="1" min="40" max="130" id="wiz-hr-supine" value="62">
+            </label>
+            <label>3-Min Standing / Tilt HR (bpm)
+              <input type="number" step="1" min="40" max="160" id="wiz-hr-stand" value="${62 + supp.orthoDeltaHr}">
+            </label>
+            <label>Orthostatic ΔHR (bpm · target ≤ +14)
+              <input type="number" step="1" min="0" max="50" data-wiz-skey="orthoDeltaHr" id="wiz-ortho-delta" value="${supp.orthoDeltaHr}">
+            </label>
+            <label>Serum Albumin (g/dL · target ≥ 3.8)
+              <input type="number" step="0.1" min="2.5" max="5.5" data-wiz-skey="albumin" value="${supp.albumin}">
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (risk.key === 'hypoxia') {
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · Psychomotor Vigilance (PVT) Reaction Micro-Test & Cabin ppO₂</h4>
+        <p class="sub" style="margin:0">Mild hypoxia and elevated cabin CO₂ slow reaction speed before subjective symptoms appear. Click the pad below to run a quick 3-trial reaction-time check.</p>
+        <div class="wizard-interactive-box">
+          <div class="pvt-pad" id="wiz-pvt-pad" data-pvt-state="idle" tabindex="0" role="button" aria-label="Psychomotor Vigilance Reaction Test Pad">
+            Click here to start 3-Trial PVT Reaction Check
+          </div>
+          <div class="f">
+            <label>Cabin / Suit ppO₂ (kPa · target 19.7–22.5)
+              <input type="number" step="0.1" min="14" max="25" data-wiz-skey="cabinPpo2" value="${supp.cabinPpo2}">
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    const fieldMap = {
+      immune_response: [
+        ['hs-CRP Inflammation (mg/L · ≤ 2.4)', 'hsCrp', '0.1', '0.1', '15'],
+        ['T-Cell Function (% · ≥ 78%)', 'tCellPct', '1', '30', '100']
+      ],
+      host_microorganism: [
+        ['Gut Shannon Diversity (H′ · ≥ 2.95)', 'gutShannon', '0.05', '1.5', '4.5'],
+        ['Skin/Nasal Dysbiosis (0–1 · ≤ 0.56)', 'skinDysbiosis', '0.02', '0', '1']
+      ],
+      nutrition: [
+        ['Daily Hydration (L · ≥ 1.9 L)', 'hydrationL', '0.1', '0.5', '5'],
+        ['Serum Vitamin D (ng/mL · ≥ 27)', 'vitaminD', '1', '8', '80']
+      ],
+      fitness_deconditioning: [
+        ['IMTP Peak Force Δ (% · ≥ -8.0%)', 'imtpChangePct', '0.5', '-30', '10'],
+        ['VO₂max Aerobic Δ (% · ≥ -8.0%)', 'vo2ChangePct', '0.5', '-30', '10']
+      ],
+      bone_changes: [
+        ['Tibial BMD Change (% · ≥ -2.3%)', 'bmdChangePct', '0.1', '-12', '2'],
+        ['Serum CTx Resorption (ng/mL · ≤ 0.68)', 'serumCtx', '0.02', '0.1', '1.5']
+      ]
+    };
+    const fields = fieldMap[risk.key] || [];
+    interactiveWidgetHtml = `
+      <div class="wizard-step">
+        <h4>Step 2 · Record Biomarker & Countermeasure Measurements</h4>
+        <div class="wizard-interactive-box">
+          <div class="f">
+            ${fields.map(([lbl, key, stp, mn, mx]) => `
+              <label>${esc(lbl)}
+                <input type="number" step="${stp}" min="${mn}" max="${mx}" data-wiz-skey="${key}" value="${supp[key]}">
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  wizardDialog.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+      <div>
+        <div class="risk-meta">Guided Astronaut Measurement Wizard · Risk #${risk.num}</div>
+        <h2 id="wizard-dialog-title" style="margin:4px 0 0">${esc(risk.nameEn)} <span class="pill l${evalSingle ? evalSingle.l : 0}">${LBL[evalSingle ? evalSingle.l : 0]}</span></h2>
+      </div>
+      <button type="button" id="wiz-close-top" aria-label="Close wizard">Close</button>
+    </div>
+    <div class="wizard-steps">
+      <div class="wizard-step">
+        <h4>Step 1 · Why & How to Assess in Spaceflight</h4>
+        <p style="margin:0 0 8px;font-size:14px">${esc(risk.desc)}</p>
+        <p class="sub" style="margin:0 0 6px"><b>Crew Prompt:</b> ${esc(risk.prompt)}</p>
+        <p class="sub" style="margin:0"><b>Standard Protocol:</b> ${esc(risk.measure)}</p>
+      </div>
+      ${interactiveWidgetHtml}
+      <div class="wizard-step">
+        <h4>Step 3 · Reference Thresholds & Curated NASA OSDR Evidence</h4>
+        <div class="risk-metrics-list">
+          ${(evalSingle ? evalSingle.metricsDisplay : []).map(([label, val, ref]) => `
+            <div class="risk-metric-item">
+              <span>${esc(label)}</span>
+              <strong>${esc(val)}</strong>
+              <span class="sub">Nominal Target: ${esc(ref)}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="sub" style="margin-top:8px">
+          <b>NASA OSDR Reference Studies:</b> ${risk.studies.map(s => `${esc(s.osd)} (${esc(s.title)})`).join(' · ')}
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions" style="justify-content:space-between;flex-wrap:wrap">
+      <span class="sub">Saving applies measurements to Live Monitor & logs +25 XP routine verification.</span>
+      <div style="display:flex;gap:10px">
+        <button type="button" id="wiz-cancel-btn">Cancel</button>
+        <button type="button" class="pri" id="wiz-save-btn">Save Measurements & Verify (+25 XP)</button>
+      </div>
+    </div>
+  `;
+
+  // Wire interactive widgets inside wizard
+  const stsToggle = $('#wiz-sts-toggle');
+  if (stsToggle) {
+    let running = false;
+    let startTs = 0;
+    stsToggle.onclick = () => {
+      const disp = $('#wiz-sts-display');
+      const inp = $('#wiz-sts-input');
+      if (!running) {
+        running = true;
+        startTs = performance.now();
+        stsToggle.textContent = 'Stop & Record Time';
+        wizardActiveTimer = setInterval(() => {
+          const elapsed = (performance.now() - startTs) / 1000;
+          if (disp) disp.textContent = elapsed.toFixed(2) + ' s';
+        }, 40);
+      } else {
+        running = false;
+        clearWizardTimers();
+        const finalSec = Math.max(1.0, Math.min(15.0, Math.round(((performance.now() - startTs) / 1000) * 10) / 10));
+        if (disp) disp.textContent = finalSec.toFixed(1) + ' s';
+        if (inp) inp.value = String(finalSec);
+        stsToggle.textContent = 'Start Sit-to-Stand Timer';
+      }
+    };
+    const stsReset = $('#wiz-sts-reset');
+    if (stsReset) {
+      stsReset.onclick = () => {
+        running = false;
+        clearWizardTimers();
+        stsToggle.textContent = 'Start Sit-to-Stand Timer';
+        if ($('#wiz-sts-display')) $('#wiz-sts-display').textContent = '0.0 s';
+      };
+    }
+  }
+
+  const tandemSteps = $('#wiz-tandem-steps');
+  if (tandemSteps) {
+    tandemSteps.oninput = () => {
+      const steps = Math.max(0, Math.min(10, Number(tandemSteps.value) || 0));
+      const pctInp = $('#wiz-tandem-pct');
+      if (pctInp) pctInp.value = String(steps * 10);
+    };
+  }
+
+  const o2Input = $('#wiz-o2-input');
+  if (o2Input) {
+    o2Input.oninput = () => {
+      const mins = Math.max(0, Math.min(240, Number(o2Input.value) || 0));
+      const n2 = f1(Math.max(1.0, Math.min(1.88, 1.86 - (mins / 225))));
+      const dcs = Math.max(2, Math.min(95, Math.round((n2 - 1.05) * 115)));
+      const bar = $('#wiz-dcs-live');
+      if (bar) {
+        const lvl = dcs >= 65 || mins < 60 ? 2 : (dcs >= 35 || mins < 110 ? 1 : 0);
+        bar.className = 'bar l' + lvl;
+        bar.innerHTML = `Calculated Tissue N₂ Ratio: <b>${n2}</b> (target &lt; 1.35) · DCS Risk Index: <b>${dcs}/100</b> (${LBL[lvl]})`;
+      }
+    };
+  }
+
+  const hrSupine = $('#wiz-hr-supine');
+  const hrStand = $('#wiz-hr-stand');
+  if (hrSupine && hrStand) {
+    const syncOrtho = () => {
+      const delta = Math.max(0, (Number(hrStand.value) || 0) - (Number(hrSupine.value) || 0));
+      const out = $('#wiz-ortho-delta');
+      if (out) out.value = String(delta);
+    };
+    hrSupine.oninput = syncOrtho;
+    hrStand.oninput = syncOrtho;
+  }
+
+  const pvtPad = $('#wiz-pvt-pad');
+  if (pvtPad) {
+    let pvtState = 'idle';
+    let goTime = 0;
+    let trials = [];
+    const runTrial = () => {
+      pvtState = 'wait';
+      pvtPad.dataset.pvtState = 'wait';
+      pvtPad.textContent = `Trial ${trials.length + 1}/3 · Wait for signal…`;
+      const delay = 1100 + Math.random() * 1600;
+      wizardActiveTimer = setTimeout(() => {
+        pvtState = 'go';
+        goTime = performance.now();
+        pvtPad.dataset.pvtState = 'go';
+        pvtPad.textContent = 'SIGNAL ACTIVE — CLICK NOW!';
+      }, delay);
+    };
+    pvtPad.onclick = () => {
+      if (pvtState === 'idle' || pvtState === 'done') {
+        trials = [];
+        runTrial();
+      } else if (pvtState === 'wait') {
+        clearWizardTimers();
+        pvtState = 'idle';
+        pvtPad.dataset.pvtState = 'idle';
+        pvtPad.textContent = 'Early click! Click to restart 3-Trial PVT Check.';
+      } else if (pvtState === 'go') {
+        const rt = Math.round(performance.now() - goTime);
+        trials.push(rt);
+        if (trials.length < 3) {
+          runTrial();
+        } else {
+          pvtState = 'done';
+          pvtPad.dataset.pvtState = 'idle';
+          const avg = Math.round(trials.reduce((a, b) => a + b, 0) / trials.length);
+          const status = avg <= 290 ? 'Nominal Vigilance' : (avg <= 355 ? 'Watch (Mild Slowing)' : 'Act (Lapse / Fatigue Alert)');
+          pvtPad.textContent = `PVT Complete: Mean RT ${avg} ms (${trials.join(', ')} ms) · ${status}. Click to re-test.`;
+        }
+      }
+    };
+  }
+
+  const closeWizard = () => {
+    clearWizardTimers();
+    if (wizardDialog.open) wizardDialog.close();
+  };
+  $('#wiz-close-top').onclick = closeWizard;
+  $('#wiz-cancel-btn').onclick = closeWizard;
+
+  $('#wiz-save-btn').onclick = () => {
+    const nextSupp = readSupplementalMetrics();
+    $$('#measurement-wizard-dialog input[data-wiz-skey]').forEach(inp => {
+      const val = parseFloat(inp.value);
+      if (Number.isFinite(val)) nextSupp[inp.dataset.wizSkey] = val;
+    });
+    writeSupplementalMetrics(nextSupp);
+    const nextPrompts = readPromptLog();
+    nextPrompts[risk.key] = td();
+    writePromptLog(nextPrompts);
+    riskScenario = 'live';
+    setPreference('risk-scenario', 'live');
+    closeWizard();
+    renderRisks();
+    if (!$('#bd')?.classList.contains('hide')) renderBody();
+    renderOv();
+    showToast(`Saved ${risk.nameEn} measurements & verified daily protocol (+25 XP).`);
+  };
+
+  if (!wizardDialog.open) wizardDialog.showModal();
 }
 
 function renderRisks() {
@@ -1120,6 +1520,15 @@ function renderRisks() {
           ['env', 'Environment & Immune (3)']
         ].map(([val, label]) => `<button type="button" data-rfilter="${val}" aria-pressed="${riskFilter === val}">${label}</button>`).join('')}
       </div>
+    </div>
+
+    <div class="wizard-quick-bar" role="group" aria-label="Interactive Guided Astronaut Field-Test Wizards">
+      <strong style="font-size:13px">Interactive Guided Field-Test Wizards:</strong>
+      <button type="button" class="pri" data-open-wizard="sensorimotor_vestibular">Sit-to-Stand Stopwatch & Balance (Risk #2)</button>
+      <button type="button" class="pri" data-open-wizard="sans_neuroocular">SANS Amsler Grid & ONSD Ultrasound (Risk #10)</button>
+      <button type="button" class="pri" data-open-wizard="decompression_sickness">EVA O₂ Pre-Breathe & DCS Calculator (Risk #4)</button>
+      <button type="button" data-open-wizard="cardiovascular">Orthostatic ΔHR & VTE Check (Risk #3)</button>
+      <button type="button" data-open-wizard="hypoxia">3-Trial PVT Vigilance & Hypoxia (Risk #6)</button>
     </div>
 
     ${SIM_BUNDLE ? `
@@ -1226,6 +1635,9 @@ function renderRisks() {
                 <span class="sub" style="display:block;margin-top:4px"><b>How to assess:</b> ${esc(r.measure)}</span>
               </span>
             </label>
+            <div style="margin-top:8px">
+              <button type="button" class="pri" data-open-wizard="${r.key}" style="min-height:36px;padding:6px 12px;font-size:12px">Launch Step-by-Step Measurement Wizard</button>
+            </div>
           </div>
           ${r.l > 0 ? `
             <div class="act">
@@ -1338,6 +1750,10 @@ function renderRisks() {
     };
   });
 
+  $$('#rk button[data-open-wizard]').forEach(btn => {
+    btn.onclick = () => openMeasurementWizard(btn.dataset.openWizard);
+  });
+
   const applyBtn = $('#apply-supp-metrics');
   if (applyBtn) {
     applyBtn.onclick = () => {
@@ -1411,6 +1827,64 @@ renderHz = function() {
   hzEl.append(callout);
   const btn = $('#hz-to-rk-btn');
   if (btn) btn.onclick = () => tab('rk');
+};
+
+const baseEnhancedBody = renderBody;
+renderBody = function() {
+  baseEnhancedBody();
+  const bpEl = $('#bp');
+  if (!bpEl) return;
+  bpEl.querySelector('.anatomy-risks-panel')?.remove();
+  const mappedKeys = BODY_REGION_TO_RISKS[SEL] || [];
+  if (!mappedKeys.length) return;
+  const activeMetrics = getActiveRiskMetrics(riskScenario);
+  const { results } = evaluateSpaceRisks(activeMetrics, P().ex);
+  const promptLog = readPromptLog();
+  const mappedRisks = mappedKeys.map(k => results.find(r => r.key === k)).filter(Boolean);
+  const modeLabel = riskScenario === 'sim' ? `Simulated Mission (${simAstronautId} · Day ${simMissionDay})` : (riskScenario === 'live' ? 'Live Monitor' : CREW_SCENARIOS[riskScenario]?.label || 'Crew Profile');
+
+  const panel = document.createElement('div');
+  panel.className = 'anatomy-risks-panel';
+  panel.innerHTML = `
+    <div>
+      <h3>Mapped NASA Spaceflight Risks & Biomarkers (${mappedRisks.length})</h3>
+      <p class="sub" style="margin:2px 0 0">Region-linked risks from the 11 Spaceflight Risks (${esc(modeLabel)})</p>
+    </div>
+    ${mappedRisks.map(r => `
+      <div class="anatomy-risk-item">
+        <div class="anatomy-risk-head">
+          <div>
+            <div class="risk-meta">Risk #${r.num} · ${esc(r.nameDe)}</div>
+            <strong style="font-size:14px">${esc(r.nameEn)}</strong>
+          </div>
+          <span class="pill l${r.l}">${LBL[r.l]}</span>
+        </div>
+        <div class="risk-metrics-list">
+          ${r.metricsDisplay.map(([label, val, ref]) => `
+            <div class="risk-metric-item">
+              <span>${esc(label)}</span>
+              <strong>${esc(val)}</strong>
+              <span class="sub">Target: ${esc(ref)}</span>
+            </div>
+          `).join('')}
+        </div>
+        ${r.reasons.length ? `<div class="sub" style="color:var(--warn)"><b>Alert:</b> ${esc(r.reasons[0])}</div>` : `<div class="sub">All region biomarkers within nominal target range.</div>`}
+        <div class="sub"><b>Guided Protocol (${promptLog[r.key] ? 'Verified +25 XP' : 'Pending'}):</b> ${esc(r.prompt)}</div>
+        <div class="anatomy-risk-actions">
+          <button type="button" class="pri" data-body-wizard="${r.key}">Guided Measurement Wizard</button>
+          <button type="button" data-body-jump="${r.key}">Inspect Risk #${r.num} in 11 Risks</button>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  bpEl.append(panel);
+
+  $$('#bp button[data-body-wizard]').forEach(btn => {
+    btn.onclick = () => openMeasurementWizard(btn.dataset.bodyWizard);
+  });
+  $$('#bp button[data-body-jump]').forEach(btn => {
+    btn.onclick = () => jumpToRiskCard(btn.dataset.bodyJump);
+  });
 };
 
 const prevTab = tab;

@@ -11,9 +11,25 @@ const prioritize = new Function(prioritySource + '; return priorityOrder;')();
 const taskSource = source.slice(source.indexOf('function taskVisible('), source.indexOf('const appearance ='));
 const visibleTask = new Function(taskSource + '; return taskVisible;')();
 const risksEvalSource = source.slice(source.indexOf('const SPACE_RISKS_11 ='), source.indexOf('let riskFilter ='));
-const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11 };')((x: number) => Math.round(x * 10) / 10);
+const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11, BODY_REGION_TO_RISKS };')((x: number) => Math.round(x * 10) / 10);
 
 describe('11 Spaceflight Risks, OSDR mapping & simulated datasets', () => {
+  it('maps all 8 anatomical body regions to valid risks across all 11 spaceflight risks', () => {
+    const regions = Object.keys(evalRisks.BODY_REGION_TO_RISKS).sort();
+    expect(regions).toEqual(['bone', 'brain', 'eye', 'gut', 'heart', 'immun', 'muscle', 'rad']);
+    const validKeys = new Set(evalRisks.SPACE_RISKS_11.map((r: { key: string }) => r.key));
+    const coveredKeys = new Set<string>();
+    for (const rKey of regions) {
+      const mapped = evalRisks.BODY_REGION_TO_RISKS[rKey];
+      expect(mapped.length).toBeGreaterThanOrEqual(2);
+      for (const k of mapped) {
+        expect(validKeys.has(k)).toBe(true);
+        coveredKeys.add(k);
+      }
+    }
+    expect(coveredKeys.size).toBe(11);
+  });
+
   it('covers all 11 spaceflight risks from Risks.md, 20 OSDR study mappings, and 4 simulated dataset exports', () => {
     expect(SPACE_CHALLENGE_RISKS).toHaveLength(11);
     expect(OSDR_RISK_STUDIES).toHaveLength(20);
