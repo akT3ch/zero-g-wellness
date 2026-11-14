@@ -7,6 +7,19 @@ const validate = new Function('$', 'NUM', 'NAMES', validation + '; return valida
 const select = (selector: string) => document.querySelector(selector);
 const prioritySource = source.slice(source.indexOf('function priorityOrder('), source.indexOf('renderOv = function()'));
 const prioritize = new Function(prioritySource + '; return priorityOrder;')();
+const taskSource = source.slice(source.indexOf('function taskVisible('), source.indexOf('const appearance ='));
+const visibleTask = new Function(taskSource + '; return taskVisible;')();
+
+describe('Task view filtering', () => {
+  it('shows only incomplete tasks in Open and complete tasks in Completed while All includes both', () => {
+    expect(visibleTask(false, 'open')).toBe(true);
+    expect(visibleTask(true, 'open')).toBe(false);
+    expect(visibleTask(true, 'completed')).toBe(true);
+    expect(visibleTask(false, 'completed')).toBe(false);
+    expect(visibleTask(true, 'all')).toBe(true);
+    expect(visibleTask(false, 'all')).toBe(true);
+  });
+});
 
 describe('Existing assessment prioritization', () => {
   it('puts action-required level 2 before warning level 1 and normal level 0 without changing ties', () => {
