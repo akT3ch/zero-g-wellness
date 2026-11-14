@@ -127,6 +127,7 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
   .appearance-label { flex: 1; }
   .header-tools .mission-label:not(.appearance-label) { flex: 1 1 100%; }
   .header-tools .mission-label:not(.appearance-label) select { width: 100%; }
+  .tool-menu { left: 0; right: auto; }
   #toast { bottom: 12px; left: 12px; right: 12px; flex-wrap: wrap; }
   #bp { min-width: 0; }
 }
