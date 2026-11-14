@@ -31,7 +31,7 @@
 
 # NASA research analytics
 
-- [ ] Add CSV, XLSX and JSON import with immutable originals, inspection and preparation.
-- [ ] Add tested statistical calculations, linked visualizations and traceable findings.
-- [ ] Verify NASA endpoints and integrate real study metadata and compatible file imports.
-- [ ] Verify full workflow and existing functionality; document completed work and limitations.
+- [x] Add CSV, XLSX and JSON import with immutable originals, inspection and preparation.
+- [x] Add tested statistical calculations, linked visualizations and traceable findings.
+- [x] Verify NASA endpoints and integrate real study metadata and compatible file imports.
+- [x] Verify full workflow and existing functionality; document completed work and limitations.
