@@ -118,6 +118,20 @@ button[aria-pressed="true"] { background: var(--selected); color: var(--acc); bo
 .risk-inputs-panel { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 16px 0; background: var(--card); }
 .ov-risk-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; border: 1px solid var(--line); }
 .sim-explorer-panel { border: 1px solid var(--acc); border-radius: 8px; padding: 16px; margin: 16px 0; background: var(--card); }
+.sim-xp { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+.sim-xp svg { width: 5px; height: 5px; flex: 0 0 auto; }
+.sim-leaderboard { margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--bg); }
+.sim-leaderboard-heading { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 8px; }
+.sim-leaderboard-heading h4 { margin: 0; font-size: 15px; }
+.sim-leaderboard-heading .sub { margin: 4px 0 0; }
+.sim-leaderboard-tag { border: 1px solid var(--acc); border-radius: 999px; padding: 2px 8px; color: var(--acc); font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+.sim-leaderboard-list { display: grid; gap: 6px; margin: 12px 0; padding: 0; list-style: none; }
+.sim-leaderboard-row { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+.sim-leaderboard-row.is-selected { border-color: var(--acc); background: var(--selected); }
+.sim-leaderboard-rank { display: grid; width: 26px; height: 26px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: var(--card); font-weight: 700; }
+.sim-leaderboard-crew { display: grid; flex: 1; gap: 2px; }
+.sim-leaderboard-crew small { color: var(--muted); font-size: 11px; }
+.sim-leaderboard-note { margin: 0; color: var(--muted); font-size: 11px; }
 .sim-milestone-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .sim-milestone-bar button { min-height: 34px; padding: 4px 10px; font-size: 12px; }
 .anatomy-risks-panel { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 12px; }
