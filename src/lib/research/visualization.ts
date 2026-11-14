@@ -9,4 +9,5 @@ export function heatmap(d: Dataset, columns: string[], rank = false) { const cel
   columns.forEach((x, i) => columns.forEach((y, j) => { const pairs = points(d, x, y, ''), n = pairs.length; let r: number | null = null, p: number | null = null; try { r = (rank ? spearman : pearson)(pairs.map(p => p.x), pairs.map(p => p.y)); if (i < j && n > 2 && r !== null) { const t = Math.abs(r) === 1 ? Infinity : Math.abs(r) * Math.sqrt((n - 2) / (1 - r * r)); p = Math.max(0, Math.min(1, 2 * (1 - jStat.studentt.cdf(t, n - 2)))); indices.push(cells.length); comparisons.push(p); } } catch { /* Insufficient/constant pairs remain null. */ } cells.push({ x, y, r, n, p, adjusted: null }); }));
   const adjusted = holm(comparisons); indices.forEach((index, i) => { requiredValue(cells[index]).adjusted = requiredValue(adjusted[i]); const mirror = cells.find(c => c.x === requiredValue(cells[index]).y && c.y === requiredValue(cells[index]).x); if (mirror) { mirror.p = requiredValue(cells[index]).p; mirror.adjusted = requiredValue(adjusted[i]); } }); return cells;
 }
-import { jStat } from 'jstat';
+import jstatPackage from 'jstat';
+const { jStat } = jstatPackage;
