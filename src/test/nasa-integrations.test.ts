@@ -8,6 +8,17 @@ function helpers() {
   new Function('window', readFileSync('public/nasa-integrations.js', 'utf8'))(root);
   return (root as typeof root & { NasaIntegrations: any }).NasaIntegrations;
 }
+function transport() {
+  let listener: (event: any) => void = () => {};
+  let failure = false, calls = 0;
+  const parent = { postMessage: (message: any) => {
+    calls++;
+    queueMicrotask(() => listener({ origin: window.location.origin, source: parent, data: { type: 'astro:nasa-result', id: message.id, records: failure ? null : [], error: failure ? 'Source unavailable' : null } }));
+  } };
+  const root = { localStorage, location: window.location, parent, crypto: globalThis.crypto, addEventListener: (_: string, fn: typeof listener) => { listener = fn; } };
+  new Function('window', readFileSync('public/nasa-integrations.js', 'utf8'))(root);
+  return { h: (root as typeof root & { NasaIntegrations: any }).NasaIntegrations, fail: () => { failure = true; }, calls: () => calls };
+}
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); localStorage.clear(); });
 describe('OSDR normalization', () => {
   it('prefers exact keys and chooses the newest boundary-matched version', () => {
@@ -27,6 +38,20 @@ describe('OSDR normalization', () => {
   });
 });
 describe('Cache, keys, UTC and telemetry', () => {
+  it('deduplicates simultaneous calls and reuses successful records for 30 minutes', async () => {
+    const t = transport(); await Promise.all([t.h.weather('SEP'), t.h.weather('SEP')]); expect(t.calls()).toBe(1);
+    expect((await t.h.weather('SEP')).cached).toBe(true); expect(t.calls()).toBe(1);
+  });
+  it('refreshes expired records and preserves stale records on failure', async () => {
+    const t = transport(); await t.h.weather('SEP');
+    const key = localStorage.key(0); if (!key) throw new Error('Cache missing');
+    const old = { v: 1, records: [{ eventTime: '2026-11-14' }], at: Date.now() - 1800001 }; localStorage.setItem(key, JSON.stringify(old));
+    t.fail(); const result = await t.h.weather('SEP'); expect(result.stale).toBe(true); expect(result.records).toEqual(old.records); expect(localStorage.getItem(key)).toBe(JSON.stringify(old));
+  });
+  it('keeps successful SEP independent of a failing FLR', async () => {
+    const t = transport(); await t.h.weather('SEP'); t.fail();
+    const result = await Promise.allSettled([t.h.weather('SEP'), t.h.weather('FLR')]); expect(result[0]?.status).toBe('fulfilled'); expect(result[1]?.status).toBe('rejected');
+  });
   it('uses exactly 30 minutes and a 15-second connection timeout', () => { const h = helpers(); expect(h.TTL).toBe(1800000); expect(h.timeout).toBe(15000); });
   it('preserves configured keys and uses an empty override for server/DEMO fallback', () => { const h = helpers(); expect(h.readKey()).toBe(''); localStorage.setItem('ahm-ui-nasa-key', 'custom'); expect(h.readKey()).toBe('custom'); expect(localStorage.getItem('ahm-ui-nasa-key')).toBe('custom'); });
   it('uses UTC across month and year boundaries', () => expect(helpers().dateRange(new Date('2027-01-01T01:00:00+02:00'))).toEqual({ start: '2026-12-28', end: '2026-12-31' }));
