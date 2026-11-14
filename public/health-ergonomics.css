@@ -229,6 +229,12 @@ dialog::backdrop { background: var(--overlay); }
 .trend-tile-value small { color: var(--mut); font-size: 12px; font-weight: 400; margin-left: 8px; }
 .trend-sparkline { width: 100%; height: auto; }
 .trend-tile-range { color: var(--mut); font-size: 12px; }
+.domain-trends { margin-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 0; }
+.domain-trends .trend-tile { min-width: 0; width: 100%; border: 0; border-radius: 0; border-bottom: 1px solid var(--line); padding: 14px 0; background: transparent; }
+.domain-trends .trend-tile:last-child { border-bottom: 0; }
+.domain-trends .trend-tile:hover { background: var(--selected); }
+.domain-trends .trend-tile-value small { display: block; margin-left: 0; margin-top: 4px; }
+.domain-trends .trend-sparkline { display: block; aspect-ratio: 320 / 110; }
 .trend-dialog { width: min(980px, calc(100% - 32px)); }
 .trend-chart-large { width: 100%; height: auto; margin-top: 8px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }

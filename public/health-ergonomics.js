@@ -65,6 +65,7 @@ renderOv = function() {
       const cards = [...grid.children];
       priorityOrder(result.D.map(domain => domain.l)).forEach(index => {
         const card = cards[index];
+        card.dataset.healthDomain = String(index);
         grid.append(card);
         const actions = card.querySelector('.act');
         if (actions) {
@@ -96,6 +97,22 @@ renderOv = function() {
 $('#hz').after($('#env'));
 
 // Overview trend tiles: presentation only, values come from the saved entries unchanged.
+const domainTrendKeys = [
+  ['hr', 'sys', 'dia', 'spo2'],
+  ['ex', 'back'],
+  ['sleep', 'mood', 'stress', 'isol'],
+  ['temp', 'fatigue'],
+  ['dose', 'co2'],
+  ['vision', 'head', 'dizzy'],
+  ['gluc', 'meal'],
+];
+const symptomTrendNames = Object.fromEntries(CK.map(item => [item[0], item[1]]));
+function trendName(key) { return NAMES[key] || symptomTrendNames[key]; }
+function trendEntries(key) {
+  return allE().filter(entry => symptomTrendNames[key]
+    ? typeof entry[key] === 'boolean'
+    : real(entry, key) && typeof entry[key] === 'number');
+}
 function trendTicks(min, max, count) {
   const span = (max - min) || 1;
   const power = Math.pow(10, Math.floor(Math.log10(span / count)));
@@ -105,20 +122,22 @@ function trendTicks(min, max, count) {
   return ticks;
 }
 function buildTrendChart(key, entries, detailed) {
-  const values = entries.map(entry => entry[key]);
+  const values = entries.map(entry => Number(entry[key]));
+  const symptom = !!symptomTrendNames[key];
   const numeric = NUM.find(item => item[0] === key);
-  const unit = numeric ? numeric[2] : '/10';
-  const axisUnit = numeric ? numeric[2] : 'scale 1–10';
-  const baseline = base()?.[key];
+  const unit = numeric ? numeric[2] : (symptom ? '' : '/10');
+  const axisUnit = numeric ? numeric[2] : (symptom ? '0 = not reported, 1 = reported' : 'scale 1–10');
+  const baseline = symptom ? null : base()?.[key];
   let mn = Math.min(...values, ...(baseline == null ? [] : [baseline]));
   let mx = Math.max(...values, ...(baseline == null ? [] : [baseline]));
+  if (symptom) { mn = 0; mx = 1; }
   if (mn === mx) { mn -= 1; mx += 1; }
   const pad = (mx - mn) * 0.08; mn -= pad; mx += pad;
   const W = detailed ? 920 : 320, H = detailed ? 430 : 110;
   const m = detailed ? { top: 24, right: 56, bottom: 64, left: 76 } : { top: 8, right: 8, bottom: 8, left: 8 };
   const X = index => m.left + index * (W - m.left - m.right) / (entries.length - 1);
   const Y = value => H - m.bottom - (value - mn) / (mx - mn) * (H - m.top - m.bottom);
-  let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="' + (detailed ? 'trend-chart-large' : 'trend-sparkline') + '" ' + (detailed ? 'role="img" aria-label="' + esc(NAMES[key]) + ' over time with labeled axes"' : 'aria-hidden="true"') + '>';
+  let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="' + (detailed ? 'trend-chart-large' : 'trend-sparkline') + '" ' + (detailed ? 'role="img" aria-label="' + esc(trendName(key)) + ' over time with labeled axes"' : 'aria-hidden="true"') + '>';
   if (detailed) {
     trendTicks(mn, mx, 6).forEach(tick => {
       const y = Y(tick);
@@ -134,7 +153,7 @@ function buildTrendChart(key, entries, detailed) {
     svg += '<line x1="' + m.left + '" x2="' + m.left + '" y1="' + m.top + '" y2="' + (H - m.bottom) + '" stroke="var(--fg)"/>';
     svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + (H - m.bottom) + '" y2="' + (H - m.bottom) + '" stroke="var(--fg)"/>';
     svg += '<text x="' + (m.left + (W - m.left - m.right) / 2) + '" y="' + (H - 14) + '" text-anchor="middle" fill="var(--fg)" font-size="13" font-weight="600">Date of check-in</text>';
-    svg += '<text transform="rotate(-90)" x="' + (-(m.top + (H - m.top - m.bottom) / 2)) + '" y="18" text-anchor="middle" fill="var(--fg)" font-size="13" font-weight="600">' + esc(NAMES[key]) + ' (' + esc(axisUnit) + ')</text>';
+    svg += '<text transform="rotate(-90)" x="' + (-(m.top + (H - m.top - m.bottom) / 2)) + '" y="18" text-anchor="middle" fill="var(--fg)" font-size="13" font-weight="600">' + esc(trendName(key)) + ' (' + esc(axisUnit) + ')</text>';
   }
   if (baseline != null) svg += '<line x1="' + m.left + '" x2="' + (W - m.right) + '" y1="' + Y(baseline) + '" y2="' + Y(baseline) + '" stroke="var(--mut)" stroke-dasharray="5 4"/>';
   svg += '<polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="' + values.map((value, index) => X(index) + ',' + Y(value)).join(' ') + '"/>';
@@ -148,12 +167,13 @@ trendDialog.setAttribute('aria-labelledby', 'trend-dialog-title');
 trendDialog.innerHTML = '<h2 id="trend-dialog-title"></h2><p class="sub" id="trend-dialog-meta"></p><div id="trend-dialog-chart"></div><p class="sub">Dashed: personal baseline (mean of the first 5 entries).</p><div class="dialog-actions"><button id="trend-dialog-close" class="pri" autofocus>Close</button></div>';
 document.body.append(trendDialog);
 function openTrendDialog(key) {
-  const entries = allE().filter(entry => real(entry, key));
+  const entries = trendEntries(key);
   if (entries.length < 2) return;
   const latest = entries[entries.length - 1];
   const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
-  $('#trend-dialog-title').textContent = NAMES[key];
-  $('#trend-dialog-meta').textContent = entries.length + ' measured entries · ' + entries[0].d + ' to ' + latest.d + ' · Latest: ' + latest[key] + ' ' + unit;
+  const symptom = !!symptomTrendNames[key];
+  $('#trend-dialog-title').textContent = trendName(key);
+  $('#trend-dialog-meta').textContent = entries.length + (symptom ? ' reported entries' : ' measured entries') + ' · ' + entries[0].d + ' to ' + latest.d + ' · Latest: ' + (symptom ? (latest[key] ? 'Reported' : 'Not reported') : latest[key] + ' ' + unit);
   $('#trend-dialog-chart').innerHTML = buildTrendChart(key, entries, true);
   const previous = document.activeElement;
   const finish = () => { trendDialog.close(); previous?.focus(); };
@@ -162,23 +182,33 @@ function openTrendDialog(key) {
   trendDialog.showModal();
 }
 function renderTrendTiles() {
-  const tracked = keys.map(key => ({ key, entries: allE().filter(entry => real(entry, key)) })).filter(item => item.entries.length >= 2);
-  if (!tracked.length) return;
-  const section = document.createElement('section');
-  section.className = 'trend-tiles-section';
-  section.setAttribute('aria-label', 'Measurement trends');
-  section.innerHTML = '<h2>Trends</h2><p class="sub">Measured values over time. Select a tile to enlarge its chart with labeled axes.</p><div class="trend-tiles">' + tracked.map(({ key, entries }) => {
+  $$('#ov > .grid > .card').forEach(card => {
+    const domainKeys = domainTrendKeys[Number(card.dataset.healthDomain)];
+    if (!domainKeys) return;
+    const tracked = domainKeys.map(key => ({ key, entries: trendEntries(key) })).filter(item => item.entries.length >= 2);
+    const section = document.createElement('div');
+    section.className = 'domain-trends';
+    section.setAttribute('aria-label', 'Trends · ' + DN[Number(card.dataset.healthDomain)]);
+    if (!tracked.length) {
+      section.innerHTML = '<p class="sub">No trend history yet · at least two recorded check-ins needed.</p>';
+      card.append(section);
+      return;
+    }
+    section.innerHTML = tracked.map(({ key, entries }) => {
     const latest = entries[entries.length - 1], previous = entries[entries.length - 2];
     const change = f1(latest[key] - previous[key]);
     const unit = NUM.find(item => item[0] === key)?.[2] || '/10';
-    return '<button type="button" class="trend-tile" data-trend="' + key + '" aria-haspopup="dialog" aria-label="' + esc(NAMES[key]) + ': latest ' + esc(latest[key]) + ' ' + esc(unit) + ' on ' + esc(latest.d) + ', change ' + (change > 0 ? '+' : '') + change + ' since the previous entry. Enlarge the trend chart.">'
-      + '<span class="trend-tile-name">' + esc(NAMES[key]) + '</span>'
-      + '<span class="trend-tile-value">' + esc(latest[key]) + ' ' + esc(unit) + '<small>' + (change > 0 ? '+' : '') + change + ' vs. previous</small></span>'
+    const symptom = !!symptomTrendNames[key];
+    const value = symptom ? (latest[key] ? 'Reported' : 'Not reported') : esc(latest[key]) + ' ' + esc(unit);
+    return '<button type="button" class="trend-tile" data-trend="' + key + '" aria-haspopup="dialog" aria-label="' + esc(trendName(key)) + ': latest ' + value + ' on ' + esc(latest.d) + '. Enlarge the trend chart.">'
+      + '<span class="trend-tile-name">' + esc(trendName(key)) + '</span>'
+      + '<span class="trend-tile-value">' + value + (symptom ? '' : '<small>' + (change > 0 ? '+' : '') + change + ' vs. previous</small>') + '</span>'
       + buildTrendChart(key, entries, false)
       + '<span class="trend-tile-range">' + esc(entries[0].d) + ' to ' + esc(latest.d) + ' · ' + entries.length + ' entries</span>'
       + '</button>';
-  }).join('') + '</div>';
-  $('#ov').append(section);
+    }).join('');
+    card.append(section);
+  });
   $$('#ov .trend-tile').forEach(tile => { tile.onclick = () => openTrendDialog(tile.dataset.trend); });
 }
 

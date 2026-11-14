@@ -12,13 +12,14 @@ const taskSource = source.slice(source.indexOf('function taskVisible('), source.
 const visibleTask = new Function(taskSource + '; return taskVisible;')();
 const risksEvalSource = source.slice(source.indexOf('const SPACE_RISKS_11 ='), source.indexOf('let riskFilter ='));
 const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11, BODY_REGION_TO_RISKS };')((x: number) => Math.round(x * 10) / 10);
-const trendSource = source.slice(source.indexOf('function trendTicks('), source.indexOf('const trendDialog ='));
-const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', trendSource + '; return { trendTicks, buildTrendChart };')(
+const trendSource = source.slice(source.indexOf('const domainTrendKeys ='), source.indexOf('const trendDialog ='));
+const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', 'CK', trendSource + '; return { trendTicks, buildTrendChart };')(
   [['hr', 'Resting heart rate', 'bpm', 40, 140, 1, 62]],
   { hr: 'Resting heart rate', mood: 'Mood (10 = very good)' },
   () => ({ hr: 60 }),
   (value: unknown) => String(value),
   (x: number) => Math.round(x * 10) / 10,
+  [['vision', 'Vision change'], ['head', 'Head pressure'], ['dizzy', 'Dizziness or coordination problems']],
 );
 
 describe('11 Spaceflight Risks, OSDR mapping & simulated datasets', () => {

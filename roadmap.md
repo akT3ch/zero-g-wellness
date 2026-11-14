@@ -48,3 +48,7 @@
 - [x] Replace the primitive figure with addressable SVG anatomy and preserve eight regions.
 - [x] Add accessible selection, measured-data status, themes and compact adaptive layout.
 - [x] Run regression tests and verify anatomy, information and saved readings in the browser.
+
+# Overview trends
+
+- [x] Integrate relevant history charts into each health-area tile and verify enlargement and mobile layout.
