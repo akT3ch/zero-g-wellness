@@ -1272,7 +1272,7 @@ let SIM_BUNDLE = null;
 let simAstronautId = getPreference('sim-astronaut', 'AST-01');
 let simMissionDay = Number(getPreference('sim-day', '56'));
 if (!Number.isFinite(simMissionDay)) simMissionDay = 56;
-let simChartMetric = getPreference('sim-metric', 'overall_readiness_score');
+let simChartMetric = getPreference('sim-metric', 'optic_nerve_sheath_mm');
 
 function mapSimRowToRiskMetrics(row) {
   return {
@@ -1366,7 +1366,6 @@ function getActiveRiskMetrics(scenarioKey) {
 }
 
 const SIM_CHART_METRICS = [
-  ['overall_readiness_score', 'Overall Readiness Score (0–100)'],
   ['optic_nerve_sheath_mm', 'SANS: Optic Nerve Sheath Diameter (mm)'],
   ['bmd_tibia_change_pct', 'Bone: Tibia BMD Change (%)'],
   ['imtp_change_pct', 'Fitness: IMTP Strength Change (%)'],
@@ -1377,6 +1376,10 @@ const SIM_CHART_METRICS = [
   ['gut_shannon_diversity', 'Microbiome: Gut Shannon Diversity (H′)'],
   ['pvt_speed_score', 'Cognitive: PVT Psychomotor Vigilance Speed']
 ];
+if (!SIM_CHART_METRICS.some(([key]) => key === simChartMetric)) {
+  simChartMetric = 'optic_nerve_sheath_mm';
+  setPreference('sim-metric', simChartMetric);
+}
 
 function buildSimLongitudinalSvg(rows, metricKey, currentDay) {
   if (!rows || rows.length < 2) return '<div class="sub">Loading simulated time-series…</div>';
@@ -1812,7 +1815,7 @@ function renderRisks() {
   const el = $('#rk');
   if (!el) return;
   const activeMetrics = getActiveRiskMetrics(riskScenario);
-  const { results, readiness } = evaluateSpaceRisks(activeMetrics, P().ex);
+  const { results } = evaluateSpaceRisks(activeMetrics, P().ex);
   const counts = {
     0: results.filter(r => r.l === 0).length,
     1: results.filter(r => r.l === 1).length,
@@ -1840,7 +1843,7 @@ function renderRisks() {
     <h2>11 NASA Spaceflight Health Risks · Mission Overview</h2>
     <p class="sub">Complete risk monitoring for all 11 spaceflight risks defined in the NASA Space Challenge, with color-coded thresholds, guided astronaut measurement prompts, longitudinal simulation time-series (<code>simulate_health_data.py</code>), mission-site context (${esc(P().n)}, ${esc(P().g)}), and curated NASA OSDR studies.</p>
     <div class="bar l${topLevel}" style="margin-top:12px">
-      11-Risk Mission Readiness: ${readiness}/100 (${LBL[topLevel]}) · ${counts[2]} Act (Red), ${counts[1]} Watch (Yellow), ${counts[0]} Normal (Green) · Routine Prompts Verified: ${completedPrompts}/11
+      11-Risk Mission Status: ${LBL[topLevel]} · ${counts[2]} Act (Red), ${counts[1]} Watch (Yellow), ${counts[0]} Normal (Green) · Routine Prompts Verified: ${completedPrompts}/11
     </div>
     <div class="risk-toolbar">
       <label class="mission-label" style="flex:1;min-width:240px">
@@ -2128,7 +2131,7 @@ renderOv = function() {
   const ovEl = $('#ov');
   if (!ovEl) return;
   const activeMetrics = getActiveRiskMetrics(riskScenario);
-  const { results, readiness } = evaluateSpaceRisks(activeMetrics, P().ex);
+  const { results } = evaluateSpaceRisks(activeMetrics, P().ex);
   const actCount = results.filter(r => r.l === 2).length;
   const watchCount = results.filter(r => r.l === 1).length;
   const topRiskLevel = Math.max(...results.map(r => r.l));
@@ -2138,7 +2141,7 @@ renderOv = function() {
   banner.innerHTML = `
     <div>
       <strong>11 NASA Spaceflight Risks Matrix (${esc(modeLabel)})</strong>
-      <div class="sub" style="color:inherit">Readiness Score: <b>${readiness}/100</b> · ${actCount} Act, ${watchCount} Watch, ${11 - actCount - watchCount} Normal across all 11 challenge risks (incl. DCS, Microbiome, EVA, Sensorimotor, SANS & Bone).</div>
+      <div class="sub" style="color:inherit">${actCount} Act, ${watchCount} Watch, ${11 - actCount - watchCount} Normal across all 11 challenge risks (incl. DCS, Microbiome, EVA, Sensorimotor, SANS & Bone).</div>
     </div>
     <button type="button" class="pri" id="open-11-risks-btn">Open 11 Risks Matrix</button>
   `;
