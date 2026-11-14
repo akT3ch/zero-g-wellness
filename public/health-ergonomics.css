@@ -219,6 +219,16 @@ dialog { color: var(--fg); background: var(--card); border: 1px solid var(--line
 dialog::backdrop { background: var(--overlay); }
 .dialog-actions { display: flex; justify-content: end; gap: 10px; margin-top: 24px; }
 .trend-data { margin-top: 12px; }
+.trend-tiles-section { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.trend-tiles { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); margin-top: 14px; }
+.trend-tile { display: flex; flex-direction: column; align-items: stretch; gap: 8px; text-align: left; padding: 14px; border-radius: 8px; background: var(--card); }
+.trend-tile-name { font-weight: 600; font-size: 14px; }
+.trend-tile-value { font-size: 18px; font-weight: 600; }
+.trend-tile-value small { color: var(--mut); font-size: 12px; font-weight: 400; margin-left: 8px; }
+.trend-sparkline { width: 100%; height: auto; }
+.trend-tile-range { color: var(--mut); font-size: 12px; }
+.trend-dialog { width: min(980px, calc(100% - 32px)); }
+.trend-chart-large { width: 100%; height: auto; margin-top: 8px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); }
 @media (max-width: 680px) {
