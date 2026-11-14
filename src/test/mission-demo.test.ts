@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { missionAssessment, missionDays, missionEvents } from "@/lib/mission-demo";
+import {
+  missionAssessment,
+  missionDays,
+  missionEvents,
+  missionRiskStatus,
+} from "@/lib/mission-demo";
+import { getMissionStoryChapter, missionStory } from "@/lib/mission-story";
 
 describe("synthetic Mars transit", () => {
   it("provides a fixed sequential record and a five-day baseline", () => {
@@ -31,7 +37,22 @@ describe("synthetic Mars transit", () => {
   });
 });
 
-import { missionRiskStatus } from "@/lib/mission-demo";
+describe("mission fiction", () => {
+  it("unlocks the story chapters alongside the simulated mission timeline", () => {
+    expect(missionStory.map((chapter) => chapter.day)).toEqual([1, 6, 11, 16, 21, 22]);
+    expect(getMissionStoryChapter(5)?.title).toBe("A small blue morning");
+    expect(getMissionStoryChapter(18)?.title).toBe("A room full of clocks");
+    expect(getMissionStoryChapter(30)?.title).toBe("A signal back");
+  });
+
+  it("provides two narrative-only choices for every chapter", () => {
+    expect(missionStory.every((chapter) => chapter.choices.length === 2)).toBe(true);
+    expect(
+      missionStory.every((chapter) => chapter.choices.every((choice) => choice.response)),
+    ).toBe(true);
+  });
+});
+
 describe("mission risk links", () => {
   it("flags cardiovascular only once heart rate exceeds its threshold", () => {
     expect(missionRiskStatus(3, "cardiovascular").level).toBe("nominal");
