@@ -7,6 +7,6 @@
 
 # AI wellness guidance
 
-- [ ] Add symptom input and optional preview of recent measured readings.
-- [ ] Integrate AI Gateway guidance with medical safety boundaries and private handling.
+- [x] Add symptom input and optional preview of recent measured readings.
+- [x] Integrate AI Gateway guidance with medical safety boundaries and private handling.
 - [ ] Test safety rules and verify a real guidance request in the app.
