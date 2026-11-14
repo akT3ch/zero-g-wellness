@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { HealthAlerts } from "@/components/health-alerts";
 import { WellnessGuidance } from "@/components/wellness-guidance";
 
 export const openWellnessEvent = "zero-g:wellness-open";
@@ -90,6 +91,7 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
             {MISSION_SITES.map(([id, name]) => <option key={id} value={id}>{name}</option>)}
           </select>
         </label>
+        <HealthAlerts />
         {monitorControls && (
           <Button type="button" size="sm" variant="outline" onClick={() => setSettingsOpen(true)}>
             <Settings aria-hidden="true" />Settings

@@ -2268,3 +2268,15 @@ if (window.parent !== window) {
     }
   });
 }
+
+// ===== Traffic-light notifications for the app header (read-only use of existing evaluate()) =====
+function publishHealthAlerts() {
+  if (window.parent === window) return;
+  const R = evaluate();
+  const alerts = R ? R.D.filter(d => d.l > 0).map(d => ({ area: d.n, level: d.l, reasons: d.r.slice(0, 6) })) : [];
+  const date = R ? E[E.length - 1]?.d || null : null;
+  window.parent.postMessage({ type: 'astro:alerts', date, alerts }, window.location.origin);
+}
+const alertsBaseOverview = renderOv;
+renderOv = function() { alertsBaseOverview(); try { publishHealthAlerts(); } catch { /* notifications are optional */ } };
+try { publishHealthAlerts(); } catch { /* notifications are optional */ }
