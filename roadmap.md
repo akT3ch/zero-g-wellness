@@ -19,6 +19,6 @@
 
 # Advanced ergonomics evaluation
 
-- [ ] Improve repeated check-ins, task filtering, appearance preferences, and keyboard access.
-- [ ] Strengthen validation and keep feedback from covering important content.
-- [ ] Run scenarios A–E and document measured results, expert ratings, and remaining limitations.
+- [x] Improve repeated check-ins, task filtering, appearance preferences, and keyboard access.
+- [x] Strengthen validation and keep feedback from covering important content.
+- [x] Run scenarios A–E and document measured results, expert ratings, and remaining limitations.
