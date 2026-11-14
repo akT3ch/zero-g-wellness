@@ -5,7 +5,8 @@ export async function nasaJson(url: string): Promise<unknown[]> {
     try { response = await fetch(url, { signal: AbortSignal.timeout(12000), headers: { Accept: 'application/json' }, redirect: 'error' }); }
     catch { if (attempt === 2) throw new Error('Source connection timed out.'); await new Promise(r => setTimeout(r, 500 * 2 ** attempt)); continue; }
     if (response.ok) {
-      const data: unknown = await response.json();
+      let data: unknown;
+      try { data = await response.json(); } catch { throw new Error('Source returned invalid JSON.'); }
       if (!Array.isArray(data)) throw new Error('Source returned an invalid response.');
       return data;
     }

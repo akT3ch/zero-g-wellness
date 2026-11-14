@@ -277,7 +277,7 @@ renderEnv = function() {
     const details = document.createElement('details');
     const summary = document.createElement('summary'); summary.textContent = 'Source availability and limitations';
     details.append(summary, ...paragraphs); $('#env').append(details);
-    paragraphs[0].textContent = 'Unavailable live sources are not included in the assessment. Sample cabin readings are labeled and do not generate warnings.';
+    paragraphs[0].append(document.createTextNode(' Unavailable live sources are not included in the assessment. Sample cabin readings are labeled and do not generate warnings. ISS item identifiers and units require independent verification before operational use.'));
   }
   $('#env .src').setAttribute('aria-busy', String(ENV.src === 'none'));
   updateContext();

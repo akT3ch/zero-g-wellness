@@ -232,7 +232,7 @@ function syncStation(){
 }
 function live(){if(liveTask)return liveTask;liveTask=new Promise((res,rej)=>{
  let settled=false;const finish=(ok)=>{if(settled)return;settled=true;clearTimeout(timer);ok?res():rej(new Error('ISS connection timeout'))};
- const timer=setTimeout(()=>{station.connection='timeout';finish(false)},NasaIntegrations.timeout);
+ const timer=setTimeout(()=>{if(!settled)station.connection='timeout';NasaIntegrations.update(station,'temp',SNAP.temp,'snapshot');NasaIntegrations.update(station,'press',SNAP.press,'snapshot');syncStation();finish(false)},NasaIntegrations.timeout);
  const sc=document.createElement('script');sc.src=CFG.lib;sc.onerror=()=>{station.connection='unavailable';finish(false)};
  sc.onload=()=>{try{
   const L=window.Lightstreamer||window,c=new L.LightstreamerClient(CFG.ls,'ISSLIVE'),ids=Object.values(CFG.items),s=new L.Subscription('MERGE',ids,['Value']);
