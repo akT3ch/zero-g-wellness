@@ -4,7 +4,14 @@ import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "rec
 import { missionAssessment, missionDays, missionEvents, missionMetrics } from "@/lib/mission-demo";
 
 export const Route = createFileRoute("/mission-demo")({
-  head: () => ({ meta: [{ title: "Mission Control | Zero-G Wellness" }] }),
+  head: () => ({ meta: [
+    { title: "Mission Control | Zero-G Wellness" },
+    { name: "description", content: "Explore a synthetic 30-day Mars transit with astronaut readings, individual baselines and mission events." },
+    { property: "og:title", content: "Mission Control | Zero-G Wellness" },
+    { property: "og:description", content: "A simulated Mars-transit health monitoring timeline with readings and mission events." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: MissionControl,
 });
 

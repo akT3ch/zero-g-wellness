@@ -42,3 +42,9 @@
 - [x] Support versioned OSDR metadata, study hits and verified download paths.
 - [x] Preserve partial live telemetry and distinguish fallback/stale values.
 - [x] Run regression tests, verify real NASA flows, and document limitations.
+
+# Interactive anatomical model
+
+- [x] Replace the primitive figure with addressable SVG anatomy and preserve eight regions.
+- [x] Add accessible selection, measured-data status, themes and compact adaptive layout.
+- [x] Run regression tests and verify anatomy, information and saved readings in the browser.

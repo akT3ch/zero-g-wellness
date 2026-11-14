@@ -36,3 +36,4 @@ use the editor.
 - Keep research analytics on a separate route with browser-only dataset processing and immutable originals; isolate public OSDR fetches in stateless server functions with verified file links, so research never alters health records.
 - Keep parsers, preprocessing, statistical calculations, chart preparation and deterministic interpretations in separate testable research modules; inferential tests require explicit design/assumption confirmation rather than assuming biological replicates from rows.
 - Keep NASA network stabilization in integration-only helpers and stateless server functions, using validated same-origin iframe messages; source caching and telemetry provenance must remain independent of health records.
+- Keep anatomical SVG geometry and measured-coverage display in a presentation-only helper, delegating all region selection and medical evaluations to the existing monitor; this preserves thresholds and stored records.
