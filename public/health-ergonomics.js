@@ -51,7 +51,7 @@ renderOv = function() {
         }
       });
     }
-    const overall = $('#ov > .bar:last-of-type');
+    const overall = $$('#ov > .bar').at(-1);
     if (overall) $('#ov').prepend(overall);
   }
   updateContext();

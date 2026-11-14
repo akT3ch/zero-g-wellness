@@ -13,6 +13,6 @@
 
 # Human-centered design
 
-- [ ] Make current screen, saved data coverage, and source status visible together.
-- [ ] Prioritize existing warnings and progressively reveal secondary details.
-- [ ] Verify validation, recovery, navigation, and desktop/mobile presentation.
+- [x] Make current screen, saved data coverage, and source status visible together.
+- [x] Prioritize existing warnings and progressively reveal secondary details.
+- [x] Verify validation, recovery, navigation, and desktop/mobile presentation.
