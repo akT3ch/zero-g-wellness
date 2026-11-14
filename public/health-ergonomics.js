@@ -277,7 +277,7 @@ renderEnv = function() {
     const details = document.createElement('details');
     const summary = document.createElement('summary'); summary.textContent = 'Source availability and limitations';
     details.append(summary, ...paragraphs); $('#env').append(details);
-    paragraphs[0].textContent = 'Unavailable live sources are not included in the assessment. Sample cabin readings are labeled and do not generate warnings.';
+    paragraphs[0].append(document.createTextNode(' Unavailable live sources are not included in the assessment. Sample cabin readings are labeled and do not generate warnings. ISS item identifiers and units require independent verification before operational use.'));
   }
   $('#env .src').setAttribute('aria-busy', String(ENV.src === 'none'));
   updateContext();
@@ -345,3 +345,13 @@ $('.tool-menu').append(researchLink);
 const researchShortcut = researchLink.cloneNode(true);
 researchShortcut.className = 'research-shortcut';
 $('.header-tools').append(researchShortcut);
+const nasaKeyLabel = document.createElement('label');
+nasaKeyLabel.className = 'mission-label'; nasaKeyLabel.textContent = 'NASA API key (optional, stored on this device)';
+const nasaKeyInput = document.createElement('input');
+nasaKeyInput.type = 'password'; nasaKeyInput.autocomplete = 'off'; nasaKeyInput.maxLength = 128;
+nasaKeyInput.setAttribute('aria-label', 'NASA API key'); nasaKeyInput.value = getPreference('nasa-key', '');
+nasaKeyInput.onchange = () => {
+  if (nasaKeyInput.value && !/^[a-zA-Z0-9_-]{1,128}$/.test(nasaKeyInput.value)) { nasaKeyInput.setCustomValidity('Use a valid NASA API key.'); nasaKeyInput.reportValidity(); return; }
+  nasaKeyInput.setCustomValidity(''); setPreference('nasa-key', nasaKeyInput.value); void loadEnv();
+};
+nasaKeyLabel.append(nasaKeyInput); $('.tool-menu').append(nasaKeyLabel);

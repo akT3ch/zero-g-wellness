@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WellnessGuidance } from '@/components/wellness-guidance';
+import { NasaBridge } from '@/components/nasa-bridge';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,6 +26,7 @@ function Index() {
       className="block h-screen w-full border-0"
     />
     <WellnessGuidance />
+    <NasaBridge />
     </>
   );
 }
