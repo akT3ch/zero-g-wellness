@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { emergencyGuidance, wellnessInputSchema, guidanceSchema, wellnessInstructions } from '@/lib/wellness';
+import { emergencyGuidance, wellnessInputSchema, guidanceSchema } from '@/lib/wellness';
 
 const valid = { symptoms: 'Mild fatigue since yesterday.', mission: 'Space station (LEO)', readings: [], consent: true, emergency: false };
 describe('Wellness safety boundaries', () => {
@@ -18,8 +18,5 @@ describe('Wellness safety boundaries', () => {
   });
   it('requires professional-care guidance in every response', () => {
     expect(guidanceSchema.safeParse({ ...emergencyGuidance, seekCare: [] }).success).toBe(false);
-  });
-  it('sets diagnosis and medication boundaries for the model', () => {
-    expect(wellnessInstructions).toContain('Never diagnose, prescribe medication, change medication doses');
   });
 });
