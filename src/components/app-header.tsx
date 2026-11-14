@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Download, FileUp, HeartPulse, Settings, Sparkles, Trash2 } from "lucide-react";
+import { ClipboardList, Download, FileUp, HeartPulse, Settings, Sparkles, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -82,7 +82,6 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
         <Link to="/" className={item} activeProps={active} activeOptions={{ exact: true }}>Health Monitor</Link>
         <Link to="/mission-demo" className={item} activeProps={active}>11 Risks · Mission Control</Link>
         <Link to="/research" className={item} activeProps={active}>NASA Research</Link>
-        <Link to="/evaluation" className={item} activeProps={active}>Task Evaluation</Link>
       </nav>
       <div className="flex flex-wrap items-center gap-2 text-sm">
         <label className="flex items-center gap-2 text-muted-foreground">
@@ -109,6 +108,12 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
               <DialogTitle>Settings</DialogTitle>
               <DialogDescription>Data stays in this browser. Replacing or deleting asks for confirmation and can be undone.</DialogDescription>
             </DialogHeader>
+            <section className="space-y-2">
+              <h3 className="text-sm font-semibold">Evaluation</h3>
+              <Button asChild variant="outline" onClick={() => setSettingsOpen(false)}>
+                <Link to="/evaluation"><ClipboardList />Task Evaluation</Link>
+              </Button>
+            </section>
             <section className="space-y-2">
               <h3 className="text-sm font-semibold">Appearance</h3>
               <select aria-label="Appearance" className={select} value={appearance} onChange={(e) => changeAppearance(e.target.value)}>
