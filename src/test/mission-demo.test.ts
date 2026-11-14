@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { missionAssessment, missionDays, missionEvents } from "@/lib/mission-demo";
+import {
+  missionAssessment,
+  missionDays,
+  missionEvents,
+  missionRiskStatus,
+} from "@/lib/mission-demo";
 import { getMissionStoryChapter, missionStory } from "@/lib/mission-story";
 
 describe("synthetic Mars transit", () => {
@@ -45,5 +50,15 @@ describe("mission fiction", () => {
     expect(
       missionStory.every((chapter) => chapter.choices.every((choice) => choice.response)),
     ).toBe(true);
+  });
+});
+
+describe("mission risk links", () => {
+  it("flags cardiovascular only once heart rate exceeds its threshold", () => {
+    expect(missionRiskStatus(3, "cardiovascular").level).toBe("nominal");
+    expect(missionRiskStatus(15, "cardiovascular").level).toBe("watch");
+  });
+  it("marks risks without demo signals as none", () => {
+    expect(missionRiskStatus(15, "bone_changes").level).toBe("none");
   });
 });

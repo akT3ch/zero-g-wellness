@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { WellnessGuidance } from "@/components/wellness-guidance";
+import { createFileRoute } from "@tanstack/react-router";
+import { AppHeader } from "@/components/app-header";
 import { NasaBridge } from "@/components/nasa-bridge";
 
 export const Route = createFileRoute("/")({
@@ -25,26 +25,13 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <nav aria-label="Main" className="flex flex-wrap gap-x-5 gap-y-2 border-b px-4 py-3 text-sm">
-        <Link to="/" aria-current="page">
-          Health Monitor
-        </Link>
-        <Link to="/mission-demo" className="font-semibold text-primary">
-          Mission Control
-        </Link>
-        <Link to="/research">NASA Research</Link>
-        <a href="#wellness-guidance">Wellness Guidance</a>
-        <Link to="/evaluation">Task Evaluation</Link>
-      </nav>
+      <AppHeader />
       <iframe
         src="/astro-health-monitor.html"
         title="Astro Health Monitor"
         allow="bluetooth"
-        className="block h-screen w-full border-0"
+        className="block h-[calc(100vh-3.5rem)] w-full border-0"
       />
-      <div id="wellness-guidance">
-        <WellnessGuidance />
-      </div>
       <NasaBridge />
     </>
   );

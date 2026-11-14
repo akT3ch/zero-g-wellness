@@ -1,13 +1,21 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { AppHeader } from "@/components/app-header";
+import { SPACE_CHALLENGE_RISKS } from "@/lib/research/space-challenge-risks";
 import { useEffect, useState } from "react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { missionAssessment, missionDays, missionEvents, missionMetrics } from "@/lib/mission-demo";
+import {
+  missionAssessment,
+  missionDays,
+  missionEvents,
+  missionMetrics,
+  missionRiskStatus,
+} from "@/lib/mission-demo";
 import { getMissionStoryChapter, missionStory } from "@/lib/mission-story";
 
 export const Route = createFileRoute("/mission-demo")({
   head: () => ({
     meta: [
-      { title: "Mission Control | Zero-G Wellness" },
+      { title: "11 Risks · Mission Control | Zero-G Wellness" },
       {
         name: "description",
         content:
@@ -42,6 +50,7 @@ function MissionControl() {
     const deviations = missionAssessment(record.day).filter((metric) => metric.flagged);
     return deviations.length ? [{ day: record.day, deviations }] : [];
   });
+  const riskStates = SPACE_CHALLENGE_RISKS.map((risk) => ({ ...risk, status: missionRiskStatus(day, risk.key) }));
   const selected = missionMetrics[metricIndex] ?? missionMetrics[0]!;
   const storyChapter = getMissionStoryChapter(day);
   const selectedStoryChoice = storyChoices[storyChapter.day];
@@ -52,16 +61,12 @@ function MissionControl() {
   }));
 
   return (
+    <>
+    <AppHeader />
     <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8">
-      <nav aria-label="Main" className="flex flex-wrap gap-4 text-sm underline">
-        <Link to="/">Health Monitor</Link>
-        <Link to="/research">NASA Research</Link>
-        <a href="/#wellness-guidance">Wellness Guidance</a>
-        <Link to="/evaluation">Task Evaluation</Link>
-      </nav>
       <header>
         <p className="text-sm font-semibold tracking-widest text-primary">SYNTHETIC MISSION DATA</p>
-        <h1 className="mt-2 text-3xl font-bold">ZERO-G WELLNESS — MISSION CONTROL</h1>
+        <h1 className="mt-2 text-3xl font-bold">11 SPACEFLIGHT RISKS — MISSION CONTROL</h1>
         <p>Autonomous Astronaut Health Monitoring</p>
         <p className="mt-3 text-muted-foreground">
           30-day Mars transit · Crew member 01 · Simulated Earth link with a fixed 12-minute one-way
@@ -150,6 +155,35 @@ function MissionControl() {
           Fictional story choices only change this scene’s dialogue. They do not change mission
           readings, alerts, or health records, and are not saved.
         </p>
+      </section>
+      <section className="grid gap-4" aria-label="11 spaceflight risks">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-xl font-semibold">11 spaceflight risks · day {day}</h2>
+          <p className="text-sm text-muted-foreground">{riskStates.filter((r) => r.status.level === "watch").length} Watch · {riskStates.filter((r) => r.status.level === "nominal").length} Nominal · {riskStates.filter((r) => r.status.level === "none").length} without demo signal</p>
+        </div>
+        <p className="text-sm text-muted-foreground">Demo links only: the synthetic mission covers few signals. Use the Health Monitor's 11 Risks tab for the full evaluation with your own check-ins.</p>
+        {([["eva_surface", "EVA & surface operations"], ["microgravity_longterm", "Long-term microgravity"], ["environment_immune", "Environment & immune"]] as const).map(([cat, title]) => (
+          <div key={cat} className="grid gap-2">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">{title}</h3>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {riskStates.filter((r) => r.category === cat).map((r) => (
+                <details key={r.key} className={"rounded-xl border bg-card p-4 " + (r.status.level === "watch" ? "border-l-4 border-l-destructive" : "")}>
+                  <summary className="cursor-pointer">
+                    <span className="font-semibold">#{r.riskNumber} {r.nameEn}</span>
+                    <span className="mt-1 block text-sm text-muted-foreground">{r.status.level === "watch" ? "Watch" : r.status.level === "nominal" ? "Nominal" : "No signal"} · {r.status.reason}</span>
+                  </summary>
+                  <p className="mt-3 text-sm">{r.summaryEn}</p>
+                  <p className="mt-2 text-sm"><b>Measure:</b> {r.howToMeasureEn}</p>
+                  <p className="mt-2 text-sm font-semibold">Watch countermeasures</p>
+                  <ul className="list-disc pl-5 text-sm">{r.countermeasureWatch.map((c) => <li key={c}>{c}</li>)}</ul>
+                  <p className="mt-2 text-sm font-semibold">Act countermeasures</p>
+                  <ul className="list-disc pl-5 text-sm">{r.countermeasureAct.map((c) => <li key={c}>{c}</li>)}</ul>
+                  <p className="mt-2 text-xs text-muted-foreground">OSDR studies: {r.studies.map((s) => s.osdId).join(", ")}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
       <section className="grid gap-3" aria-label="Astronaut health overview">
         <h2 className="text-xl font-semibold">
@@ -274,5 +308,6 @@ function MissionControl() {
         </section>
       </div>
     </main>
+    </>
   );
 }
