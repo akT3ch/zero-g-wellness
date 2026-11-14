@@ -33,3 +33,5 @@ use the editor.
 - Keep AI wellness calls in a stateless server function, and bridge the standalone monitor to the React guidance panel with origin- and source-checked messages; this avoids changing existing medical rules or uploading health history automatically.
 - Store optional appearance and measurement-view preferences under a separate UI-only localStorage prefix; this keeps personalization independent of health records and medical logic.
 - Keep task evaluation on its own route with opt-in, local observation storage and no health-record instrumentation; this separates subjective usability feedback from operational medical workflows.
+- Keep research analytics on a separate route with browser-only dataset processing and immutable originals; isolate public OSDR fetches in stateless server functions with verified file links, so research never alters health records.
+- Keep parsers, preprocessing, statistical calculations, chart preparation and deterministic interpretations in separate testable research modules; inferential tests require explicit design/assumption confirmation rather than assuming biological replicates from rows.

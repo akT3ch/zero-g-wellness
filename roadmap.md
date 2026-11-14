@@ -28,3 +28,10 @@
 - [x] Add separate task-observation dashboard and optional Raw NASA-TLX feedback.
 - [x] Add expert error register and walkthrough protocol with clear evidence labels.
 - [x] Verify metrics, local persistence, workload visualization and mobile use.
+
+# NASA research analytics
+
+- [x] Add CSV, XLSX and JSON import with immutable originals, inspection and preparation.
+- [x] Add tested statistical calculations, linked visualizations and traceable findings.
+- [x] Verify NASA endpoints and integrate real study metadata and compatible file imports.
+- [x] Verify full workflow and existing functionality; document completed work and limitations.

@@ -153,3 +153,23 @@
     color: var(--color-foreground);
   }
 }
+
+.research-shell {
+  --primary: oklch(0.44 0.095 205);
+  --secondary: oklch(0.94 0.025 205);
+  --foreground: oklch(0.24 0.015 245);
+  --muted-foreground: oklch(0.47 0.018 245);
+  --border: oklch(0.86 0.012 245);
+  --research-positive: oklch(0.93 0.04 180);
+  --research-negative: oklch(0.95 0.04 35);
+  font-family: Arial, sans-serif;
+}
+.research-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.research-table th, .research-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); max-width: 300px; overflow-wrap: anywhere; }
+.research-table th { font-weight: 600; }
+.research-table thead { background: var(--muted); }
+.research-positive { background: var(--research-positive); }
+.research-negative { background: var(--research-negative); }
+.research-shell input[type=checkbox] { accent-color: var(--primary); width: 17px; height: 17px; flex-shrink: 0; }
+.research-shell summary { cursor: pointer; }
+.research-shell button { min-height: 40px; }

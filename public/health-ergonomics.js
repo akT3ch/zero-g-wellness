@@ -337,3 +337,8 @@ evaluationLink.href = '/evaluation'; evaluationLink.target = '_blank'; evaluatio
 evaluationLink.textContent = 'Task evaluation';
 evaluationLink.className = 'evaluation-link';
 $('.tool-menu').append(evaluationLink);
+const researchLink = document.createElement('a');
+researchLink.href = '/research'; researchLink.target = '_top';
+researchLink.textContent = 'NASA Research Data Analytics';
+researchLink.className = 'evaluation-link';
+$('.tool-menu').append(researchLink);
