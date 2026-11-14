@@ -36,3 +36,13 @@ The mission simulator compares each reading against the mean of its first five s
 ISS cabin channels are withheld pending source and unit verification. DONKI events and NOAA proton flux are contextual information and cannot establish personal dose. Health records in browser storage are accessible to users of that browser profile. Bluetooth hardware, offline reloads, and flight use require separate validation.
 
 See [data provenance](docs/DATA_SOURCES.md), [submission materials](submission/), and [AI disclosure](submission/AI_DISCLOSURE.md). Future work includes validated onboard sensors, controlled usability studies and offline deployments.
+
+## Preview the production artifact
+
+The build targets Cloudflare Workers. Run the generated Worker with Wrangler from the repository root after building:
+
+```sh
+npx wrangler dev --config .output/server/wrangler.json
+```
+
+The generated configuration supplies the Worker entry and static asset binding. The generic Vite preview command searches for a TanStack server entry under `dist/server`, which this Cloudflare build does not produce. The public Lovable deployment is https://zero-g-wellness.lovable.app/.
