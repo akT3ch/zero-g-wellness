@@ -293,7 +293,7 @@ function renderBody(){
  $('#bp').innerHTML='<h2>'+r.n+(d?'<span class="pill l'+d.l+'">'+LBL[d.l]+'</span>':'')+'</h2><div class="sub">Hazard (NASA HRP): '+r.h+'</div>'+row('Function',r.f)+row('Effect in space',r.e)+row('Measure',r.m)+row('When to get help',r.t)+'<p><b>NASA HRP:</b> <a href="'+r.u+'" target="_blank" rel="noopener">'+r.k+'</a></p>'+(d&&d.r.length?'<b>Current</b><ul>'+d.r.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'<div class="sub">'+(d?'No deviation.':'No data yet.')+'</div>')+(d&&d.l>0?'<div class="act"><b>Actions</b><ul>'+ACT[r.d][d.l].map(x=>'<li>'+x+'</li>').join('')+(d.l===2?'<li><b>'+P().cm+'</b></li>':'')+'</ul></div>':'');
 }
 $$('#bsvg .rg').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',REG[el.dataset.r].n);el.onclick=()=>{SEL=el.dataset.r;renderBody()};el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();el.onclick()}}});
-// ===== Einsatzprofile, Aufgaben, Gamification, 5 Gefahren =====
+// ===== Einsatzprofile, Aufgaben, 5 Gefahren =====
 const PROF=[
  {id:'iss',n:'Space station (LEO)',g:'approx. 0 g',ex:1,cm:'Communication: ground medical reachable in near real time.',nt:'The Earth magnetic field provides partial protection. ISS cabin telemetry is currently unverified.'},
  {id:'mtr',n:'Mars transit',g:'approx. 0 g',ex:1,cm:'Communication: one-way delay roughly 4 to 24 min. Start immediate actions yourself, send reports asynchronously.',nt:'No protection from the Earth magnetic field, high autonomy needed. ISS live data does not apply here.'},
@@ -312,20 +312,13 @@ const TASKS=[
 const REM={'07:30':['glu'],'08:00':['vit'],'18:00':['trn'],'21:00':['chk']};
 const lastDone=(id,w)=>{for(let i=0;i<Math.max(w,1);i++){const dd=new Date();dd.setDate(dd.getDate()-i);const d=ld(dd);if(TL[d]&&TL[d][id])return i}return -1};
 function markAuto(d,m){TL[d]=TL[d]||{};m=m||{};const ok={chk:1,vit:m.hr&&m.sys&&m.dia,glu:m.gluc,trn:m.ex};TASKS.filter(t=>t.a&&ok[t.id]).forEach(t=>TL[d][t.id]=1);saveTL()}
-function stats(){
- const set=new Set(E.map(e=>e.d));let n=0;const d=new Date();if(!set.has(td()))d.setDate(d.getDate()-1);
- while(set.has(ld(d))){n++;d.setDate(d.getDate()-1)}
- const man=Object.values(TL).reduce((s,o)=>s+Object.keys(o).filter(k=>{const t=TASKS.find(x=>x.id===k);return t&&t.id!=='chk'}).length,0);
- let pts=E.length*10+man*5+Math.min(n,14)*2;Object.values(TL).forEach(o=>{if(TASKS.filter(t=>!t.w).every(t=>o[t.id]))pts+=10});return{streak:n,pts,lvl:Math.floor(Math.sqrt(pts/25))+1};
-}
+
 function profBar(){const p=P(),o=TASKS.filter(t=>lastDone(t.id,t.w)<0).length;return `<div class="card" style="margin-bottom:12px"><b>${p.n}</b>, gravity ${p.g}. ${p.nt}<br><span class="sub">${p.cm} Open tasks: ${o}.</span></div>`}
 let NOTI=false,REMON=false,LF='';
 function renderTk(){
- const s=stats(),dn=TASKS.filter(t=>!t.w).every(t=>lastDone(t.id,t.w)>=0),wk=TASKS.filter(t=>t.w).every(t=>lastDone(t.id,t.w)>=0);
- const B=[['3-day streak',s.streak>=3],['7-day streak',s.streak>=7],['All daily tasks',dn],['All weekly tasks',wk],['Level 3',s.lvl>=3]];
- $('#tk').innerHTML=`<h2>Tasks and progress</h2><div class="src" style="margin-bottom:10px"><span class="tag l0">Streak ${s.streak} days</span><span class="tag l0">${s.pts} points</span><span class="tag l0">Level ${s.lvl}</span></div><div class="src" style="margin-bottom:12px">${B.map(b=>`<span class="tag ${b[1]?'l0':'l1'}">${b[0]}${b[1]?'':' (open)'}</span>`).join('')}</div>`+
+ $('#tk').innerHTML='<h2>Tasks</h2>'+
  TASKS.map(t=>`<label style="display:flex;gap:8px;align-items:center;color:var(--fg);margin:6px 0"><input type="checkbox" data-k="${t.id}" ${lastDone(t.id,t.w)>=0?'checked':''} ${t.a?'disabled':''}> ${t.n} <span class="sub">(${t.w?'weekly':'daily'}${t.a?', automatic from the saved check-in, only if the value was entered or measured':''})</span></label>`).join('')+
- `<div style="margin-top:12px"><button id="ntf">${REMON?(NOTI?'Reminders active (system and app)':'Reminders active (in-app only)'):'Enable reminders'}</button> <button id="ics">Calendar (.ics)</button> <span class="sub">Reminders at 07:30, 08:00, 18:00 and 21:00 while the app is open. Without system permission the app shows a banner. For reminders while the app is closed, download the calendar file.</span></div><p class="sub">Points: 10 per check-in, 5 per completed task, 10 bonus when all daily tasks of a day are done, 2 per streak day (max 14). The level grows with the square root of the points. Days count in local time.</p>`;
+ `<div style="margin-top:12px"><button id="ntf">${REMON?(NOTI?'Reminders active (system and app)':'Reminders active (in-app only)'):'Enable reminders'}</button> <button id="ics">Calendar (.ics)</button> <span class="sub">Reminders at 07:30, 08:00, 18:00 and 21:00 while the app is open. Without system permission the app shows a banner. For reminders while the app is closed, download the calendar file.</span></div>`;
  $$('#tk input[data-k]').forEach(c=>c.onchange=()=>{TL[td()]=TL[td()]||{};if(c.checked)TL[td()][c.dataset.k]=1;else delete TL[td()][c.dataset.k];saveTL();renderTk()});
  $('#ics').onclick=ics;$('#ntf').onclick=()=>{REMON=true;try{Notification.requestPermission().then(p=>{NOTI=p==='granted';renderTk()})}catch(e){renderTk()}};
 }

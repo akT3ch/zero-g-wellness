@@ -16,7 +16,7 @@ Standard Measures (Hardy et al., 2025) and accompanying space-medicine research:
 Covers all 11 risks defined in Risks.md across multiple mission environments
 (Spacecraft, Space Station, Lunar/Martian Base, Rover/EVA, Post-Flight) and
 outputs status color-coding (green/yellow/red), actionable recommendations,
-and gamification / measurement-prompt records.
+and measurement-prompt records.
 
 Zero external dependencies (Python 3 standard library only).
 """
@@ -427,15 +427,13 @@ def simulate_astronaut_mission(
     rng: random.Random,
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
-    Simulates daily longitudinal time-series and gamification/prompt records
+    Simulates daily longitudinal time-series and measurement-prompt records
     for a single astronaut across pre-flight, orbital/surface flight, and recovery.
     """
     daily_records: List[Dict[str, Any]] = []
     prompt_records: List[Dict[str, Any]] = []
 
     aid = profile["astronaut_id"]
-    streak = 0
-    total_xp = 1200
 
     # Cumulative state trackers
     bmd_change_pct = 0.0
@@ -745,22 +743,9 @@ def simulate_astronaut_mission(
         row["overall_readiness_score"] = readiness
         row["active_alerts"] = alerts
 
-        # Gamification & Routine Compliance (~87% per Hardy et al. 2025 Standard Measures compliance)
+        # Simulated routine completion for measurement prompts.
         tasks_completed = rng.random() < 0.88
-        if tasks_completed:
-            streak += 1
-            xp_earned = 50 + (10 if is_eva else 0) + (15 if lbnp_session else 0)
-        else:
-            streak = 0
-            xp_earned = 10
-        total_xp += xp_earned
-        row["gamification"] = {
-            "daily_routine_completed": tasks_completed,
-            "streak_days": streak,
-            "xp_earned_today": xp_earned,
-            "total_xp": total_xp,
-            "badge_level": "Commander Gold" if total_xp > 5000 else ("Orbital Silver" if total_xp > 2500 else "Cadet Bronze"),
-        }
+        row["daily_routine_completed"] = tasks_completed
 
         # Periodic Measurement Prompts (potential considerations.md)
         if rel_day % 7 == 0:
@@ -883,9 +868,6 @@ def flatten_daily_record_for_csv(rec: Dict[str, Any]) -> Dict[str, Any]:
         if k == "risk_statuses":
             for rk, rv in v.items():
                 flat[f"status_{rk}"] = rv
-        elif k == "gamification":
-            for gk, gv in v.items():
-                flat[f"gamification_{gk}"] = gv
         elif k == "active_alerts":
             flat["active_alert_count"] = len(v)
             flat["active_alert_risks"] = ";".join(a["risk_id"] for a in v)
