@@ -44,6 +44,16 @@ nav button.on { background: var(--selected); color: var(--acc); border-color: va
 .card { border-radius: 8px; padding: 20px; }
 section.card, #env { border: 0; border-radius: 0; background: transparent; padding: 0; }
 #env { padding: 0 0 20px; border-bottom: 1px solid var(--line); }
+.monitor-context { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 0 0 20px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+.monitor-context > div { min-width: 0; }
+.context-label { display: block; color: var(--mut); font-size: 12px; margin-bottom: 5px; }
+.monitor-context strong { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+.context-warning { color: var(--warn); }
+#ov > .bar:first-child { margin-bottom: 20px; font-weight: 600; }
+#ov .card details summary { color: var(--mut); font-size: 13px; }
+#ov .card details { margin-top: 10px; }
+#env { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.trend-comparison { font-size: 14px; line-height: 1.6; margin: 0 0 16px; }
 #env details { margin-top: 8px; }
 #env summary { font-size: 13px; min-height: 32px; }
 .bar { border-radius: 6px; font-size: 14px; }
@@ -93,6 +103,7 @@ th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); 
   #wellness-open { flex: 1 1 100%; }
   nav { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 4px; }
   nav button { padding: 8px 4px; }
+  .monitor-context { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; margin-bottom: 20px; }
   .f { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
   .save-bar { padding: 12px 0; }
   #toast { bottom: 12px; left: 12px; right: 12px; flex-wrap: wrap; }
