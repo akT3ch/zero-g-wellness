@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Astro Health Monitor</title>
 <style>
-:root{--bg:#f4f6f9;--fg:#141b26;--card:#fff;--mut:#5b677a;--line:#d9dfe8;--ok:#1c8a4b;--warn:#b7791f;--bad:#c53030;--acc:#2b5fd9;--okb:#e3f4ea;--warnb:#fbf1dc;--badb:#fbe5e5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0c1118;--fg:#e6ebf2;--card:#151c27;--mut:#93a0b4;--line:#263041;--ok:#4cc783;--warn:#e3b04b;--bad:#f06a6a;--acc:#6b9bff;--okb:#12301f;--warnb:#33290f;--badb:#381717}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#0c1118;--fg:#e6ebf2;--card:#151c27;--mut:#93a0b4;--line:#263041;--ok:#4cc783;--warn:#e3b04b;--bad:#f06a6a;--acc:#6b9bff;--okb:#12301f;--warnb:#33290f;--badb:#381717}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -18,7 +15,7 @@ h1{font-size:20px;margin:0}h2{font-size:16px;margin:0 0 8px}
 nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 button,select,input{font:inherit;color:var(--fg)}
 button{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
-button.on,button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+button.on,button.pri{background:var(--acc);border-color:var(--acc);color:var(--acc-fg)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
 .bar{border-radius:12px;padding:14px;margin-bottom:12px;font-weight:600}
@@ -36,34 +33,41 @@ svg{width:100%;height:auto;display:block}
 .note{font-size:12px;color:var(--mut);margin-top:14px}
 .hide{display:none}.src{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px}.tag{border-radius:99px;padding:1px 9px;font-weight:600}.dv{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.rg{cursor:pointer;stroke:var(--fg);stroke-width:1;fill-opacity:.6}.rgn{fill:var(--mut)}.rg0{fill:var(--ok)}.rg1{fill:var(--warn)}.rg2{fill:var(--bad)}.sel{stroke-width:3}.rg:focus{outline:2px solid var(--acc)}a{color:var(--acc)}
 </style>
+<link rel="stylesheet" href="/health-ergonomics.css">
 </head>
 <body>
+<a class="skip-link" href="#ov">Skip to current screen</a>
 <main>
 <div class="top">
  <div><h1>Astro Health Monitor</h1><div class="sub" id="meta"></div></div>
- <div><button id="demo">Demo data</button> <button id="exp">Export</button> <button id="rst">Reset</button> <select id="prof" aria-label="Mission site" style="width:auto"></select></div>
+ <div class="header-tools"><label class="mission-label">Mission site<select id="prof" aria-label="Mission site"></select></label><details class="data-tools"><summary>Data options</summary><div class="tool-menu"><button id="demo">Load demo data</button><button id="exp">Export entries</button><button id="rst" class="danger">Delete entries</button></div></details></div>
 </div>
 <div id="toast" class="bar l1" role="status" style="display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;justify-content:space-between;align-items:center"><span id="tt"></span><button id="tx">OK</button></div>
-<nav><button data-t="ov" class="on">Overview</button><button data-t="ci">Check-in</button><button data-t="tr">Trends</button><button data-t="bd">Body</button><button data-t="tk">Tasks</button><button data-t="hz">Hazards</button></nav>
+<nav aria-label="Health monitor screens" role="tablist"><button data-t="ov" class="on">Overview</button><button data-t="ci">Check-in</button><button data-t="tr">Trends</button><button data-t="bd">Body</button><button data-t="tk">Tasks</button><button data-t="hz">Hazards</button></nav>
 
 <div id="env" class="card" style="margin-bottom:12px"></div>
 <section id="ov"></section>
 
 <section id="ci" class="hide card">
+ <h2 class="screen-title">Daily check-in</h2>
+ <details class="device-panel"><summary>Connect a device or import measurements</summary>
  <h2>Devices and import</h2>
  <div class="dv"><button id="b_hr">Pulse (BLE)</button><button id="b_bp">Blood pressure (BLE)</button><button id="b_ox">SpO₂ (BLE)</button><button id="b_t">Temperature (BLE)</button><button id="b_csv">Import CSV</button><input type="file" id="csv" accept=".csv,.txt" hidden></div>
  <div class="sub" id="dvs" style="margin-bottom:14px"></div>
- <h2>Daily check-in</h2>
+ </details>
+ <h2>Measurements</h2>
+ <p class="sub">Enter the values you measured. Unchanged suggested values are excluded from your health assessment.</p>
  <div class="f" id="nums"></div>
  <h2 style="margin-top:14px">Subjective scales (1 to 10)</h2>
  <div class="f" id="sl"></div>
  <h2 style="margin-top:14px">Symptoms today</h2>
  <div class="chk" id="ck"></div>
- <button class="pri" id="save">Save entry</button>
+ <div id="form-error" class="bar l2 hide" role="alert"></div><div class="save-bar"><span id="draft-state" class="sub">No unsaved changes</span><button class="pri" id="save">Save check-in</button></div>
 </section>
 
 <section id="tr" class="hide card">
  <h2>Trends</h2>
+ <label for="met">Measurement</label>
  <select id="met" style="max-width:300px;margin-bottom:10px"></select>
  <div class="scroll" id="chart"></div>
  <div class="sub">Dashed: personal baseline (mean of the first 5 entries).</div>
@@ -131,7 +135,7 @@ function evaluate(){
  if(e.co2>5000)add(4,2,'CO₂ '+e.co2+' ppm');else if(e.co2>3500)add(4,1,'CO₂ '+e.co2+' ppm elevated');
  addEnv(add);anomalies(add,e0);
  // Ernährung
- if(e.gluc<70)add(6,2,'Blutzucker '+e.gluc+' mg/dL (too low)');else if(e.gluc>125)add(6,2,'Fasting glucose '+e.gluc+' mg/dL');else if(e.gluc>=100)add(6,1,'Fasting glucose '+e.gluc+' mg/dL elevated');
+ if(e.gluc<70)add(6,2,'Blood glucose '+e.gluc+' mg/dL (too low)');else if(e.gluc>125)add(6,2,'Fasting glucose '+e.gluc+' mg/dL');else if(e.gluc>=100)add(6,1,'Fasting glucose '+e.gluc+' mg/dL elevated');
  const ml=lastAvg('meal',3);if(ml<=3)add(6,2,'Food intake 3-day avg '+f1(ml)+'/10');else if(ml<=5)add(6,1,'Food intake 3-day avg '+f1(ml)+'/10');
  // Sehen
  if(e.vision&&e.head)add(5,2,'Vision change with head pressure');else if(e.vision)add(5,1,'Vision change reported');else if(e.head)add(5,1,'Head pressure reported');if(e.dizzy)add(5,(e.vision||e.head)?2:1,'Dizziness or coordination problems'+((e.vision||e.head)?' together with a vision or head pressure symptom':''));
@@ -140,7 +144,7 @@ function evaluate(){
 const LBL=['Normal','Watch','Act'];
 function renderOv(){
  const o=$('#ov'),R=evaluate();
- if(!R){o.innerHTML='<div class="card">No entries yet. Start with the check-in or load demo data.</div>';$('#meta').textContent='No data';return}
+ if(!R){o.innerHTML='<div class="empty-state"><h2>Your health overview</h2><p>No check-ins yet.</p><button class="pri" onclick="tab('ci')">Start check-in</button></div>';$('#meta').textContent='No data';return}
  const top=Math.max(...R.D.map(d=>d.l));
  $('#meta').textContent=E.length+' entries, latest: '+R.e.d+(base()?'':' (baseline from 5 entries)');
  const msg=['All areas within target range.','At least one area deviates. Review actions.','At least one area requires action. Involve ground medical.'][top];
@@ -172,7 +176,7 @@ $('#save').onclick=()=>{
 function renderTr(){
  const sel=$('#met');if(!sel.options.length)sel.innerHTML=keys.map(k=>'<option value="'+k+'">'+NAMES[k]+'</option>').join('');
  sel.onchange=renderTr;const k=sel.value||'hr',c=$('#chart');const E=allE().filter(e=>real(e,k));
- if(E.length<2){c.innerHTML='<div class="sub">At least 2 entries required.</div>';return}
+ if(E.length<2){c.innerHTML='<div class="empty-state"><h2>Not enough measurements yet</h2><p>Trends appear after two measured entries for this value.</p><button class="pri" onclick="tab(\'ci\')">Add a check-in</button></div>';return}
  const v=E.map(e=>e[k]),W=640,H=220,p=34;let mn=Math.min(...v),mx=Math.max(...v);if(mn===mx){mn-=1;mx+=1}
  const pad=(mx-mn)*.1;mn-=pad;mx+=pad;
  const X=i=>p+i*(W-p-10)/(E.length-1),Y=y=>H-p-(y-mn)/(mx-mn)*(H-p-14);
@@ -350,7 +354,7 @@ const HZ=[
  {n:'Hostile and closed environment',d:[3,6],u:'hazard-hostile-closed-environments',t:'Temperature, pressure, light, noise, microbes and immune responses in the spacecraft.'}];
 function renderHz(){
  const R=evaluate(),el=$('#hz');
- if(!R){el.innerHTML='<h2>The 5 hazards</h2><div class="sub">Noch keine Daten.</div>';return}
+ if(!R){el.innerHTML='<h2>The 5 hazards</h2><div class="sub">No check-ins yet. Save a check-in to see your hazard assessment.</div>';return}
  const top=Math.max(...R.D.map(d=>d.l)),long=PID==='mtr'||PID==='mars';
  el.innerHTML='<h2>The 5 hazards of spaceflight (NASA HRP)</h2><div class="sub" style="margin-bottom:10px">View by hazard instead of organ system. Profile: '+P().n+'</div><div class="grid">'+HZ.map(h=>{
   const ds=h.d.map(x=>R.D[x]),l=ds.length?Math.max(...ds.map(d=>d.l)):(long?(top===2?2:1):(top===2?1:0)),rs=ds.flatMap(d=>d.r);
@@ -407,8 +411,9 @@ function anomalies(add,e0){
   else if(dr>=1.5)add(DOM[k],1,NAMES[k]+': sustained shift (EWMA, '+f1(dr)+' SD)');
  });
 }
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+
 buildForm();$$('#nums input,#sl input').forEach(i=>i.addEventListener('input',()=>{TOUCH[i.id.slice(2)]=1}));renderOv();loadEnv();
 </script>
+<script src="/health-ergonomics.js"></script>
 </body>
 </html>
