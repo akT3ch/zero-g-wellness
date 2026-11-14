@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Keep the imported health monitor in its existing standalone document, with usability enhancements in a separate stylesheet and script, so its medical rules and source adapters remain unchanged.
+- Keep AI wellness calls in a stateless server function, and bridge the standalone monitor to the React guidance panel with origin- and source-checked messages; this avoids changing existing medical rules or uploading health history automatically.

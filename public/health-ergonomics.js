@@ -194,3 +194,17 @@ const originalSample = onSample;
 onSample = function(key, value, source) { originalSample(key, value, source); if (SRC[key]) updateDraft(); };
 // Keep remote source values and medical evaluation unchanged, including uncertain telemetry.
 renderEnv(); tab('ov', false);
+
+// Send only user-approved context to the same-origin React wellness panel.
+const wellnessButton = document.createElement('button');
+wellnessButton.id = 'wellness-open';
+wellnessButton.textContent = 'Wellness guidance';
+wellnessButton.onclick = () => {
+  const readings = E.slice(-7).map(entry => ({
+    date: entry.d,
+    values: [...NUM, ...SL].filter(item => real(entry, item[0]) && Number.isFinite(entry[item[0]])).map(item => ({ name: item[1], value: entry[item[0]], unit: NUM.includes(item) ? item[2] : '/10' })),
+    symptoms: CK.filter(item => entry[item[0]] === true).map(item => item[1]),
+  }));
+  window.parent.postMessage({ type: 'astro:wellness-open', readings, mission: P().n }, window.location.origin);
+};
+$('.header-tools').append(wellnessButton);
