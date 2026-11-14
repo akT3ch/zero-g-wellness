@@ -2243,3 +2243,28 @@ $('#prof').onchange = e => {
 
 renderOv();
 void ensureSimulatedDatasetLoaded();
+
+// ===== App header controls (mission site, appearance, data settings) =====
+// When embedded in the app, the shared header owns these controls; the in-monitor duplicates are hidden.
+if (window.parent !== window) {
+  document.documentElement.classList.add('embedded-in-app');
+  window.addEventListener('message', event => {
+    if (event.origin !== window.location.origin || event.source !== window.parent) return;
+    const msg = event.data;
+    if (!msg || msg.type !== 'zero-g:control' || typeof msg.action !== 'string') return;
+    const setFile = (input, file) => {
+      if (!(file instanceof File)) return false;
+      const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+      input.dispatchEvent(new Event('change')); return true;
+    };
+    switch (msg.action) {
+      case 'mission': if (PROF.some(p => p.id === msg.value)) { $('#prof').value = msg.value; $('#prof').onchange({ target: $('#prof') }); } break;
+      case 'appearance': if (['system', 'light', 'dark'].includes(msg.value)) { appearanceSelect.value = msg.value; appearanceSelect.onchange(); } break;
+      case 'demo': $('#demo').click(); break;
+      case 'export': $('#exp').click(); break;
+      case 'delete': $('#rst').click(); break;
+      case 'import-backup': setFile(backupInput, msg.file); break;
+      case 'import-csv': if (setFile($('#csv'), msg.file)) tab('ci'); break;
+    }
+  });
+}
