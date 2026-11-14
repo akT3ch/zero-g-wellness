@@ -22,3 +22,9 @@
 - [x] Improve repeated check-ins, task filtering, appearance preferences, and keyboard access.
 - [x] Strengthen validation and keep feedback from covering important content.
 - [x] Run scenarios A–E and document measured results, expert ratings, and remaining limitations.
+
+# Cognitive ergonomics
+
+- [ ] Add separate task-observation dashboard and optional Raw NASA-TLX feedback.
+- [ ] Add expert error register and walkthrough protocol with clear evidence labels.
+- [ ] Verify metrics, local persistence, workload visualization and mobile use.
