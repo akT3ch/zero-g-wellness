@@ -90,14 +90,6 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
             {MISSION_SITES.map(([id, name]) => <option key={id} value={id}>{name}</option>)}
           </select>
         </label>
-        <label className="flex items-center gap-2 text-muted-foreground">
-          Appearance
-          <select aria-label="Appearance" className={select} value={appearance} onChange={(e) => changeAppearance(e.target.value)}>
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </label>
         {monitorControls && (
           <Button type="button" size="sm" variant="outline" onClick={() => setSettingsOpen(true)}>
             <Settings aria-hidden="true" />Settings
@@ -112,9 +104,17 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
         <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Settings · Health data</DialogTitle>
+              <DialogTitle>Settings</DialogTitle>
               <DialogDescription>Data stays in this browser. Replacing or deleting asks for confirmation and can be undone.</DialogDescription>
             </DialogHeader>
+            <section className="space-y-2">
+              <h3 className="text-sm font-semibold">Appearance</h3>
+              <select aria-label="Appearance" className={select} value={appearance} onChange={(e) => changeAppearance(e.target.value)}>
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </section>
             <section className="space-y-2">
               <h3 className="text-sm font-semibold">Load data</h3>
               <div className="flex flex-wrap gap-2">
