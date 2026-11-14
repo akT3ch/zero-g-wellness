@@ -5,6 +5,14 @@ const source = readFileSync('public/health-ergonomics.js', 'utf8');
 const validation = source.slice(source.indexOf('function validateCheckIn()'), source.indexOf("$('#save').onclick = async"));
 const validate = new Function('$', 'NUM', 'NAMES', validation + '; return validateCheckIn();');
 const select = (selector: string) => document.querySelector(selector);
+const prioritySource = source.slice(source.indexOf('function priorityOrder('), source.indexOf('renderOv = function()'));
+const prioritize = new Function(prioritySource + '; return priorityOrder;')();
+
+describe('Existing assessment prioritization', () => {
+  it('puts action-required level 2 before warning level 1 and normal level 0 without changing ties', () => {
+    expect(prioritize([0, 1, 2, 1, 0, 2])).toEqual([2, 5, 1, 3, 0, 4]);
+  });
+});
 
 describe('Check-in validation', () => {
   beforeEach(() => {
