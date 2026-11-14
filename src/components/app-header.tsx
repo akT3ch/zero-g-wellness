@@ -103,7 +103,7 @@ export function AppHeader({ monitorControls = false }: { monitorControls?: boole
       <WellnessGuidance />
       {monitorControls && (
         <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-          <DialogContent>
+          <DialogContent overlayClassName="bg-settings-overlay/80">
             <DialogHeader>
               <DialogTitle>Settings</DialogTitle>
               <DialogDescription>Data stays in this browser. Replacing or deleting asks for confirmation and can be undone.</DialogDescription>

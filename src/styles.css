@@ -65,6 +65,7 @@
   --color-alert-ok: var(--alert-ok);
   --color-alert-watch: var(--alert-watch);
   --color-alert-act: var(--alert-act);
+  --color-settings-overlay: var(--settings-overlay);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -76,6 +77,7 @@
 }
 
 :root {
+  --settings-overlay: oklch(0.129 0.042 264.695);
   --radius: 0.625rem;
   --alert-ok: oklch(0.65 0.17 150);
   --alert-watch: oklch(0.8 0.16 80);
