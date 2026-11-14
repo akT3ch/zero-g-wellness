@@ -206,15 +206,15 @@ const SNAP={temp:22.8,press:101.3};
 let ENV={src:'none',donki:'none',sep:[],xflr:false};
 function addEnv(add){
  if(ENV.src==='live'&&P().id==='iss'){
-  if(ENV.temp>27||ENV.temp<18)add(4,1,'Cabin temperature '+f1(ENV.temp)+' °C (ISS Live)');
-  if(ENV.press<97||ENV.press>104)add(4,1,'Cabin pressure '+f1(ENV.press)+' kPa (ISS Live)');
+  if(station.temp?.source==='live'&&Date.now()-station.temp.at<60000&&(ENV.temp>27||ENV.temp<18))add(4,1,'Cabin temperature '+f1(ENV.temp)+' °C (ISS Live)');
+  if(station.press?.source==='live'&&Date.now()-station.press.at<60000&&(ENV.press<97||ENV.press>104))add(4,1,'Cabin pressure '+f1(ENV.press)+' kPa (ISS Live)');
  }
  if(ENV.noaa==='live'){
   if(ENV.pf>=100)add(4,2,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S2 or higher, NOAA)');else if(ENV.pf>=10)add(4,1,'Proton flux ≥10 MeV '+f1(ENV.pf)+' pfu (S1, NOAA)');
  }
- if(ENV.donki==='live'){
-  if(ENV.sep.length)add(4,2,'Particle event (SEP) in the last 3 days per DONKI');
-  if(ENV.xflr)add(4,1,'Class X flare in the last 3 days per DONKI');
+ if(ENV.donki==='live'||ENV.donki==='partial'){
+  if(weatherState.SEP&&!weatherState.SEP.stale&&ENV.sep.length)add(4,2,'Particle event (SEP) in the last 3 days per DONKI');
+  if(weatherState.FLR&&!weatherState.FLR.stale&&ENV.xflr)add(4,1,'Class X flare in the last 3 days per DONKI');
  }
 }
 function renderEnv(){

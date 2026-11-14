@@ -13,7 +13,9 @@
 ## Verification
 Real browser testing returned five Body-tab OSDR studies and OSD-48 metadata with 658 files. No direct browser NASA/NOAA API requests were observed. SEP and NOAA succeeded while FLR returned HTTP 404; successful results remained visible. Research, evaluation and monitor routes were reached without browser runtime errors. Desktop and 390-pixel phone screenshots were inspected.
 
-The existing medical, baseline, anomaly and research-statistical calculations were not edited. No operational records, database tables or existing settings were overwritten. No Mission Control implementation existed in the inspected repository; no duplicate simulator was introduced.
+The existing medical thresholds, baseline, anomaly and research-statistical calculations were not edited. Environment-source eligibility now checks each parameter independently so sample snapshots and stale data cannot enter live-source rules; fresh successful SEP/FLR endpoints remain eligible independently. No operational records, database tables or existing settings were overwritten. No Mission Control implementation existed in the inspected repository; no duplicate simulator was introduced.
+
+Full Vitest suite: 61 tests passed across six files (30 new integration tests). Latest automatic preview validation: build OK. A separate manual production build/typecheck was not run.
 
 ## Limitations
 - NASA FLR returned HTTP 404 during verification; its upstream availability remains outside the app's control.
