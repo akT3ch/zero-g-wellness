@@ -250,6 +250,18 @@ dialog::backdrop { background: var(--overlay); }
 .domain-trends .trend-tile-value small { display: block; margin-left: 0; margin-top: 4px; }
 .domain-trends .trend-sparkline { display: block; aspect-ratio: 320 / 110; }
 .trend-dialog { width: min(980px, calc(100% - 32px)); }
+.trend-domain-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0; font-size: 13px; font-weight: 600; }
+.trend-domain-filter select { min-width: min(100%, 240px); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; background: var(--card); color: var(--fg); }
+.domain-trends[hidden] { display: none !important; }
+.trend-data-origin { border-left: 3px solid var(--acc); padding: 8px 10px; background: var(--selected); font-size: 13px; }
+.trend-context { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 12px 0; }
+.trend-context label { font-size: 13px; font-weight: 600; }
+.trend-context input { border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; background: var(--bg); color: var(--fg); }
+.trend-context .sub { flex-basis: 100%; margin: 0; }
+.trend-provenance { width: 100%; border-collapse: collapse; font-size: 12px; }
+.trend-provenance caption { padding: 8px; text-align: left; font-weight: 600; }
+.trend-provenance th, .trend-provenance td { border: 1px solid var(--line); padding: 7px; text-align: left; }
+.trend-provenance th { background: var(--selected); }
 .trend-chart-large { width: 100%; height: auto; margin-top: 8px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); }

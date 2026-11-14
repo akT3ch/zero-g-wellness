@@ -13,14 +13,19 @@ const visibleTask = new Function(taskSource + '; return taskVisible;')();
 const risksEvalSource = source.slice(source.indexOf('const SPACE_RISKS_11 ='), source.indexOf('let riskFilter ='));
 const evalRisks = new Function('f1', risksEvalSource + '; return { evaluateSpaceRisks, CREW_SCENARIOS, SPACE_RISKS_11, BODY_REGION_TO_RISKS };')((x: number) => Math.round(x * 10) / 10);
 const trendSource = source.slice(source.indexOf('const domainTrendKeys ='), source.indexOf('const trendDialog ='));
-const chartTools = new Function('NUM', 'NAMES', 'base', 'esc', 'f1', 'CK', trendSource + '; return { trendTicks, trendBaseline, trendExplanation, buildTrendChart };')(
+const chartTools = new Function('NUM', 'NAMES', 'esc', 'f1', 'CK', 'DN', 'mean', 'getPreference', 'setPreference', trendSource + '; return { trendTicks, trendBaseline, trendExplanation, buildTrendChart, measurementSource, measurementTimestamp, missionDayForDate };')(
   [['hr', 'Resting heart rate', 'bpm', 40, 140, 1, 62]],
   { hr: 'Resting heart rate', mood: 'Mood (10 = very good)' },
-  () => ({ hr: 60 }),
   (value: unknown) => String(value),
   (x: number) => Math.round(x * 10) / 10,
   [['vision', 'Vision change'], ['head', 'Head pressure'], ['dizzy', 'Dizziness or coordination problems']],
+  ['Cardiovascular'],
+  (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length,
+  () => '',
+  () => {},
 );
+const backupSource = source.slice(source.indexOf('function validatePersonalBackup('), source.indexOf('function trendExplanation('));
+const validateBackup = new Function('LIMIT', 'keys', 'CK', 'NUM', 'SL', backupSource + '; return validatePersonalBackup;')(600, ['hr', 'mood'], [['vision', 'Vision change']], [['hr', 'Resting heart rate', 'bpm']], [['mood', 'Mood', 7]]) as (value: unknown) => Record<string, unknown>[];
 
 describe('11 Spaceflight Risks, OSDR mapping & simulated datasets', () => {
   it('maps all 8 anatomical body regions to valid risks across all 11 spaceflight risks', () => {
@@ -126,18 +131,53 @@ describe('Overview trend charts', () => {
     const fiveEntries = fourEntries.concat({ d: '2026-11-05', hr: 70, mood: 6 });
     expect(chartTools.trendBaseline('hr', fourEntries)).toBeNull();
     expect(chartTools.buildTrendChart('hr', fourEntries, true)).not.toContain('stroke-dasharray="5 4"');
-    expect(chartTools.trendBaseline('hr', fiveEntries)).toBe(60);
+    expect(chartTools.trendBaseline('hr', fiveEntries)).toBe(66.4);
     expect(chartTools.buildTrendChart('hr', fiveEntries, true)).toContain('stroke-dasharray="5 4"');
     expect(chartTools.trendBaseline('vision', fiveEntries)).toBeNull();
   });
 
   it('explains the numerical comparison and distinguishes it from a medical assessment', () => {
-    expect(chartTools.trendExplanation('hr', entries)).toContain('Change from the previous recorded measurement (2026-11-02): +8 bpm');
-    expect(chartTools.trendExplanation('hr', entries)).toContain('not a medical assessment');
+    expect(chartTools.trendExplanation('hr', entries)).toContain('Change compared with your previous recorded value (2026-11-02): +8 bpm');
+    expect(chartTools.trendExplanation('hr', entries)).toContain('not a diagnosis or medical assessment');
+    expect(chartTools.trendExplanation('hr', entries)).toContain('your recorded history');
     expect(chartTools.trendExplanation('vision', [
       { d: '2026-11-01', vision: false },
       { d: '2026-11-02', vision: true },
     ])).toContain('not a diagnosis');
+  });
+
+  it('shows measurement source and time and derives mission-day context without editing records', () => {
+    expect(chartTools.measurementSource({ src: { hr: 'BLE chest strap' } }, 'hr')).toBe('Device: BLE chest strap');
+    expect(chartTools.measurementSource({ origin: 'Demo data' }, 'hr')).toBe('Demo data');
+    expect(chartTools.measurementTimestamp({ provenance: { hr: { measuredAt: '2026-11-14T09:30:00.000Z' } } }, 'hr')).not.toBe('Time not recorded');
+    expect(chartTools.missionDayForDate('2026-11-14', '2026-11-10')).toBe('Day +4');
+    expect(chartTools.missionDayForDate('2026-11-08', '2026-11-10')).toBe('Day -2');
+    expect(chartTools.missionDayForDate('2026-11-14', '')).toBe('');
+  });
+});
+
+describe('Local health backup validation', () => {
+  it('accepts versioned backups and legacy arrays while marking missing provenance', () => {
+    const backup = validateBackup({
+      format: 'zero-g-wellness-local-health-log',
+      version: 1,
+      entries: [
+        { d: '2026-11-02', hr: 64, origin: 'Personal check-in', provenance: { hr: { source: 'Manual entry', measuredAt: '2026-11-02T09:00:00.000Z' } } },
+        { d: '2026-11-01', hr: 60 }
+      ]
+    });
+    expect(backup.map(row => row['d'])).toEqual(['2026-11-01', '2026-11-02']);
+    expect(backup[0]?.['origin']).toBe('Imported local health backup');
+    expect(backup[1]?.['origin']).toBe('Personal check-in');
+    expect(backup[1]?.['provenance']).toEqual({ hr: { source: 'Manual entry', measuredAt: '2026-11-02T09:00:00.000Z' } });
+    expect(validateBackup([{ d: '2026-11-03', hr: 62 }])[0]?.['origin']).toContain('Legacy backup');
+  });
+
+  it('rejects duplicate dates, invalid values, unsupported envelopes and oversized data', () => {
+    expect(() => validateBackup([{ d: '2026-11-01', hr: 60 }, { d: '2026-11-01', hr: 61 }])).toThrow('more than one entry');
+    expect(() => validateBackup([{ d: '2026-11-01', hr: '60' }])).toThrow('invalid numeric value');
+    expect(() => validateBackup({ format: 'other', version: 1, entries: [{ d: '2026-11-01' }] })).toThrow();
+    expect(() => validateBackup(Array(601).fill({ d: '2026-11-01', hr: 60 }))).toThrow('1 to 600');
   });
 });
 
