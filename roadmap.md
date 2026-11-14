@@ -16,3 +16,9 @@
 - [x] Make current screen, saved data coverage, and source status visible together.
 - [x] Prioritize existing warnings and progressively reveal secondary details.
 - [x] Verify validation, recovery, navigation, and desktop/mobile presentation.
+
+# Advanced ergonomics evaluation
+
+- [ ] Improve repeated check-ins, task filtering, appearance preferences, and keyboard access.
+- [ ] Strengthen validation and keep feedback from covering important content.
+- [ ] Run scenarios A–E and document measured results, expert ratings, and remaining limitations.

@@ -11,6 +11,29 @@ const originalTrends = renderTr;
 const originalTasks = renderTk;
 const originalEnvironment = renderEnv;
 const originalOverview = renderOv;
+let taskView = 'all';
+function getPreference(key, fallback) {
+  try { return localStorage.getItem('ahm-ui-' + key) || fallback; } catch { return fallback; }
+}
+function setPreference(key, value) {
+  try { localStorage.setItem('ahm-ui-' + key, value); } catch { /* Preferences are optional. */ }
+}
+function taskVisible(completed, view) {
+  return view === 'all' || (view === 'open' ? !completed : completed);
+}
+const appearance = document.createElement('label');
+appearance.className = 'mission-label appearance-label';
+appearance.textContent = 'Appearance';
+const appearanceSelect = document.createElement('select');
+appearanceSelect.setAttribute('aria-label', 'Appearance');
+appearanceSelect.innerHTML = '<option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option>';
+const appearancePreference = getPreference('appearance', 'system');
+appearanceSelect.value = ['system', 'light', 'dark'].includes(appearancePreference) ? appearancePreference : 'system';
+function applyAppearance() {
+  document.documentElement.dataset.theme = appearanceSelect.value;
+}
+appearanceSelect.onchange = () => { applyAppearance(); setPreference('appearance', appearanceSelect.value); };
+applyAppearance(); appearance.append(appearanceSelect); $('.header-tools').append(appearance);
 const screenNames = { ov: 'Overview', ci: 'Daily check-in', tr: 'Trends', bd: 'Body model', tk: 'Tasks', hz: 'Spaceflight hazards' };
 const contextBand = document.createElement('div');
 contextBand.className = 'monitor-context';
@@ -78,6 +101,8 @@ function askConfirmation(title, message, action) {
   });
 }
 $('#tx').textContent = 'Dismiss';
+$('#tx').onclick = () => { $('#toast').style.display = 'none'; updateContext(); };
+$('nav').before($('#toast'));
 const undoButton = document.createElement('button');
 undoButton.textContent = 'Undo'; undoButton.hidden = true;
 const toastActions = document.createElement('div');
@@ -130,10 +155,11 @@ window.addEventListener('beforeunload', event => { if (draftDirty) { event.preve
 function validateCheckIn() {
   const fields = [$('#n_d'), ...NUM.map(item => $('#n_' + item[0]))];
   fields.forEach(field => field.removeAttribute('aria-invalid'));
-  const invalid = fields.find(field => !field.checkValidity());
+  const invalidFields = fields.filter(field => !field.checkValidity());
+  const invalid = invalidFields[0];
   const error = $('#form-error');
   if (!invalid) { error.classList.add('hide'); return true; }
-  invalid.setAttribute('aria-invalid', 'true');
+  invalidFields.forEach(field => { field.setAttribute('aria-invalid', 'true'); field.setAttribute('aria-describedby', [field.id === 'n_d' ? '' : 'hint_' + field.id.slice(2), 'form-error'].filter(Boolean).join(' ')); });
   error.textContent = invalid.id === 'n_d' ? 'Choose a date before saving your check-in.' :
     'Check ' + NAMES[invalid.id.slice(2)] + ': enter a value from ' + invalid.min + ' to ' + invalid.max + ', in steps of ' + invalid.step + '.';
   error.classList.remove('hide'); invalid.focus(); return false;
@@ -146,6 +172,7 @@ $('#save').onclick = async () => {
   // Empty measurements must retain the original app's unmeasured status.
   NUM.forEach(item => { if (!$('#n_' + item[0]).value) { delete TOUCH[item[0]]; delete SRC[item[0]]; } });
   originalSave(); draftDirty = false;
+  tab('ci', false);
   $('#draft-state').textContent = 'All changes saved';
   NUM.forEach(item => { $('#n_' + item[0]).parentElement.querySelector('.field-status').textContent = 'Suggested · not measured'; });
   showToast('Check-in saved for ' + date + '.', undo);
@@ -222,11 +249,24 @@ renderTr = function() {
 };
 renderTk = function() {
   originalTasks();
+  const filterBar = document.createElement('div');
+  filterBar.className = 'task-filters'; filterBar.setAttribute('role', 'group'); filterBar.setAttribute('aria-label', 'Task view');
+  const taskInputs = $$('#tk input[data-k]');
+  for (const [value, label] of [['all', 'All'], ['open', 'Open'], ['completed', 'Completed']]) {
+    const button = document.createElement('button');
+    const count = taskInputs.filter(input => taskVisible(input.checked, value)).length;
+    button.textContent = label + ' (' + count + ')'; button.dataset.view = value;
+    button.setAttribute('aria-pressed', String(taskView === value));
+    button.onclick = () => { taskView = value; renderTk(); $('#tk button[data-view="' + value + '"]').focus(); };
+    filterBar.append(button);
+  }
+  $('#tk h2').after(filterBar);
   $$('#tk input[data-k]').forEach(input => {
     input.parentElement.setAttribute('data-task', input.dataset.k);
+    input.parentElement.hidden = !taskVisible(input.checked, taskView);
     const handler = input.onchange;
     if (!handler) return;
-    input.onchange = () => { const completed = input.checked; const task = TASKS.find(task => task.id === input.dataset.k); handler(); showToast((completed ? 'Completed: ' : 'Reopened: ') + task.n); $('#tk input[data-k="' + task.id + '"]').focus(); };
+    input.onchange = () => { const completed = input.checked; const task = TASKS.find(task => task.id === input.dataset.k); handler(); showToast((completed ? 'Completed: ' : 'Reopened: ') + task.n); const next = $('#tk input[data-k="' + task.id + '"]'); if (next && !next.parentElement.hidden) next.focus(); else $('#tk button[data-view="' + taskView + '"]').focus(); };
   });
   $('#ics').onclick = () => { originalCalendar(); showToast('Calendar prepared: astro-health-reminders.ics.'); };
 };
@@ -258,6 +298,25 @@ const originalSample = onSample;
 onSample = function(key, value, source) { originalSample(key, value, source); if (SRC[key]) updateDraft(); };
 // Keep remote source values and medical evaluation unchanged, including uncertain telemetry.
 renderOv(); renderEnv(); tab('ov', false);
+const trendPreference = getPreference('trend', 'hr');
+if ([...$('#met').options].some(option => option.value === trendPreference)) $('#met').value = trendPreference;
+$('#met').addEventListener('change', () => setPreference('trend', $('#met').value));
+// Give small body regions equivalent full-size keyboard and touch controls.
+const bodyControls = document.createElement('div');
+bodyControls.className = 'body-controls'; bodyControls.setAttribute('role', 'group'); bodyControls.setAttribute('aria-label', 'Body regions');
+for (const [key, region] of Object.entries(REG)) {
+  const button = document.createElement('button'); button.textContent = region.n;
+  button.dataset.region = key; button.setAttribute('aria-pressed', String(key === SEL));
+  button.onclick = () => { $('#bsvg .rg[data-r="' + key + '"]').onclick(); };
+  bodyControls.append(button);
+}
+$('#bsvg').before(bodyControls);
+const originalBody = renderBody;
+renderBody = function() { originalBody(); $$('.body-controls button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.region === SEL))); };
+$('#bsvg').parentElement.classList.add('body-layout');
+const viewOverview = document.createElement('button');
+viewOverview.textContent = 'View overview'; viewOverview.onclick = () => tab('ov');
+$('#draft-state').after(viewOverview);
 
 // Send only user-approved context to the same-origin React wellness panel.
 const wellnessButton = document.createElement('button');
