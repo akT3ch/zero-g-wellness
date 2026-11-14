@@ -77,6 +77,7 @@ svg{width:100%;height:auto;display:block}
 <section id="tk" class="hide card"></section><section id="hz" class="hide card"></section>
 <p class="note">Prototype for research and demonstration. Thresholds are simplified assumptions and do not replace medical advice. Data is stored only locally in the browser. For red findings, the ground medical protocol (flight surgeon) applies.<br>Content basis: <a href="https://www.nasa.gov/hrp/hazards/" target="_blank" rel="noopener">NASA HRP, 5 Hazards</a> and <a href="https://www.nasa.gov/hrp/risks/" target="_blank" rel="noopener">NASA HRP, Risks</a>. Thresholds are assumptions of the app and are not derived from these sources. Radiation: <a href="https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp" target="_blank" rel="noopener">CSA, Monitoring Radiation</a>. Profile values (delay, training factor) are approximations and assumptions.</p>
 </main>
+<script src="/nasa-integrations.js"></script>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const NUM=[['hr','Resting heart rate','bpm',40,140,1,62],['sys','Blood pressure systolic','mmHg',80,200,1,118],['dia','Blood pressure diastolic','mmHg',50,130,1,76],['spo2','SpO₂','%',80,100,1,97],['temp','Body temperature','°C',35,41,0.1,36.6],['sleep','Sleep','h',0,12,0.1,7],['ex','Exercise','min',0,300,5,120],['dose','Radiation dose today','µSv',0,10000,10,500],['co2','Cabin CO₂','ppm',300,10000,50,3000],['gluc','Fasting blood glucose','mg/dL',40,400,1,90]];
@@ -217,35 +218,44 @@ function addEnv(add){
  }
 }
 function renderEnv(){
- const L=ENV.src==='live',D=ENV.donki==='live';
- const tg=(ok,t)=>'<span class="tag l'+(ok?0:1)+'">'+t+'</span>';
- $('#env').innerHTML='<h2>Environment sources</h2><div class="src">'+tg(L,L?'ISS Live':'Snapshot (sample values)')+(ENV.temp!=null?'<span>Cabin '+f1(ENV.temp)+' °C, '+f1(ENV.press)+' kPa</span>':'<span>loading</span>')+tg(D,D?'DONKI live':'DONKI unreachable')+(D?'<span>'+ENV.sep.length+' SEP, X-Flare: '+(ENV.xflr?'yes':'no')+'</span>':'')+tg(ENV.noaa==='live',ENV.noaa==='live'?'NOAA SWPC live':'NOAA unreachable')+(ENV.noaa==='live'?'<span>≥10 MeV max. '+f1(ENV.pf)+' pfu (24 h)</span>':'')+'</div>'+((L&&D)?'':'<div class="sub" style="margin-top:6px">Live fetch not possible, e.g. in a hosted preview without network access. No warnings are derived from sample values. Host the file yourself for live data.</div>')+'<div class="sub" style="margin-top:6px">Not connected: ESA Space Weather (requires account and server-side proxy, a secret does not belong in the browser) and JAXA (no verified public API). OSDR: study search only in the Body tab.</div>';
+ const tg=(ok,t)=>'<span class="tag l'+(ok?0:1)+'">'+esc(t)+'</span>';
+ const measurement=(key,label,unit)=>{const m=station[key];return '<span>'+label+': '+(m?f1(m.value)+' '+unit+' ('+(m.source==='snapshot'?'sample snapshot':station.connection==='live'&&Date.now()-m.at<60000?'live':'stale live')+')':'not received')+'</span>'};
+ const status=k=>weatherState[k]?(weatherState[k].stale?'stale cached':weatherState[k].cached?'cached (≤30 min)':'retrieved'):'unavailable';
+ $('#env').innerHTML='<h2>Environment sources</h2><div class="src">'+tg(ENV.src==='live','ISS '+station.connection)+measurement('temp','Cabin temperature','°C')+measurement('press','Cabin pressure','kPa')+['SEP','FLR','NOAA'].map(k=>tg(weatherState[k]&&!weatherState[k].stale,k+': '+status(k))+(weatherErrors[k]?'<span>'+esc(weatherErrors[k])+'</span>':'')).join('')+(weatherState.SEP?'<span>'+ENV.sep.length+' SEP</span>':'')+(weatherState.FLR?'<span>X-Flare: '+(ENV.xflr?'yes':'no')+'</span>':'')+(weatherState.NOAA?'<span>≥10 MeV max. '+f1(ENV.pf)+' pfu (24 h)</span>':'')+'</div><div class="sub">Sample snapshots are not live measurements. Cached source timestamps: '+Object.entries(weatherState).map(([k,v])=>k+' '+new Date(v.at).toISOString()).join('; ')+'</div>';
 }
-function live(){return new Promise((res,rej)=>{
- const sc=document.createElement('script'),got={};sc.src=CFG.lib;sc.onerror=()=>rej();
- sc.onload=()=>{try{
-  const L=window.Lightstreamer||window,c=new L.LightstreamerClient(CFG.ls,'ISSLIVE'),ids=Object.values(CFG.items),s=new L.Subscription('MERGE',ids,['Value']);
-  s.addListener({onItemUpdate:u=>{const v=parseFloat(u.getValue('Value'));if(isNaN(v))return;const it=u.getItemName();
-   if(it===CFG.items.temp){ENV.temp=v;got.t=1}
-   if(it===CFG.items.press){ENV.press=v<30?v*6.895:v;got.p=1}
-   if(got.t&&got.p){ENV.src='live';renderEnv();renderOv();res()}}});
-  c.subscribe(s);c.connect();}catch(e){rej()}};
- document.head.appendChild(sc);setTimeout(rej,8000)})}
-async function loadEnv(){
- renderEnv();
- try{
-  const t=new Date(),s=new Date(t-3*864e5),d=x=>x.toISOString().slice(0,10);
-  const u=k=>'https://api.nasa.gov/DONKI/'+k+'?startDate='+d(s)+'&endDate='+d(t)+'&api_key='+CFG.key;
-  const [a,b]=await Promise.all([fetch(u('SEP')),fetch(u('FLR'))]);
-  if(!a.ok||!b.ok)throw 0;
-  const ta=await a.text(),tb=await b.text(),sep=ta?JSON.parse(ta):[],flr=tb?JSON.parse(tb):[];
-  ENV.sep=sep;ENV.xflr=flr.some(x=>/^X/.test(x.classType||''));ENV.donki='live';
- }catch(e){ENV.donki='snap';ENV.sep=[];ENV.xflr=false}
- renderEnv();
- try{const r=await fetch(CFG.noaa);if(!r.ok)throw 0;const j=await r.json(),f=j.filter(x=>/10 MeV/.test(x.energy||'')).map(x=>+x.flux);if(!f.length)throw 0;ENV.pf=Math.max(...f);ENV.noaa='live'}catch(e){ENV.noaa='snap'}
- try{await live();ENV.src='live'}catch(e){if(ENV.src!=='live'){ENV.temp=SNAP.temp;ENV.press=SNAP.press;ENV.src='snap'}}
+const station=NasaIntegrations.telemetry(),weatherState={},weatherErrors={};
+let liveTask=null,environmentTask=null;
+function syncStation(){
+ ENV.temp=station.temp?.value;ENV.press=station.press?.value;
+ ENV.src=station.connection==='live'&&((station.temp?.source==='live'&&Date.now()-station.temp.at<60000)||(station.press?.source==='live'&&Date.now()-station.press.at<60000))?'live':'snap';
  renderEnv();renderOv();
 }
+function live(){if(liveTask)return liveTask;liveTask=new Promise((res,rej)=>{
+ let settled=false;const finish=(ok)=>{if(settled)return;settled=true;clearTimeout(timer);ok?res():rej(new Error('ISS connection timeout'))};
+ const timer=setTimeout(()=>{station.connection='timeout';finish(false)},NasaIntegrations.timeout);
+ const sc=document.createElement('script');sc.src=CFG.lib;sc.onerror=()=>{station.connection='unavailable';finish(false)};
+ sc.onload=()=>{try{
+  const L=window.Lightstreamer||window,c=new L.LightstreamerClient(CFG.ls,'ISSLIVE'),ids=Object.values(CFG.items),s=new L.Subscription('MERGE',ids,['Value']);
+  c.addListener({onStatusChange:status=>{station.connection=status.startsWith('CONNECTED')?(station.lastUpdate?'live':'connecting'):status.startsWith('DISCONNECTED')?'disconnected':'reconnecting';syncStation()}});
+  s.addListener({onItemUpdate:u=>{const raw=u.getValue('Value');if(raw==null||String(raw).trim()==='')return;const v=Number(raw);if(!Number.isFinite(v))return;const it=u.getItemName();
+   const key=it===CFG.items.temp?'temp':it===CFG.items.press?'press':null;
+   if(key&&NasaIntegrations.update(station,key,key==='press'&&v<30?v*6.895:v,'live')){syncStation();finish(true)}}});
+  c.subscribe(s);c.connect();}catch(e){station.connection='unavailable';finish(false)}};
+ document.head.appendChild(sc)});return liveTask}
+async function loadEnv(){if(environmentTask)return environmentTask;
+ environmentTask=(async()=>{
+ const stationTask=live().catch(()=>{NasaIntegrations.update(station,'temp',SNAP.temp,'snapshot');NasaIntegrations.update(station,'press',SNAP.press,'snapshot');syncStation()});
+ await Promise.allSettled(['SEP','FLR','NOAA'].map(async k=>{
+  try{const result=await NasaIntegrations.weather(k);weatherState[k]=result;weatherErrors[k]=result.error||'';
+   if(k==='SEP')ENV.sep=result.records;
+   if(k==='FLR')ENV.xflr=result.records.some(x=>/^X/.test(x.classType||''));
+   if(k==='NOAA'){const f=result.records.filter(x=>/10 MeV/.test(x.energy||'')&&Number.isFinite(x.flux)).map(x=>x.flux);if(!f.length)throw new Error('NOAA returned no ≥10 MeV measurements.');ENV.pf=Math.max(...f);ENV.noaa=result.stale?'stale':'live'}
+  }catch(e){weatherErrors[k]=e.message;if(k==='NOAA')ENV.noaa='snap'}
+  ENV.donki=weatherState.SEP&&!weatherState.SEP.stale&&weatherState.FLR&&!weatherState.FLR.stale?'live':'partial';renderEnv();renderOv();
+ }));await stationTask;
+ })();try{await environmentTask}finally{environmentTask=null}
+}
+setInterval(()=>{syncStation()},15000);
 // ===== Geräte-Adapter: Web Bluetooth (Standardprofile) und CSV-Import =====
 // Profil-IDs vor Einsatz gegen die Bluetooth-SIG-Liste prüfen. Proprietäre Geräte werden nicht unterstützt.
 const SRC={},BUF={hr:[],sys:[],dia:[],spo2:[],temp:[]};
@@ -388,13 +398,13 @@ const _rh=renderHz;renderHz=function(){_rh();const el=$('#hz'),n=el.querySelecto
 const _rb=renderBody;
 renderBody=function(){_rb();const q=QRY[SEL],rs=(RES[SEL]||[]).concat([['Standard Measures: standardized crew measurements',HR+'standard-measures/'],['CIPHER: study series on multiple body systems',HR+'cipher/'],['Tempus Pro: telemedicine device with integrated health data',HR+'tempus-pro/'],['CSA: Why do we conduct science in space?','https://www.asc-csa.gc.ca/eng/iss/science/why-do-we-conduct-science-experiments-in-space.asp']]);$('#bp').insertAdjacentHTML('beforeend',`<div style="margin-top:10px"><b>Ongoing HRP research</b><ul>${rs.map(x=>'<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+x[0]+'</a></li>').join('')}</ul><button id="osb">NASA OSDR: studies on ${q}</button><div id="osr" class="sub" style="margin-top:6px"></div></div>`);$('#osb').onclick=()=>osdr(q)};
 async function osdr(q){
- const o=$('#osr');o.textContent='Loading';
+ const o=$('#osr'),id=++osdrSequence;o.textContent='Loading';
  try{
-  const r=await fetch('https://osdr.nasa.gov/osdr/data/search?term='+encodeURIComponent(q)+'&from=0&size=5&type=cgene');if(!r.ok)throw 0;
-  const j=await r.json(),h=(j.hits&&j.hits.hits)||[];if(!h.length)throw 0;
-  o.innerHTML='<ul>'+h.map(x=>{const s=x._source||x.source||{},a=s['Accession']||s.accession||'';return '<li>'+(a?'<a href="https://osdr.nasa.gov/bio/repo/data/studies/'+encodeURIComponent(a)+'" target="_blank" rel="noopener">'+esc(a)+'</a> ':'')+esc(s['Study Title']||s.study_title||'')+'</li>'}).join('')+'</ul>';
- }catch(e){o.innerHTML='Fetch not possible (endpoint unverified or hosted preview without network access). <a href="https://osdr.nasa.gov/bio/repo/search?data_source=cgene,alsda,esa,nih_geo_gse,ebi_pride,mg_rast&q='+encodeURIComponent(q)+'" target="_blank" rel="noopener">Open search in OSDR</a>'}
+  const h=await NasaIntegrations.request({kind:'search',term:q});if(id!==osdrSequence||!o.isConnected)return;
+  o.innerHTML=h.length?'<ul>'+h.slice(0,5).map(s=>'<li><a href="https://osdr.nasa.gov/bio/repo/data/studies/'+encodeURIComponent(s.accession)+'" target="_blank" rel="noopener">'+esc(s.accession)+'</a> '+esc(s.title)+'</li>').join('')+'</ul>':'No studies returned for this query.';
+ }catch(e){if(id===osdrSequence&&o.isConnected)o.textContent='NASA search unavailable. Please retry or use NASA Research Data Analytics.'}
 }
+let osdrSequence=0;
 // ===== Datenqualität und Anomalieerkennung =====
 const real=(e,k)=>{if(e.src&&e.src[k]==='Default')return false;if(e.meas&&(e.v===2||NUM.some(a=>a[0]===k)))return !!e.meas[k];return true};
 const allE=()=>E;
