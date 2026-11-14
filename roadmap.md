@@ -45,6 +45,6 @@
 
 # Interactive anatomical model
 
-- [ ] Replace the primitive figure with addressable SVG anatomy and preserve eight regions.
-- [ ] Add accessible selection, measured-data status, themes and compact adaptive layout.
-- [ ] Run regression tests and verify anatomy, information and saved readings in the browser.
+- [x] Replace the primitive figure with addressable SVG anatomy and preserve eight regions.
+- [x] Add accessible selection, measured-data status, themes and compact adaptive layout.
+- [x] Run regression tests and verify anatomy, information and saved readings in the browser.
