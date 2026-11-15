@@ -238,7 +238,7 @@ dialog::backdrop { background: var(--overlay); }
 .trend-dialog { width: min(980px, calc(100% - 32px)); }
 .trend-domain-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0; font-size: 13px; font-weight: 600; }
 .trend-domain-filter select { min-width: min(100%, 240px); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; background: var(--card); color: var(--fg); }
-.domain-trends[hidden] { display: none !important; }
+#ov > .grid > .card[hidden] { display: none !important; }
 .trend-data-origin { border-left: 3px solid var(--acc); padding: 8px 10px; background: var(--selected); font-size: 13px; }
 .trend-context { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 12px 0; }
 .trend-context label { font-size: 13px; font-weight: 600; }

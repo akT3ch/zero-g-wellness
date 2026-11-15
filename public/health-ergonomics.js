@@ -367,8 +367,8 @@ function renderTrendTiles() {
     $$('#ov .trend-tile').forEach(tile => { tile.onclick = () => openTrendDialog(tile.dataset.trend); });
 }
 function applyTrendDomainFilter() {
-    $$('#ov .domain-trends').forEach(section => {
-      section.hidden = trendDomainFilter !== 'all' && section.dataset.trendDomain !== trendDomainFilter;
+    $$('#ov > .grid > .card').forEach(card => {
+      card.hidden = trendDomainFilter !== 'all' && DN[Number(card.dataset.healthDomain)] !== trendDomainFilter;
     });
 }
 
