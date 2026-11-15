@@ -98,6 +98,20 @@ describe('Existing assessment prioritization', () => {
 });
 
 describe('Overview trend charts', () => {
+  it('filters whole health-area cards, including cards without trend history, and restores all areas', () => {
+    const domains = ['Cardiovascular', 'Bones and muscles', 'Mind and Sleep'];
+    const cards = domains.map((_, index) => ({ dataset: { healthDomain: String(index) }, hidden: false }));
+    const filterSource = source.slice(source.indexOf('function applyTrendDomainFilter()'), source.indexOf('const confirmation ='));
+    const applyFilter = new Function('$$', 'DN', 'trendDomainFilter', filterSource + '; applyTrendDomainFilter();');
+    const selectCards = () => cards;
+    applyFilter(selectCards, domains, 'Mind and Sleep');
+    expect(cards.map(card => card.hidden)).toEqual([true, true, false]);
+    applyFilter(selectCards, domains, 'Cardiovascular');
+    expect(cards.map(card => card.hidden)).toEqual([false, true, true]);
+    applyFilter(selectCards, domains, 'all');
+    expect(cards.map(card => card.hidden)).toEqual([false, false, false]);
+  });
+
   const entries = [
     { d: '2026-11-01', hr: 58, mood: 7 },
     { d: '2026-11-02', hr: 64, mood: 6 },
